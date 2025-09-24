@@ -51,25 +51,6 @@ public class Main { // Replace 'Main' with your chosen class name
         
         Artist artist1 = new Artist("artist@gmail.com","Artie","Pastel4u?", 1);
         
-        //User user1 = new User(); 
-         
-        System.out.println(Admin1.getUsername());
-         
-        System.out.println(Admin1.getPassword());
-         
-        //System.out.println(listener1.getUsername());
-        
-        //System.out.println(listener1.getPassword());
-        
-        System.out.println(artist1.getUsername());
-        
-        System.out.println(artist1.getPassword());
-        
-        System.out.println(authenticate("Bob","Qwerty123", Admin1));
-        
-        //System.out.println(authenticate("Matt","GoodPass1!", listener1));
-        
-        System.out.println(authenticate("Artie","Pastel4u?", artist1));
         
      }
      
