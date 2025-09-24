@@ -10,7 +10,7 @@ public class Main { // Replace 'Main' with your chosen class name
         
         System.out.println("Welcome to the HMM Music Playlisting Application!");
         
-        System.out.println("Enter 1 to Create An Account or Press 2 to Login:");
+        System.out.println("Enter 1 to Create An Account or Press 2 to Login (Press 3 to skip");
         
         String input = scanner.nextLine();
         int value = Integer.parseInt(input); 
@@ -36,7 +36,9 @@ public class Main { // Replace 'Main' with your chosen class name
         
         //System.out.println("Testing to see if song2's length limit works: " + song1.getDurationInSecs());
 
-        Admin Admin1 = new Admin("user@gmail.com","Bob","Qwerty123", 1); Listener listener1 = new Listener("listener@gmail.com","Matt","GoodPass1!", 1);
+        Admin Admin1 = new Admin("user@gmail.com","Bob","Qwerty123", 1);
+        
+        //Listener listener1 = new Listener("listener@gmail.com","Matt","GoodPass1!", 1);
         
         Artist artist1 = new Artist("artist@gmail.com","Artie","Pastel4u?", 1);
         
@@ -46,9 +48,9 @@ public class Main { // Replace 'Main' with your chosen class name
          
         System.out.println(Admin1.getPassword());
          
-        System.out.println(listener1.getUsername());
+        //System.out.println(listener1.getUsername());
         
-        System.out.println(listener1.getPassword());
+        //System.out.println(listener1.getPassword());
         
         System.out.println(artist1.getUsername());
         
@@ -56,7 +58,7 @@ public class Main { // Replace 'Main' with your chosen class name
         
         System.out.println(authenticate("Bob","Qwerty123", Admin1));
         
-        System.out.println(authenticate("Matt","GoodPass1!", listener1));
+        //System.out.println(authenticate("Matt","GoodPass1!", listener1));
         
         System.out.println(authenticate("Artie","Pastel4u?", artist1));
         
