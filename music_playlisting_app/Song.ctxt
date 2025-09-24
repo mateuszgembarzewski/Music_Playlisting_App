@@ -9,5 +9,5 @@ comment2.target=java.lang.String\ getSongName()
 comment3.params=
 comment3.target=java.lang.String\ getCreator()
 comment4.params=
-comment4.target=int\ getDuration()
+comment4.target=int\ getDurationInSecs()
 numComments=5
