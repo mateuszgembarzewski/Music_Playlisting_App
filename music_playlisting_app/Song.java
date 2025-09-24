@@ -17,6 +17,11 @@ public class Song
      */
     public Song(String name, String creator, int duration)
     {
+        
+        if( duration > 600 ) {
+             throw new IllegalArgumentException("Song cannot be longer than 10 mins.");
+        }
+        
         this.name = name;
         this.creator = creator;
         durationInSecs = duration; 

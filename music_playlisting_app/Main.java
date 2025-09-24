@@ -3,8 +3,12 @@ public class Main { // Replace 'Main' with your chosen class name
          
         Song song1 = new Song("SongName", "ArtistCreator", 300);
         
+        Song song2 = new Song("IllegalSong", "ArtistCreator", 601);
+        
         System.out.println("Song1's duration in seconds is: " + song1.getDurationInSecs());
         
+        //System.out.println("Testing to see if song2's length limit works: " + song1.getDurationInSecs());
+
         Admin Admin1 = new Admin("user@gmail.com","Bob","Qwerty123", 1);
  
         Listener listener1 = new Listener("listener@gmail.com","Matt","GoodPass1!", 1);
