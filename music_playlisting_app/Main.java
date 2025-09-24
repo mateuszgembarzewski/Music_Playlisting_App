@@ -1,8 +1,11 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
+
 public class Main { // Replace 'Main' with your chosen class name
+     
      public static void main(String[] args) {
-         
+             
         Scanner scanner = new Scanner(System.in);
         
         System.out.println("Welcome to the HMM Music Playlisting Application!");
@@ -38,6 +41,8 @@ public class Main { // Replace 'Main' with your chosen class name
         Listener listener1 = new Listener("listener@gmail.com","Matt","GoodPass1!", 1);
         
         Artist artist1 = new Artist("artist@gmail.com","Artie","Pastel4u?", 1);
+        
+        //User user1 = new User(); 
          
         System.out.println(Admin1.getUsername());
          
