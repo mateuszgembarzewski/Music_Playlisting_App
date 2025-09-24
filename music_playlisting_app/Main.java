@@ -33,9 +33,7 @@ public class Main { // Replace 'Main' with your chosen class name
         
         //System.out.println("Testing to see if song2's length limit works: " + song1.getDurationInSecs());
 
-        Admin Admin1 = new Admin("user@gmail.com","Bob","Qwerty123", 1);
- 
-        Listener listener1 = new Listener("listener@gmail.com","Matt","GoodPass1!", 1);
+        Admin Admin1 = new Admin("user@gmail.com","Bob","Qwerty123", 1); Listener listener1 = new Listener("listener@gmail.com","Matt","GoodPass1!", 1);
         
         Artist artist1 = new Artist("artist@gmail.com","Artie","Pastel4u?", 1);
          

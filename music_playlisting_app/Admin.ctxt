@@ -1,9 +1,0 @@
-#BlueJ class context
-comment0.target=Admin
-comment0.text=\n\ Write\ a\ description\ of\ class\ Admin\ here.\n\n\ @author\ (your\ name)\n\ @version\ (a\ version\ number\ or\ a\ date)\n
-comment1.params=email\ username\ password\ adminID
-comment1.target=Admin(java.lang.String,\ java.lang.String,\ java.lang.String,\ int)
-comment1.text=\n\ Constructor\ for\ objects\ of\ class\ Admin\n
-comment2.params=
-comment2.target=int\ getAdminID()
-numComments=3

@@ -1,33 +1,43 @@
 
 /**
- * Write a description of class Playlist here.
+ * Playlist - a collection of Song objects representing a playlist of individual songs.
+ * Playlists are created by listener-type users and consist of:
+ *  - name (String): Name of playlist
+ *  - creator (String): Username of playlist creator
+ *  - tracklist (Song[]): Array of Song objects added by the user.
  *
- * @author (your name)
- * @version (a version number or a date)
+ * @author (Michael Scandiffio)
+ * @version (09-24-2025)
  */
 public class Playlist
 {
-    // instance variables - replace the example below with your own
-    private int x;
+    private String name; // Custom, user-submitted name
+    private String creator; // Automatically filled in with listener's username
+    private Song[] tracklist; // Collection of songs, empty by default, user-submitted.
 
     /**
      * Constructor for objects of class Playlist
      */
-    public Playlist()
+    public Playlist(String name, String creator, Song[] tracklist)
     {
-        // initialise instance variables
-        x = 0;
+        this.name = name;
+        this.creator = creator;
+        this.tracklist = tracklist;
     }
 
-    /**
-     * An example of a method - replace this comment with your own
-     *
-     * @param  y  a sample parameter for a method
-     * @return    the sum of x and y
-     */
-    public int sampleMethod(int y)
-    {
-        // put your code here
-        return x + y;
+    public String getPlaylistName() {
+        return name;
+    }
+    
+    public String getPlaylistCreator() {
+        return creator;
+    }
+    
+    public int getPlaylistLength() {
+        int duration = 0;
+        for (int i = 0; i < tracklist.length; i++) {
+            duration += tracklist[i].getDurationInSecs();
+        }
+        return duration;
     }
 }
