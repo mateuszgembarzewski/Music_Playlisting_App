@@ -1,6 +1,10 @@
 public class Main { // Replace 'Main' with your chosen class name
      public static void main(String[] args) {
          
+        Song song1 = new Song("SongName", "ArtistCreator", 300);
+        
+        System.out.println("Song1's duration in seconds is: " + song1.getDuration());
+        
         Admin Admin1 = new Admin("user@gmail.com","Bob","Qwerty123", 1);
  
         Listener listener1 = new Listener("listener@gmail.com","Matt","GoodPass1!", 1);
@@ -24,6 +28,8 @@ public class Main { // Replace 'Main' with your chosen class name
         System.out.println(authenticate("Matt","GoodPass1!", listener1));
         
         System.out.println(authenticate("Artie","Pastel4u?", artist1));
+        
+        
          
      }
      
