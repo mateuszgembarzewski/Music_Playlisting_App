@@ -1,9 +1,10 @@
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.ArrayList;
 
 
 public class Main { // Replace 'Main' with your chosen class name
-     
+     private static ArrayList<Song> catalog = new ArrayList<Song>(); 
      public static void main(String[] args) {
              
         Scanner scanner = new Scanner(System.in);
@@ -29,16 +30,24 @@ public class Main { // Replace 'Main' with your chosen class name
         }
         
         Song song1 = new Song("SongName", "ArtistCreator", 300);
-        
+        catalog.add(song1);        
         //Song song2 = new Song("IllegalSong", "ArtistCreator", 601);
         
         System.out.println("Song1's duration in seconds is: " + song1.getDurationInSecs());
         
         //System.out.println("Testing to see if song2's length limit works: " + song1.getDurationInSecs());
 
-        Admin Admin1 = new Admin("user@gmail.com","Bob","Qwerty123", 1);
+        Admin Admin1 = new Admin("user@gmail.com","Bob","Qwerty123", 1); 
+        Listener listener1 = new Listener("listener@gmail.com","Matt","GoodPass1!", 1, new ArrayList<Playlist>());
         
-        //Listener listener1 = new Listener("listener@gmail.com","Matt","GoodPass1!", 1);
+        listener1.createNewPlaylist("Test Playlist 1");
+        listener1.createNewPlaylist("Test Playlist 2");
+        listener1.listPlaylists();
+        searchCatalog();        
+        Playlist playlist = listener1.getPlaylist(0);
+        playlist.addSong(song1);
+        listener1.listPlaylists();
+        playlist.getPlaylistLength();
         
         Artist artist1 = new Artist("artist@gmail.com","Artie","Pastel4u?", 1);
         
@@ -70,5 +79,13 @@ public class Main { // Replace 'Main' with your chosen class name
          } else {
             return false;             
          }
+     }
+     
+     public static void searchCatalog() {
+        System.out.println("==== CATALOG BEGIN ====");
+        for (int i = 0; i < catalog.size(); i++) {
+            System.out.println("[" + i + "] - " + catalog.get(i).toString());
+        }
+        System.out.println("==== CATALOG END ====");
      }
 }

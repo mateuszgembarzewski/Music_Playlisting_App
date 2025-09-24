@@ -1,4 +1,4 @@
-
+import java.util.ArrayList;
 /**
  * Playlist - a collection of Song objects representing a playlist of individual songs.
  * Playlists are created by listener-type users and consist of:
@@ -13,12 +13,12 @@ public class Playlist
 {
     private String name; // Custom, user-submitted name
     private String creator; // Automatically filled in with listener's username
-    private Song[] tracklist; // Collection of songs, empty by default, user-submitted.
+    private ArrayList<Song> tracklist; // Collection of songs, empty by default, user-submitted.
 
     /**
      * Constructor for objects of class Playlist
      */
-    public Playlist(String name, String creator, Song[] tracklist)
+    public Playlist(String name, String creator, ArrayList<Song> tracklist)
     {
         this.name = name;
         this.creator = creator;
@@ -33,11 +33,21 @@ public class Playlist
         return creator;
     }
     
-    public int getPlaylistLength() {
+    public void getPlaylistLength() {
         int duration = 0;
-        for (int i = 0; i < tracklist.length; i++) {
-            duration += tracklist[i].getDurationInSecs();
+        for (int i = 0; i < tracklist.size(); i++) {
+            duration += tracklist.get(i).getDurationInSecs();
         }
-        return duration;
+        int minutes = duration / 60;
+        int seconds = duration % 60;
+        System.out.println(String.format("%02d:%02d", minutes, seconds));
+    }
+    
+    public String toString() {
+        return name + " created by  " + creator + " - " + tracklist.size() + " songs";
+    }
+    
+    public void addSong(Song song) {
+        tracklist.add(song);
     }
 }

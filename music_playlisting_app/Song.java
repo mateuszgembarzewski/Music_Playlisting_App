@@ -38,4 +38,14 @@ public class Song
     public int getDurationInSecs() {
         return durationInSecs;
     }
+    
+    public String durationFormatted() {
+        int minutes = durationInSecs / 60;
+        int seconds = durationInSecs % 60;
+        return String.format("%02d:%02d", minutes, seconds);
+    }
+    
+    public String toString() {
+        return name + " - " + creator + " - " + durationFormatted();
+    }
 }

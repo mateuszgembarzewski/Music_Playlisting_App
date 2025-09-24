@@ -13,7 +13,7 @@ public abstract class User
 {
     // instance variables - replace the example below with your own
     private String email;
-    private String username;
+    public String username;
     private String password; 
     
     /**
