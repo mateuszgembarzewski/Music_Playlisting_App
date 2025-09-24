@@ -3,7 +3,7 @@ public class Main { // Replace 'Main' with your chosen class name
          
         Song song1 = new Song("SongName", "ArtistCreator", 300);
         
-        System.out.println("Song1's duration in seconds is: " + song1.getDuration());
+        System.out.println("Song1's duration in seconds is: " + song1.getDurationInSecs());
         
         Admin Admin1 = new Admin("user@gmail.com","Bob","Qwerty123", 1);
  
@@ -29,8 +29,6 @@ public class Main { // Replace 'Main' with your chosen class name
         
         System.out.println(authenticate("Artie","Pastel4u?", artist1));
         
-        
-         
      }
      
      private static boolean authenticate(String username, String password, User user) {         

@@ -10,7 +10,7 @@ public class Song
     // instance variables - replace the example below with your own
     private String name;
     private String creator; 
-    private int durationInSeconds;
+    private int durationInSecs;
 
     /**
      * Constructor for objects of class Song
@@ -19,7 +19,7 @@ public class Song
     {
         this.name = name;
         this.creator = creator;
-        durationInSeconds = duration; 
+        durationInSecs = duration; 
     }
 
     public String getSongName() {
@@ -30,7 +30,7 @@ public class Song
         return creator;
     }
     
-    public int getDuration() {
-        return durationInSeconds;
+    public int getDurationInSecs() {
+        return durationInSecs;
     }
 }
