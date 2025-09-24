@@ -1,26 +1,27 @@
 
 /**
- * Write a description of class Listener here.
+ * Defines the listener type of a User.  Extends User class.
+ * listenerID (int) - ID number to identify the listener specifically.
+ * library (Playlist[]) - Array of Playlist objects
  *
  * @author (your name)
  * @version (a version number or a date)
  */
 public class Listener extends User
 {
-    // instance variables - replace the example below with your own
-   //  private String[] library; -- It can also be a Song Array
-    private int listenerID;
+    public int listenerID;
+    public Playlist[] library; 
     /**
      * Constructor for objects of class Admin
      */
-    public Listener(String email, String username, String password, int listenerID)
+    public Listener(String email, String username, String password, int listenerID, Playlist[] library)
     {
        super(email, username, password);
        this.listenerID = listenerID;
+       this.library = library;
     }
     
     public int getListenerID() {
         return listenerID;
     }
-    
 }
