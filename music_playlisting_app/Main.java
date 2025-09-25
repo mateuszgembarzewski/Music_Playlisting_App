@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 
 public class Main { // Replace 'Main' with your chosen class name
+     public static final ArrayList<User> USERS = new ArrayList<User>();
      private static ArrayList<Song> catalog = new ArrayList<Song>(); 
      public static void main(String[] args) {
              
@@ -11,11 +12,12 @@ public class Main { // Replace 'Main' with your chosen class name
         
         System.out.println("Welcome to the HMM Music Playlisting Application!");
         
-        System.out.println("Enter 1 to Create An Account or Press 2 to Login (Press 3 to skip");
+        System.out.println("Enter 1 to Create An Account or Press 2 to Login (Press 3 to skip) (Press 0 to exit) ");
         
         String input = scanner.nextLine();
         int value = Integer.parseInt(input); 
         System.out.println("You selected option: " + input);
+
         
         if (value == 1) {
             System.out.println("To create an account, please enter your desired username: ");
@@ -23,11 +25,34 @@ public class Main { // Replace 'Main' with your chosen class name
             System.out.println("You selected the username: " + enteredUsername);
             System.out.println("Now please enter your desired password: ");
             String enteredPassword = scanner.nextLine();
+            System.out.println("Now please enter your desired email: ");
+            String enteredEmail = scanner.nextLine();
+            System.out.println("Are you a listener or are you an artist? (A/L)");
+            String enteredType = scanner.nextLine();
+            
+            
+            if( enteredType.equals("A"))  {
+                
+                Artist artist1 = new Artist(enteredUsername,enteredPassword,enteredEmail);
+                
+                USERS.add(artist1);
+                
+            } else if ( enteredType.equals("L")) {
+                
+                Listener listener1 = new Listener("listener@gmail.com","Matt","GoodPass1!",
+                                                    1, new ArrayList<Playlist>());
+            } else {
+                
+                System.out.println("Invalid entry");
+            }
+            
         } else if (value == 2) {
             
         } else {
             System.out.println("Neither value 1 or 2 was entered... skipping this step.");
         }
+        
+        System.out.println(USERS.get(0));
         
         Song song1 = new Song("SongName", "ArtistCreator", 300);
         catalog.add(song1);        
@@ -49,7 +74,7 @@ public class Main { // Replace 'Main' with your chosen class name
         listener1.listPlaylists();
         playlist.getPlaylistLength();
         
-        Artist artist1 = new Artist("artist@gmail.com","Artie","Pastel4u?", 1);
+        Artist artist1 = new Artist("artist@gmail.com","Artie","Pastel4u?");
         
         
      }
