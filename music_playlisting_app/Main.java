@@ -9,50 +9,58 @@ public class Main { // Replace 'Main' with your chosen class name
      public static void main(String[] args) {
              
         Scanner scanner = new Scanner(System.in);
+        Listener listener0 = new Listener("testuser@gmail.com","testuser","password!",1, new ArrayList<Playlist>());
+        USERS.add(listener0);
         
         System.out.println("Welcome to the HMM Music Playlisting Application!");
         
-        System.out.println("Enter 1 to Create An Account or Press 2 to Login (Press 3 to skip) (Press 0 to exit) ");
-        
-        String input = scanner.nextLine();
-        int value = Integer.parseInt(input); 
-        System.out.println("You selected option: " + input);
-        
-        if (value == 1) {
-            System.out.println("To create an account, please enter your desired username: ");
-            String enteredUsername = scanner.nextLine();
-            System.out.println("You selected the username: " + enteredUsername);
-            System.out.println("Now please enter your desired password: ");
-            String enteredPassword = scanner.nextLine();
-            System.out.println("Now please enter your desired email: ");
-            String enteredEmail = scanner.nextLine();
-            System.out.println("Are you a listener or are you an artist? (A/L)");
-            String enteredType = scanner.nextLine();
+        int value = 1;
+        while(value != 0) {
+            System.out.println("Enter 1 to Create An Account or Press 2 to Login (Press 3 to skip) (Press 0 to exit) ");
+            String input = scanner.nextLine();
+            value = Integer.parseInt(input); 
+            System.out.println("You selected option: " + input);
             
-            if( enteredType.equals("A"))  {
+            if (value == 1) {
+                System.out.println("To create an account, please enter your desired username: ");
+                String enteredUsername = scanner.nextLine();
+                System.out.println("You selected the username: " + enteredUsername);
+                System.out.println("Now please enter your desired password: ");
+                String enteredPassword = scanner.nextLine();
+                System.out.println("Now please enter your desired email: ");
+                String enteredEmail = scanner.nextLine();
+                System.out.println("Are you a listener or are you an artist? (A/L)");
+                String enteredType = scanner.nextLine();
                 
-                Artist newArtist = new Artist(enteredUsername,enteredPassword,enteredEmail);
+                if( enteredType.equals("A"))  {
+                    
+                    Artist newArtist = new Artist(enteredUsername,enteredPassword,enteredEmail);
+                    
+                    USERS.add(newArtist);
+                    
+                } else if ( enteredType.equals("L")) {
+                    
+                    Listener listener1 = new Listener(enteredEmail,enteredUsername,enteredPassword,1, new ArrayList<Playlist>());
+                                                        
+                    USERS.add(listener1);
+                                                                         
+                } else {
+                    
+                    System.out.println("Invalid entry");
+                }
                 
-                USERS.add(newArtist);
-                
-            } else if ( enteredType.equals("L")) {
-                
-                Listener listener1 = new Listener("listener@gmail.com","Matt","GoodPass1!",
-                                                    1, new ArrayList<Playlist>());
-                                                    
-                USERS.add(listener1);
-                                                                     
+            } else if (value == 2) {
+                System.out.println("Enter Username: ");
+                String enteredUsername = scanner.nextLine();
+                System.out.println("Enter Password: ");
+                String enteredPassword = scanner.nextLine();
+                System.out.println("Enter Email: ");
+                String enteredEmail = scanner.nextLine();
+                break;
             } else {
-                
-                System.out.println("Invalid entry");
+                System.out.println("Neither value 1 or 2 was entered... skipping this step.");
             }
-            
-        } else if (value == 2) {
-            
-        } else {
-            System.out.println("Neither value 1 or 2 was entered... skipping this step.");
         }
-        
         System.out.println(USERS.get(0));
         
         System.out.println(USERS.get(1));
