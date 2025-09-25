@@ -1,7 +1,16 @@
 import java.util.*;
 
+/**
+ * Manual Unit Acceptance Testing (UAT) class for validating core functionality
+ * of the music application, such as login, search, and library/catalog management.
+ *
+ * Each test case follows a numbered scenario for easier traceability and debugging.
+ */
 public class TestUAT {
 
+    /**
+     * Main entry point to run all test cases sequentially.
+     */
     public static void main(String[] args) {
         TestUAT tester = new TestUAT();
         
@@ -18,11 +27,13 @@ public class TestUAT {
         tester.testArtistAddSongFailDuration();  
     }
 
-    // 1. Test Case: User Login Success
+    /**
+     * 1. Test Case: User login succeeds with correct credentials.
+     */
     public void testUserLoginSuccess() {
         LoginService loginService = new LoginService();
         List<User> users = new ArrayList<>();
-        users.add(new Listener("testuser@gmail.com", "testuser", "password", 1));
+        users.add(new Listener("testuser@gmail.com", "testuser", "password", 1, new ArrayList<>()));
 
         User loggedInUser = loginService.authenticate("testuser", "password", users);
         
@@ -30,11 +41,13 @@ public class TestUAT {
         System.out.println("FUNC_USER_LOGIN_SUCCESS_01: Passed");
     }
 
-    // 2. Test Case: User Login Fail with Incorrect Password
+    /**
+     * 2. Test Case: User login fails with incorrect password.
+     */
     public void testUserLoginFail() {
         LoginService loginService = new LoginService();
         List<User> users = new ArrayList<>();
-        users.add(new Listener("testuser@gmail.com", "testuser", "password", 1));
+        users.add(new Listener("testuser@gmail.com", "testuser", "password", 1, new ArrayList<>()));
 
         User loggedInUser = loginService.authenticate("testuser", "wrongpassword", users);
         
@@ -42,11 +55,13 @@ public class TestUAT {
         System.out.println("FUNC_USER_LOGIN_FAIL_01: Passed");
     }
 
-    // 3. Test Case: Account lockout after 3 failed login attempts
+    /**
+     * 3. Test Case: User account is locked after 3 failed login attempts.
+     */
     public void testUserLoginLockout() {
         LoginService loginService = new LoginService();
         List<User> users = new ArrayList<>();
-        users.add(new Listener("testuser@gmail.com", "testuser", "password", 1));
+        users.add(new Listener("testuser@gmail.com", "testuser", "password", 1, new ArrayList<>()));
 
         // Simulate 3 failed login attempts
         loginService.authenticate("testuser", "wrongpassword", users);
@@ -59,7 +74,9 @@ public class TestUAT {
         System.out.println("FUNC_USER_LOGIN_LOCKOUT_04: Passed");
     }
 
-    // 4. Test Case: Listener Search by Exact Title
+    /**
+     * 4. Test Case: Listener can search for a song by exact title.
+     */
     public void testListenerSearchExact() {
         SearchService searchService = new SearchService();
         Song song = new Song("Imagine", "John Lennon", 183);
@@ -72,7 +89,9 @@ public class TestUAT {
         System.out.println("FUNC_LISTENER_SEARCH_01: Passed");
     }
 
-    // 5. Test Case: Listener Search by Partial Title
+    /**
+     * 5. Test Case: Listener can search for a song by partial title.
+     */
     public void testListenerSearchPartial() {
         SearchService searchService = new SearchService();
         Song song = new Song("Shape of You", "Ed Sheeran", 233);
@@ -85,9 +104,11 @@ public class TestUAT {
         System.out.println("FUNC_LISTENER_SEARCH_02: Passed");
     }
 
-    // 6. Test Case: Listener Adding Song to Library (Success)
+    /**
+     * 6. Test Case: Listener successfully adds a new song to their library.
+     */
     public void testListenerAddSongSuccess() {
-        Listener listener = new Listener("testuser@gmail.com", "testuser", "password", 1);
+        Listener listener = new Listener("testuser@gmail.com", "testuser", "password", 1, new ArrayList<>());
         Song song = new Song("Imagine", "John Lennon", 183);
         
         boolean result = listener.addSongToLibrary(song);
@@ -97,13 +118,14 @@ public class TestUAT {
         System.out.println("LISTENER_ADD_SONG_SUCCESS: Passed");
     }
 
-    // 7. Test Case: Listener Adding Duplicate Song to Library (Fail)
+    /**
+     * 7. Test Case: Listener fails to add a duplicate song to their library.
+     */
     public void testListenerAddSongFail() {
-        Listener listener = new Listener("testuser@gmail.com", "testuser", "password", 1);
+        Listener listener = new Listener("testuser@gmail.com", "testuser", "password", 1, new ArrayList<>());
         Song song = new Song("Imagine", "John Lennon", 183);
         
         listener.addSongToLibrary(song); // Add first instance
-        
         boolean result = listener.addSongToLibrary(song); // Try adding the same song again
         
         assert result == false : "Test Failed: Song should not be added again to the library";
@@ -111,7 +133,9 @@ public class TestUAT {
         System.out.println("LISTENER_ADD_SONG_FAIL: Passed");
     }
 
-    // 8. Test Case: Artist Adding Song to Catalog (Success)
+    /**
+     * 8. Test Case: Artist successfully adds a valid song to their catalog.
+     */
     public void testArtistAddSongSuccess() {
         Artist artist = new Artist("artist@gmail.com", "Artie", "secret", 1);
         Song song = new Song("New Song", "Artie", 180);
@@ -123,7 +147,9 @@ public class TestUAT {
         System.out.println("ARTIST_ADD_SONG_SUCCESS: Passed");
     }
 
-    // 9. Test Case: Artist Adding Song with Invalid Title (Fail)
+    /**
+     * 9. Test Case: Artist fails to add a song with an invalid title.
+     */
     public void testArtistAddSongFailTitle() {
         Artist artist = new Artist("artist@gmail.com", "Artie", "secret", 1);
         Song song = new Song("", "Artie", 180); // Invalid title
@@ -135,7 +161,9 @@ public class TestUAT {
         System.out.println("ARTIST_ADD_SONG_FAIL_TITLE: Passed");
     }
 
-    // 10. Test Case: Artist Adding Song with Invalid Duration (Fail)
+    /**
+     * 10. Test Case: Artist fails to add a song with an invalid duration.
+     */
     public void testArtistAddSongFailDuration() {
         Artist artist = new Artist("artist@gmail.com", "Artie", "secret", 1);
         Song song = new Song("New Song", "Artie", -1); // Invalid duration

@@ -1,14 +1,26 @@
 import java.util.*;
 
+/**
+ * Service class that provides functionality to manage and search songs
+ * within a local catalog.
+ */
 public class SearchService {
     private List<Song> songCatalog;
 
-    // Constructor to initialize the song catalog
+    /**
+     * Constructs a new SearchService with an empty catalog.
+     */
     public SearchService() {
         this.songCatalog = new ArrayList<>();
     }
 
-    // Method to add a song to the catalog
+    /**
+     * Adds a song to the catalog if it does not already exist.
+     * Duplicate songs (same title and creator) are not allowed.
+     *
+     * @param song the song to add
+     * @return true if the song was successfully added, false if it already exists
+     */
     public boolean addSongToCatalog(Song song) {
         // Avoid duplicate songs in the catalog
         for (Song s : songCatalog) {
@@ -17,10 +29,15 @@ public class SearchService {
             }
         }
         songCatalog.add(song);
-        return true; // Song added successfully
+        return true;
     }
 
-    // Method to search songs by exact title
+    /**
+     * Searches for songs by exact title (case-insensitive).
+     *
+     * @param title the title to search for
+     * @return a list of songs matching the exact title
+     */
     public List<Song> searchByTitle(String title) {
         List<Song> result = new ArrayList<>();
         for (Song song : songCatalog) {
@@ -31,7 +48,13 @@ public class SearchService {
         return result;
     }
 
-    // Method to search songs by partial title (case-insensitive)
+    /**
+     * Searches for songs whose titles contain the given partial string,
+     * case-insensitive.
+     *
+     * @param partialTitle the partial title to search for
+     * @return a list of songs whose titles contain the partial string
+     */
     public List<Song> searchByPartialTitle(String partialTitle) {
         List<Song> result = new ArrayList<>();
         for (Song song : songCatalog) {
