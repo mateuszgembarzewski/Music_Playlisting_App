@@ -17,7 +17,6 @@ public class Main { // Replace 'Main' with your chosen class name
         String input = scanner.nextLine();
         int value = Integer.parseInt(input); 
         System.out.println("You selected option: " + input);
-
         
         if (value == 1) {
             System.out.println("To create an account, please enter your desired username: ");
@@ -30,10 +29,9 @@ public class Main { // Replace 'Main' with your chosen class name
             System.out.println("Are you a listener or are you an artist? (A/L)");
             String enteredType = scanner.nextLine();
             
-            
             if( enteredType.equals("A"))  {
                 
-                Artist artist1 = new Artist(enteredUsername,enteredPassword,enteredEmail);
+                User newUser = new User(enteredUsername,enteredPassword,enteredEmail);
                 
                 USERS.add(artist1);
                 
