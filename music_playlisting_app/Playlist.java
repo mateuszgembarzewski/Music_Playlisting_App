@@ -48,6 +48,13 @@ public class Playlist
     }
     
     public void addSong(Song song) {
+        for (Song s : tracklist) {
+            if (s.getSongName().equals(song.getSongName()) && s.getCreator().equals(song.getCreator())) {
+                System.out.println("DUPLICATE SONG");
+                return;
+            }
+        }
+        
         tracklist.add(song);
     }
 }

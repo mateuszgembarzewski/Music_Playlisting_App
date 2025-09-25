@@ -1,4 +1,4 @@
-
+import java.util.ArrayList;
 /**
  * Write a description of class Artist here.
  *
@@ -20,5 +20,15 @@ public class Artist extends User
     
     public String toString() {
         return "Username: " + getUsername() + "Password: " + getPassword() + "Email: " + getEmail();
+    }
+    
+    public void addSong(ArrayList<Song> catalog, String title, int duration) {
+        for (Song s : catalog) {
+            if (s.getSongName().equals(title) && s.getCreator().equals(username)) {
+                System.out.println("DUPLICATE SONG");
+                return;
+            }
+        }
+        catalog.add(new Song(title, username, duration));
     }
 }
