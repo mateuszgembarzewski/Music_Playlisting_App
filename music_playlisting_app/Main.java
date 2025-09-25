@@ -50,10 +50,15 @@ public class Main { // Replace 'Main' with your chosen class name
             System.out.println("Neither value 1 or 2 was entered... skipping this step.");
         }
         
-        System.out.println(USERS.get(0));
+        //System.out.println(USERS.get(0));
         
         Song song1 = new Song("SongName", "ArtistCreator", 300);
-        catalog.add(song1);        
+        Song song2 = new Song("SongName2", "ArtistCreator", 400);
+        Artist artist2 = new Artist("artist@gmail.com","Artie","Pastel4u?");
+        artist2.addSong(catalog, "Bing Bong", 69);
+        artist2.addSong(catalog, "Whoa", 30);
+        artist2.addSong(catalog, "Whoa", 30);
+        searchCatalog();
         //Song song2 = new Song("IllegalSong", "ArtistCreator", 601);
         
         System.out.println("Song1's duration in seconds is: " + song1.getDurationInSecs());
@@ -69,6 +74,8 @@ public class Main { // Replace 'Main' with your chosen class name
         searchCatalog();        
         Playlist playlist = listener1.getPlaylist(0);
         playlist.addSong(song1);
+        playlist.addSong(song1);
+        playlist.addSong(song2);
         listener1.listPlaylists();
         playlist.getPlaylistLength();
         
