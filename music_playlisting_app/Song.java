@@ -1,56 +1,43 @@
-/**
- * Song model class.
- */
+import java.util.Objects;
+
 public class Song {
-    private String name;
+    private String title;
     private String creator;
-    private int durationInSecs;
+    private int duration; // Duration in seconds
 
-    /**
-     * Constructor. Duration must be >0 and <=600 (10 minutes).
-     */
-    public Song(String name, String creator, int durationInSecs) {
-        if (name == null || name.trim().isEmpty()) {
-            throw new IllegalArgumentException("Song title must not be empty.");
-        }
-        if (creator == null || creator.trim().isEmpty()) {
-            throw new IllegalArgumentException("Creator must not be empty.");
-        }
-        if (durationInSecs <= 0 || durationInSecs > 600) {
-            throw new IllegalArgumentException("Duration must be 1..600 seconds.");
-        }
-        this.name = name.trim();
-        this.creator = creator.trim();
-        this.durationInSecs = durationInSecs;
+    public Song(String title, String creator, int duration) {
+        this.title = title;
+        this.creator = creator;
+        this.duration = duration;
     }
 
-    public String getSongName() { return name; }
-    public String getCreator() { return creator; }
-    public int getDurationInSecs() { return durationInSecs; }
-
-    public String durationFormatted() {
-        int minutes = durationInSecs / 60;
-        int seconds = durationInSecs % 60;
-        return String.format("%02d:%02d", minutes, seconds);
+    public String getTitle() {
+        return title;
     }
 
-    @Override
-    public String toString() {
-        return name + " - " + creator + " - " + durationFormatted();
+    public String getCreator() {
+        return creator;
+    }
+
+    public int getDuration() {
+        return duration;
     }
 
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
-        if (!(obj instanceof Song)) return false;
-        Song other = (Song) obj;
-        // songs considered equal if same title and same creator
-        return this.name.equalsIgnoreCase(other.name) &&
-               this.creator.equalsIgnoreCase(other.creator);
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Song song = (Song) obj;
+        return title.equalsIgnoreCase(song.title) && creator.equalsIgnoreCase(song.creator);
     }
 
     @Override
     public int hashCode() {
-        return (name.toLowerCase() + "::" + creator.toLowerCase()).hashCode();
+        return Objects.hash(title.toLowerCase(), creator.toLowerCase());
+    }
+
+    @Override
+    public String toString() {
+        return title + " – " + creator;
     }
 }

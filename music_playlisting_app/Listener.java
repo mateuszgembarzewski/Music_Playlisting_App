@@ -1,58 +1,39 @@
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
-/**
- * Listener user. Has personal library (songs) and playlists.
- */
 public class Listener extends User {
-    private int listenerId;
-    private List<Playlist> playlists;
-    private List<Song> personalLibrary; // songs added directly to library
+    private List<Playlist> playlists;  // Playlist list for the listener
+    private List<Song> personalLibrary; // Songs in the listener's personal library
 
-    public Listener(String email, String username, String password, int listenerId, ArrayList<Playlist> initialPlaylists) {
-        super(email, username, password);
-        this.listenerId = listenerId;
-        this.playlists = (initialPlaylists != null) ? initialPlaylists : new ArrayList<>();
+    public Listener(String email, String username, String password, int id) {
+        super(email, username, password, id);
+        this.playlists = new ArrayList<>();
         this.personalLibrary = new ArrayList<>();
     }
 
-    public int getListenerId() { return listenerId; }
-    public List<Playlist> getPlaylists() { return playlists; }
-    public List<Song> getPersonalLibrary() { return personalLibrary; }
-
-    /** Create new empty playlist and return it */
+    // Method to create a new playlist
     public Playlist createNewPlaylist(String playlistName) {
-        Playlist p = new Playlist(playlistName, this.getUsername(), new ArrayList<>());
-        playlists.add(p);
-        return p;
+        Playlist newPlaylist = new Playlist(playlistName, this.getUsername(), new ArrayList<>());
+        playlists.add(newPlaylist);  // Add the new playlist to the listener's list of playlists
+        return newPlaylist;
     }
 
-    /** Lists playlist summaries (returns as a list of strings for testability) */
-    public List<String> listPlaylistsSummary() {
-        List<String> lines = new ArrayList<>();
-        for (int i = 0; i < playlists.size(); i++) {
-            lines.add("[" + i + "] - " + playlists.get(i).toString());
-        }
-        return lines;
-    }
-
-    public Playlist getPlaylist(int index) {
-        if (index < 0 || index >= playlists.size()) return null;
-        return playlists.get(index);
-    }
-
-    /** Add song to personal library. Returns true if added, false if duplicate. */
-    public boolean addSongToLibrary(Song song) {
-        if (song == null) return false;
-        for (Song s : personalLibrary) {
-            if (s.equals(song)) return false;
-        }
-        personalLibrary.add(song);
-        return true;
-    }
-
-    /** Clear all playlists (used by Admin) */
+    // Method to clear all playlists for the listener
     public void clearPlaylists() {
-        playlists.clear();
+        playlists.clear();  // Removes all playlists from the list
+    }
+
+    // Method to add a song to the personal library
+    public boolean addSongToLibrary(Song song) {
+        if (song == null || personalLibrary.contains(song)) return false;  // Check for null and duplicates
+        personalLibrary.add(song);  // Add song to the personal library
+        return true;  // Return true if the song was added successfully
+    }
+
+    public List<Playlist> getPlaylists() {
+        return playlists;
+    }
+
+    public List<Song> getPersonalLibrary() {
+        return personalLibrary;
     }
 }
