@@ -1,43 +1,58 @@
 import java.util.ArrayList;
+import java.util.List;
+
 /**
- * Defines the listener type of a User.  Extends User class.
- * listenerID (int) - ID number to identify the listener specifically.
- * library (Playlist[]) - Array of Playlist objects
- *
- * @author (your name)
- * @version (a version number or a date)
+ * Listener user. Has personal library (songs) and playlists.
  */
-public class Listener extends User
-{
-    public int listenerID;
-    public ArrayList<Playlist> library; 
-    /**
-     * Constructor for objects of class Admin
-     */
-    public Listener(String email, String username, String password, int listenerID, ArrayList<Playlist> library)
-    {
-       super(email, username, password);
-       this.listenerID = listenerID;
-       this.library = library;
+public class Listener extends User {
+    private int listenerId;
+    private List<Playlist> playlists;
+    private List<Song> personalLibrary; // songs added directly to library
+
+    public Listener(String email, String username, String password, int listenerId, ArrayList<Playlist> initialPlaylists) {
+        super(email, username, password);
+        this.listenerId = listenerId;
+        this.playlists = (initialPlaylists != null) ? initialPlaylists : new ArrayList<>();
+        this.personalLibrary = new ArrayList<>();
     }
-    
-    public int getListenerID() {
-        return listenerID;
+
+    public int getListenerId() { return listenerId; }
+    public List<Playlist> getPlaylists() { return playlists; }
+    public List<Song> getPersonalLibrary() { return personalLibrary; }
+
+    /** Create new empty playlist and return it */
+    public Playlist createNewPlaylist(String playlistName) {
+        Playlist p = new Playlist(playlistName, this.getUsername(), new ArrayList<>());
+        playlists.add(p);
+        return p;
     }
-    
-    public void createNewPlaylist(String playlistName) {
-        library.add(new Playlist(playlistName, this.username, new ArrayList<Song>()));
-    }
-    
-    public void listPlaylists() {
-        System.out.println("==== " + this.username + "'s PLAYLISTS BEGIN ====");
-        for (int i = 0; i < library.size(); i++) {
-            System.out.println("[" + i + "] - " + library.get(i).toString());
+
+    /** Lists playlist summaries (returns as a list of strings for testability) */
+    public List<String> listPlaylistsSummary() {
+        List<String> lines = new ArrayList<>();
+        for (int i = 0; i < playlists.size(); i++) {
+            lines.add("[" + i + "] - " + playlists.get(i).toString());
         }
-        System.out.println("==== " + this.username + "'s PLAYLISTS END ====");
+        return lines;
     }
-    
+
     public Playlist getPlaylist(int index) {
-        return library.get(index);
+        if (index < 0 || index >= playlists.size()) return null;
+        return playlists.get(index);
+    }
+
+    /** Add song to personal library. Returns true if added, false if duplicate. */
+    public boolean addSongToLibrary(Song song) {
+        if (song == null) return false;
+        for (Song s : personalLibrary) {
+            if (s.equals(song)) return false;
+        }
+        personalLibrary.add(song);
+        return true;
+    }
+
+    /** Clear all playlists (used by Admin) */
+    public void clearPlaylists() {
+        playlists.clear();
     }
 }

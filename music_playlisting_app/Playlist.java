@@ -1,60 +1,67 @@
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 /**
- * Playlist - a collection of Song objects representing a playlist of individual songs.
- * Playlists are created by listener-type users and consist of:
- *  - name (String): Name of playlist
- *  - creator (String): Username of playlist creator
- *  - tracklist (Song[]): Array of Song objects added by the user.
- *
- * @author (Michael Scandiffio)
- * @version (09-24-2025)
+ * Playlist - a collection of Song objects
  */
-public class Playlist
-{
-    private String name; // Custom, user-submitted name
-    private String creator; // Automatically filled in with listener's username
-    private ArrayList<Song> tracklist; // Collection of songs, empty by default, user-submitted.
+public class Playlist {
+    private String name;
+    private String creator; // username of the creator
+    private List<Song> tracklist;
 
-    /**
-     * Constructor for objects of class Playlist
-     */
-    public Playlist(String name, String creator, ArrayList<Song> tracklist)
-    {
-        this.name = name;
-        this.creator = creator;
-        this.tracklist = tracklist;
+    public Playlist(String name, String creator, ArrayList<Song> tracklist) {
+        this.name = (name == null) ? "Untitled" : name;
+        this.creator = (creator == null) ? "unknown" : creator;
+        this.tracklist = (tracklist != null) ? tracklist : new ArrayList<>();
     }
 
-    public String getPlaylistName() {
-        return name;
-    }
-    
-    public String getPlaylistCreator() {
-        return creator;
-    }
-    
-    public void getPlaylistLength() {
+    public String getPlaylistName() { return name; }
+    public String getPlaylistCreator() { return creator; }
+    public List<Song> getTracklist() { return tracklist; }
+
+    /** Returns total duration in seconds */
+    public int getTotalDurationInSeconds() {
         int duration = 0;
-        for (int i = 0; i < tracklist.size(); i++) {
-            duration += tracklist.get(i).getDurationInSecs();
+        for (Song s : tracklist) {
+            duration += s.getDurationInSecs();
         }
+        return duration;
+    }
+
+    /** Returns formatted mm:ss of playlist length */
+    public String getTotalDurationFormatted() {
+        int duration = getTotalDurationInSeconds();
         int minutes = duration / 60;
         int seconds = duration % 60;
-        System.out.println(String.format("%02d:%02d", minutes, seconds));
+        return String.format("%02d:%02d", minutes, seconds);
     }
-    
-    public String toString() {
-        return name + " created by  " + creator + " - " + tracklist.size() + " songs";
-    }
-    
-    public void addSong(Song song) {
+
+    /** Adds a song if not duplicate (title + creator). Returns true if added. */
+    public boolean addSong(Song song) {
+        if (song == null) return false;
         for (Song s : tracklist) {
-            if (s.getSongName().equals(song.getSongName()) && s.getCreator().equals(song.getCreator())) {
-                System.out.println("DUPLICATE SONG");
-                return;
+            if (s.equals(song)) return false; // duplicate
+        }
+        tracklist.add(song);
+        return true;
+    }
+
+    /** Remove a song if present. Returns true if removed. */
+    public boolean removeSong(Song song) {
+        Iterator<Song> it = tracklist.iterator();
+        while (it.hasNext()) {
+            Song s = it.next();
+            if (s.equals(song)) {
+                it.remove();
+                return true;
             }
         }
-        
-        tracklist.add(song);
+        return false;
+    }
+
+    @Override
+    public String toString() {
+        return name + " created by " + creator + " - " + tracklist.size() + " songs";
     }
 }

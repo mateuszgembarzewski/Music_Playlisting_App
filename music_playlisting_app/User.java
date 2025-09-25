@@ -1,45 +1,25 @@
-
 /**
- * This is the class which defines the user accounts in our application. 
+ * Base abstract user class for HMM Music Playlisting App
  *
- * @authors Mateusz Gembarzewski, Michael Scandiffio, Hitiksh Doshi
- * @project Music Playlisting App
- * @group   HMM 
- * @version 1
- * 
- * 
+ * Authors: Mateusz G., Michael S., Hitiksh D.
+ * Version: 1.1
  */
-public abstract class User
-{
-    // instance variables - replace the example below with your own
+public abstract class User {
     private String email;
-    public String username;
+    private String username;
     private String password;
-    //private char userType; 
-    
-    /**
-     * Constructor for objects of class user
-     */
-    public User(String email, String username, String password)
-    {
-        // initialise instance variables
-        // userType A = Admin , C = Creator/Artist , L = Listener 
-        
+
+    public User(String email, String username, String password) {
         this.email = email;
         this.username = username;
         this.password = password;
     }
-    
-    public String getUsername() {
-        return username;
-    }
-    
-    public String getPassword() {
-        return password; 
-    }
-    
-    public String getEmail() {
-        return email; 
-    }
-    
+
+    public String getEmail() { return email; }
+    public String getUsername() { return username; }
+    public String getPassword() { return password; }
+
+    public void setEmail(String email) { this.email = email; }
+    public void setUsername(String username) { this.username = username; }
+    public void setPassword(String password) { this.password = password; }
 }

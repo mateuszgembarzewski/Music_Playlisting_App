@@ -1,34 +1,47 @@
 import java.util.ArrayList;
+import java.util.List;
+
 /**
- * Write a description of class Artist here.
- *
- * @author Mateusz Gembarzewski
- * @version (a version number or a date)
+ * Artist/Creator user. Can add songs to the global catalog and create public playlists.
  */
-public class Artist extends User
-{
-    // instance variables - replace the example below with your own
-    //private int artistID;
+public class Artist extends User {
+    private List<Song> personalCatalog;
+
+    public Artist(String email, String username, String password) {
+        super(email, username, password);
+        this.personalCatalog = new ArrayList<>();
+    }
+
+    public List<Song> getPersonalCatalog() {
+        return personalCatalog;
+    }
+
     /**
-     * Constructor for objects of class Admin
+     * Add a Song object to the global catalog and artist's personal catalog.
+     * Returns true on success, false on invalid input or duplicate in artist's catalog.
      */
-    public Artist(String username, String password, String email)//, int artistID)
-    {
-       super(email, username, password);
-       //this.artistID = artistID;
-    }
-    
-    public String toString() {
-        return "Username: " + getUsername() + "Password: " + getPassword() + "Email: " + getEmail();
-    }
-    
-    public void addSong(ArrayList<Song> catalog, String title, int duration) {
-        for (Song s : catalog) {
-            if (s.getSongName().equals(title) && s.getCreator().equals(username)) {
-                System.out.println("DUPLICATE SONG");
-                return;
-            }
+    public boolean addSong(List<Song> globalCatalog, String title, int durationInSecs) {
+        // Validate title and duration
+        if (title == null || title.trim().isEmpty()) return false;
+        if (durationInSecs <= 0 || durationInSecs > 600) return false;
+
+        Song newSong = new Song(title.trim(), this.getUsername(), durationInSecs);
+
+        // Prevent duplicate title by this artist in personal catalog
+        for (Song s : personalCatalog) {
+            if (s.equals(newSong)) return false;
         }
-        catalog.add(new Song(title, username, duration));
+
+        // Add to both global and personal catalogs
+        personalCatalog.add(newSong);
+        globalCatalog.add(newSong);
+        return true;
+    }
+
+    /**
+     * Create a public playlist (returns the created Playlist)
+     */
+    public Playlist createPublicPlaylist(String name) {
+        return new Playlist(name, this.getUsername(), new ArrayList<>());
     }
 }
