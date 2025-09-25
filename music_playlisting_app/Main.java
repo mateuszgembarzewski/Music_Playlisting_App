@@ -1,7 +1,5 @@
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.ArrayList;
-
 
 public class Main { // Replace 'Main' with your chosen class name
      public static final ArrayList<User> USERS = new ArrayList<User>();
@@ -49,7 +47,7 @@ public class Main { // Replace 'Main' with your chosen class name
                                                                          
                 } else {
                     
-                    System.out.println("Invalid entry");
+                    System.out.println("Invalid user type entry. Only L or A is acceptable.");
                 }
                 
             } else if (value == 2) {
@@ -57,8 +55,8 @@ public class Main { // Replace 'Main' with your chosen class name
                 enteredUsername = scanner.nextLine();
                 System.out.println("Enter Password: ");
                 enteredPassword = scanner.nextLine();
-                //authenticate(enteredUsername, enteredPassword);
-                break;
+                checkIfUsernameExists(enteredUsername, enteredPassword);
+                
             } else {
                 System.out.println("Neither value 1 or 2 was entered... skipping this step.");
             }
@@ -95,8 +93,6 @@ public class Main { // Replace 'Main' with your chosen class name
         playlist.getPlaylistLength();
         
         Artist artist1 = new Artist("artist@gmail.com","Artie","Pastel4u?");
-        
-        
      }
      
      private static boolean authenticate(String username, String password, User user) {         
@@ -105,6 +101,18 @@ public class Main { // Replace 'Main' with your chosen class name
          } else {
             return false;             
          }
+     }
+     
+     public static boolean checkIfUsernameExists(String enteredUsername, String enteredPassword) {
+        for (int i = 0; i < USERS.size(); i++) {
+            if( USERS.get(i).getUsername().equals(enteredUsername)) {
+                System.out.println("Username found.");
+                return true;
+            } else {
+                System.out.println("Username not found. Try again.");
+            }
+        }
+        return false;
      }
      
      public static void searchCatalog() {
