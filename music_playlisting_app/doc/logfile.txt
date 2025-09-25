@@ -1,0 +1,176 @@
+Project documentation
+<---- javadoc command: ---->
+C:\Program Files\BlueJ\jdk\bin\javadoc.exe
+-sourcepath
+C:\Users\hitik\Desktop\DATA\Hitiksh\College\Adelphi\Sem 2\Software Testing\Project\Music_Playlisting_App\music_playlisting_app
+-source
+21
+-classpath
+C:\Program Files\BlueJ\lib\bluejcore.jar;C:\Program Files\BlueJ\lib\javafx-base-23.0.2-win.jar;C:\Program Files\BlueJ\lib\javafx-controls-23.0.2-win.jar;C:\Program Files\BlueJ\lib\javafx-fxml-23.0.2-win.jar;C:\Program Files\BlueJ\lib\javafx-graphics-23.0.2-win.jar;C:\Program Files\BlueJ\lib\javafx-media-23.0.2-win.jar;C:\Program Files\BlueJ\lib\javafx-swing-23.0.2-win.jar;C:\Program Files\BlueJ\lib\javafx-web-23.0.2-win.jar;C:\Program Files\BlueJ\lib\junit-4.12.jar;C:\Program Files\BlueJ\lib\junit-jupiter-5.5.2.jar;C:\Program Files\BlueJ\lib\junit-jupiter-api-5.5.2.jar;C:\Program Files\BlueJ\lib\junit-jupiter-engine-5.5.2.jar;C:\Program Files\BlueJ\lib\junit-jupiter-params-5.5.2.jar;C:\Program Files\BlueJ\lib\junit-platform-commons-1.5.2.jar;C:\Program Files\BlueJ\lib\junit-platform-engine-1.5.2.jar;C:\Program Files\BlueJ\lib\junit-platform-launcher-1.5.2.jar;C:\Program Files\BlueJ\lib\junit-platform-suite-api-1.5.2.jar;C:\Program Files\BlueJ\lib\junit-vintage-engine-5.5.2.jar;C:\Program Files\BlueJ\lib\hamcrest-core-1.3.jar;C:\Program Files\BlueJ\lib\opentest4j-1.2.0.jar;C:\Program Files\BlueJ\lib\lang-stride.jar;C:\Program Files\BlueJ\lib\javafx\javafx.base.jar;C:\Program Files\BlueJ\lib\javafx\javafx.controls.jar;C:\Program Files\BlueJ\lib\javafx\javafx.fxml.jar;C:\Program Files\BlueJ\lib\javafx\javafx.graphics.jar;C:\Program Files\BlueJ\lib\javafx\javafx.media.jar;C:\Program Files\BlueJ\lib\javafx\javafx.properties.jar;C:\Program Files\BlueJ\lib\javafx\javafx.swing.jar;C:\Program Files\BlueJ\lib\javafx\javafx.web.jar;C:\Users\hitik\Desktop\DATA\Hitiksh\College\Adelphi\Sem 2\Software Testing\Project\Music_Playlisting_App\music_playlisting_app
+-d
+C:\Users\hitik\Desktop\DATA\Hitiksh\College\Adelphi\Sem 2\Software Testing\Project\Music_Playlisting_App\music_playlisting_app\doc
+-encoding
+UTF-8
+-charset
+UTF-8
+-doctitle
+music_playlisting_app
+-windowtitle
+music_playlisting_app
+-author
+-version
+-nodeprecated
+-package
+-Xdoclint:none
+-link
+https://docs.oracle.com/en/java/javase/21/docs/api/
+C:\Users\hitik\Desktop\DATA\Hitiksh\College\Adelphi\Sem 2\Software Testing\Project\Music_Playlisting_App\music_playlisting_app/Artist.java
+C:\Users\hitik\Desktop\DATA\Hitiksh\College\Adelphi\Sem 2\Software Testing\Project\Music_Playlisting_App\music_playlisting_app/Playlist.java
+C:\Users\hitik\Desktop\DATA\Hitiksh\College\Adelphi\Sem 2\Software Testing\Project\Music_Playlisting_App\music_playlisting_app/Song.java
+C:\Users\hitik\Desktop\DATA\Hitiksh\College\Adelphi\Sem 2\Software Testing\Project\Music_Playlisting_App\music_playlisting_app/Listener.java
+C:\Users\hitik\Desktop\DATA\Hitiksh\College\Adelphi\Sem 2\Software Testing\Project\Music_Playlisting_App\music_playlisting_app/User.java
+C:\Users\hitik\Desktop\DATA\Hitiksh\College\Adelphi\Sem 2\Software Testing\Project\Music_Playlisting_App\music_playlisting_app/SearchService.java
+C:\Users\hitik\Desktop\DATA\Hitiksh\College\Adelphi\Sem 2\Software Testing\Project\Music_Playlisting_App\music_playlisting_app/TestUATJUnit.java
+C:\Users\hitik\Desktop\DATA\Hitiksh\College\Adelphi\Sem 2\Software Testing\Project\Music_Playlisting_App\music_playlisting_app/TestUAT.java
+C:\Users\hitik\Desktop\DATA\Hitiksh\College\Adelphi\Sem 2\Software Testing\Project\Music_Playlisting_App\music_playlisting_app/Admin.java
+C:\Users\hitik\Desktop\DATA\Hitiksh\College\Adelphi\Sem 2\Software Testing\Project\Music_Playlisting_App\music_playlisting_app/Main.java
+C:\Users\hitik\Desktop\DATA\Hitiksh\College\Adelphi\Sem 2\Software Testing\Project\Music_Playlisting_App\music_playlisting_app/LoginService.java
+<---- end of javadoc command ---->
+Loading source file C:\Users\hitik\Desktop\DATA\Hitiksh\College\Adelphi\Sem 2\Software Testing\Project\Music_Playlisting_App\music_playlisting_app\Artist.java...
+Loading source file C:\Users\hitik\Desktop\DATA\Hitiksh\College\Adelphi\Sem 2\Software Testing\Project\Music_Playlisting_App\music_playlisting_app\Playlist.java...
+Loading source file C:\Users\hitik\Desktop\DATA\Hitiksh\College\Adelphi\Sem 2\Software Testing\Project\Music_Playlisting_App\music_playlisting_app\Song.java...
+Loading source file C:\Users\hitik\Desktop\DATA\Hitiksh\College\Adelphi\Sem 2\Software Testing\Project\Music_Playlisting_App\music_playlisting_app\Listener.java...
+Loading source file C:\Users\hitik\Desktop\DATA\Hitiksh\College\Adelphi\Sem 2\Software Testing\Project\Music_Playlisting_App\music_playlisting_app\User.java...
+Loading source file C:\Users\hitik\Desktop\DATA\Hitiksh\College\Adelphi\Sem 2\Software Testing\Project\Music_Playlisting_App\music_playlisting_app\SearchService.java...
+Loading source file C:\Users\hitik\Desktop\DATA\Hitiksh\College\Adelphi\Sem 2\Software Testing\Project\Music_Playlisting_App\music_playlisting_app\TestUATJUnit.java...
+Loading source file C:\Users\hitik\Desktop\DATA\Hitiksh\College\Adelphi\Sem 2\Software Testing\Project\Music_Playlisting_App\music_playlisting_app\TestUAT.java...
+Loading source file C:\Users\hitik\Desktop\DATA\Hitiksh\College\Adelphi\Sem 2\Software Testing\Project\Music_Playlisting_App\music_playlisting_app\Admin.java...
+Loading source file C:\Users\hitik\Desktop\DATA\Hitiksh\College\Adelphi\Sem 2\Software Testing\Project\Music_Playlisting_App\music_playlisting_app\Main.java...
+Loading source file C:\Users\hitik\Desktop\DATA\Hitiksh\College\Adelphi\Sem 2\Software Testing\Project\Music_Playlisting_App\music_playlisting_app\LoginService.java...
+Constructing Javadoc information...
+warning: unknown enum constant Status.STABLE
+  reason: class file for org.apiguardian.api.API$Status not found
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+Building index for all the packages and classes...
+Standard Doclet version 21.0.6+7-LTS
+Building tree for all the packages and classes...
+Generating C:\Users\hitik\Desktop\DATA\Hitiksh\College\Adelphi\Sem 2\Software Testing\Project\Music_Playlisting_App\music_playlisting_app\doc\Admin.html...
+Generating C:\Users\hitik\Desktop\DATA\Hitiksh\College\Adelphi\Sem 2\Software Testing\Project\Music_Playlisting_App\music_playlisting_app\doc\Artist.html...
+Generating C:\Users\hitik\Desktop\DATA\Hitiksh\College\Adelphi\Sem 2\Software Testing\Project\Music_Playlisting_App\music_playlisting_app\doc\Listener.html...
+Generating C:\Users\hitik\Desktop\DATA\Hitiksh\College\Adelphi\Sem 2\Software Testing\Project\Music_Playlisting_App\music_playlisting_app\doc\LoginService.html...
+Generating C:\Users\hitik\Desktop\DATA\Hitiksh\College\Adelphi\Sem 2\Software Testing\Project\Music_Playlisting_App\music_playlisting_app\doc\Main.html...
+Generating C:\Users\hitik\Desktop\DATA\Hitiksh\College\Adelphi\Sem 2\Software Testing\Project\Music_Playlisting_App\music_playlisting_app\doc\Playlist.html...
+Generating C:\Users\hitik\Desktop\DATA\Hitiksh\College\Adelphi\Sem 2\Software Testing\Project\Music_Playlisting_App\music_playlisting_app\doc\SearchService.html...
+Generating C:\Users\hitik\Desktop\DATA\Hitiksh\College\Adelphi\Sem 2\Software Testing\Project\Music_Playlisting_App\music_playlisting_app\doc\Song.html...
+Generating C:\Users\hitik\Desktop\DATA\Hitiksh\College\Adelphi\Sem 2\Software Testing\Project\Music_Playlisting_App\music_playlisting_app\doc\TestUAT.html...
+Generating C:\Users\hitik\Desktop\DATA\Hitiksh\College\Adelphi\Sem 2\Software Testing\Project\Music_Playlisting_App\music_playlisting_app\doc\TestUATJUnit.html...
+Generating C:\Users\hitik\Desktop\DATA\Hitiksh\College\Adelphi\Sem 2\Software Testing\Project\Music_Playlisting_App\music_playlisting_app\doc\User.html...
+Generating C:\Users\hitik\Desktop\DATA\Hitiksh\College\Adelphi\Sem 2\Software Testing\Project\Music_Playlisting_App\music_playlisting_app\doc\package-summary.html...
+Generating C:\Users\hitik\Desktop\DATA\Hitiksh\College\Adelphi\Sem 2\Software Testing\Project\Music_Playlisting_App\music_playlisting_app\doc\package-tree.html...
+Generating C:\Users\hitik\Desktop\DATA\Hitiksh\College\Adelphi\Sem 2\Software Testing\Project\Music_Playlisting_App\music_playlisting_app\doc\overview-tree.html...
+Building index for all classes...
+Generating C:\Users\hitik\Desktop\DATA\Hitiksh\College\Adelphi\Sem 2\Software Testing\Project\Music_Playlisting_App\music_playlisting_app\doc\allclasses-index.html...
+Generating C:\Users\hitik\Desktop\DATA\Hitiksh\College\Adelphi\Sem 2\Software Testing\Project\Music_Playlisting_App\music_playlisting_app\doc\allpackages-index.html...
+Generating C:\Users\hitik\Desktop\DATA\Hitiksh\College\Adelphi\Sem 2\Software Testing\Project\Music_Playlisting_App\music_playlisting_app\doc\index-all.html...
+Generating C:\Users\hitik\Desktop\DATA\Hitiksh\College\Adelphi\Sem 2\Software Testing\Project\Music_Playlisting_App\music_playlisting_app\doc\search.html...
+Generating C:\Users\hitik\Desktop\DATA\Hitiksh\College\Adelphi\Sem 2\Software Testing\Project\Music_Playlisting_App\music_playlisting_app\doc\index.html...
+Generating C:\Users\hitik\Desktop\DATA\Hitiksh\College\Adelphi\Sem 2\Software Testing\Project\Music_Playlisting_App\music_playlisting_app\doc\help-doc.html...
+100 warnings
