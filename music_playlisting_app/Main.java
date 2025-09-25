@@ -31,14 +31,17 @@ public class Main { // Replace 'Main' with your chosen class name
             
             if( enteredType.equals("A"))  {
                 
-                User newUser = new User(enteredUsername,enteredPassword,enteredEmail);
+                Artist newArtist = new Artist(enteredUsername,enteredPassword,enteredEmail);
                 
-                USERS.add(artist1);
+                USERS.add(newArtist);
                 
             } else if ( enteredType.equals("L")) {
                 
                 Listener listener1 = new Listener("listener@gmail.com","Matt","GoodPass1!",
                                                     1, new ArrayList<Playlist>());
+                                                    
+                USERS.add(listener1);
+                                                                     
             } else {
                 
                 System.out.println("Invalid entry");
@@ -50,7 +53,9 @@ public class Main { // Replace 'Main' with your chosen class name
             System.out.println("Neither value 1 or 2 was entered... skipping this step.");
         }
         
-        //System.out.println(USERS.get(0));
+        System.out.println(USERS.get(0));
+        
+        System.out.println(USERS.get(1));
         
         Song song1 = new Song("SongName", "ArtistCreator", 300);
         Song song2 = new Song("SongName2", "ArtistCreator", 400);
