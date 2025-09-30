@@ -5,13 +5,13 @@ import java.util.*;
  * within a local catalog.
  */
 public class SearchService {
-    private List<Song> songCatalog;
+    private ArrayList<Song> songCatalog;
 
     /**
      * Constructs a new SearchService with an empty catalog.
      */
     public SearchService() {
-        this.songCatalog = new ArrayList<>();
+        this.songCatalog = new ArrayList<Song>();
     }
 
     /**
@@ -38,8 +38,8 @@ public class SearchService {
      * @param title the title to search for
      * @return a list of songs matching the exact title
      */
-    public List<Song> searchByTitle(String title) {
-        List<Song> result = new ArrayList<>();
+    public ArrayList<Song> searchByTitle(String title) {
+        ArrayList<Song> result = new ArrayList<>();
         for (Song song : songCatalog) {
             if (song.getTitle().equalsIgnoreCase(title)) {
                 result.add(song);
@@ -55,13 +55,33 @@ public class SearchService {
      * @param partialTitle the partial title to search for
      * @return a list of songs whose titles contain the partial string
      */
-    public List<Song> searchByPartialTitle(String partialTitle) {
-        List<Song> result = new ArrayList<>();
+    public ArrayList<Song> searchByPartialTitle(String partialTitle) {
+        ArrayList<Song> result = new ArrayList<>();
         for (Song song : songCatalog) {
             if (song.getTitle().toLowerCase().contains(partialTitle.toLowerCase())) {
                 result.add(song);
             }
         }
         return result;
+    }
+    
+    public boolean globalCatContains(Song song) {
+        return songCatalog.contains(song);
+    }
+    
+    public ArrayList<Song> getGlobalCatalog() {
+        return songCatalog;
+    }
+    
+    public void listSongs() {
+        int i = 0;
+        for (Song s : songCatalog) {
+            System.out.println("[" + i + "] - " + s.toString());
+            i++;
+        }
+    }
+    
+    public Song getSongAtIndex(int index) {
+        return songCatalog.get(index);
     }
 }

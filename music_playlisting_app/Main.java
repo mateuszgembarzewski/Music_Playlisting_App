@@ -20,7 +20,7 @@ public class Main {
     /**
      * Global catalog of songs available in the application.
      */
-    private static final List<Song> CATALOG = new ArrayList<>();
+    private static SearchService CATALOG = new SearchService();
 
     /**
      * Service responsible for handling user authentication.
@@ -42,6 +42,16 @@ public class Main {
         // Preload a listener user for testing/demo
         Listener defaultListener = new Listener("testuser@gmail.com", "testuser", "password", 1, new ArrayList<>());
         USERS.add(defaultListener);
+        
+        Artist defaultArtist = new Artist("artist@gmail.com", "artist", "artistpass", 2);
+        USERS.add(defaultArtist);
+        Song song1 = new Song("Bing Bong", "artist", 69);
+        defaultArtist.addSongToCatalog(CATALOG, song1);
+        //ArrayList<Song> artistListTest = defaultArtist.getCatalog(CATALOG);
+        //System.out.println(artistListTest);
+        // ^ test for my modifications for the SearchService/catalog object.
+        // This version now works as I believe it should--we pass the global catalog to the 
+        // artist object so it can modify it, and since it is static the modifications hold.
 
         System.out.println("Welcome to the HMM Music Playlisting Application!");
 
@@ -58,7 +68,8 @@ public class Main {
                     loggedInUser = createAccount(scanner);
                     if (loggedInUser != null) {
                         System.out.println("You are now logged in as: " + loggedInUser.getUsername());
-                        running = false; // Exit loop after successful account creation
+                        userToUI(scanner, loggedInUser);
+                        //running = false; // Exit loop after successful account creation
                     }
                     break;
 
@@ -69,7 +80,8 @@ public class Main {
                     String p = scanner.nextLine().trim();
                     loggedInUser = loginService.authenticate(u, p, USERS);
                     if (loggedInUser != null) {
-                        running = false;
+                        userToUI(scanner, loggedInUser);
+                        //running = false;
                     }
                     break;
 
@@ -88,30 +100,112 @@ public class Main {
             }
         }
 
-        // Demo: populate catalog and perform a few operations
-        Artist demoArtist = new Artist("artist@gmail.com", "Artie", "secret", 1);
-        Song song1 = new Song("Bing Bong", "Artie", 69);
-        demoArtist.addSongToCatalog(song1);
-        Song song2 = new Song("Whoa", "Artie", 30);
-        demoArtist.addSongToCatalog(song2);
+        // // Demo: populate catalog and perform a few operations
+        // Artist demoArtist = new Artist("artist@gmail.com", "Artie", "secret", 1);
+        // Song song1 = new Song("Bing Bong", "Artie", 69);
+        // demoArtist.addSongToCatalog(song1);
+        // Song song2 = new Song("Whoa", "Artie", 30);
+        // demoArtist.addSongToCatalog(song2);
 
-        System.out.println("\nCatalog:");
-        for (Song s : CATALOG) {
-            System.out.println(" - " + s);
-        }
+        // System.out.println("\nCatalog:");
+        // for (Song s : CATALOG) {
+            // System.out.println(" - " + s);
+        // }
 
-        // If logged in as listener demo playlist ops
-        if (loggedInUser instanceof Listener) {
-            Listener listener = (Listener) loggedInUser;
-            Playlist p1 = listener.createNewPlaylist("Favorites");
-            boolean added = p1.addSong(new Song("Bing Bong", "Artie", 69));
-            System.out.println("Added Bing Bong to playlist: " + added);
-            System.out.println("Playlist length: " + p1.getTotalDurationFormatted());
-        }
+        // // If logged in as listener demo playlist ops
+        // if (loggedInUser instanceof Listener) {
+            // Listener listener = (Listener) loggedInUser;
+            // Playlist p1 = listener.createNewPlaylist("Favorites");
+            // boolean added = p1.addSong(new Song("Bing Bong", "Artie", 69));
+            // System.out.println("Added Bing Bong to playlist: " + added);
+            // System.out.println("Playlist length: " + p1.getTotalDurationFormatted());
+        // }
 
         scanner.close();
+        System.out.println("Closing application."); 
     }
 
+    private static void userToUI(Scanner scanner, User user) {
+        if (user instanceof Listener) {
+            Listener listener = (Listener) user;
+            listenerUI(scanner, listener);
+        } else if (user instanceof Artist) {
+            Artist artist = (Artist) user;
+            artistUI(scanner, artist);
+        } else if (user instanceof Admin) {
+            Admin admin = (Admin) user;
+            adminUI(scanner, admin);
+        }
+    }
+    
+    private static void listenerUI(Scanner scanner, Listener listener) {
+        boolean running = true;
+        while (running) {
+            System.out.println("\n1 = Create Playlist | 2 = List Playlists | 3 = Search Catalog | 4 = Add to a Playlist | 5 = Remove from a Playlist | 6 = Delete all playlists.");
+            System.out.print("Choice: ");
+            String choice = scanner.nextLine().trim();
+            
+            switch (choice) {
+                case "1": 
+                    System.out.print("Enter a playlist title: ");
+                    String title = scanner.nextLine();
+                    Playlist playlist = listener.createNewPlaylist(title);
+                    System.out.println("Playlist '" + title + "' created.");
+                    break;
+                    
+                case "2": 
+                    listener.listPlaylists();
+                    break;
+                
+                case "3": 
+                    System.out.println("Search Catalog");
+                    System.out.print("Enter a search term: ");
+                    String term = scanner.nextLine();
+                    ArrayList<Song> results = CATALOG.searchByPartialTitle(term);
+                    System.out.println(results);
+                    break;
+                    
+                case "4": 
+                    System.out.println("Add to a Playlist");
+                    listener.listPlaylists();
+                    System.out.print("Enter a playlist index: ");
+                    int playlistIndex = scanner.nextInt();
+                    Playlist addPlaylist = listener.getPlaylistAtIndex(playlistIndex);
+                    CATALOG.listSongs();
+                    System.out.print("Enter a song index: ");
+                    int songIndex = scanner.nextInt();
+                    Song addSong = CATALOG.getSongAtIndex(songIndex);
+                    addPlaylist.addSong(addSong);
+                    System.out.println("'" + addSong.getTitle() + "' has been added to '" + addPlaylist.getName() + "'.");
+                    break;
+                    
+                case "5": 
+                    System.out.println("Remove from a Playlist");
+                    break;
+                    
+                case "6":
+                    listener.clearPlaylists();
+                    break;
+                    
+                case "0":
+                    System.out.println("Exiting...");
+                    running = false;
+                    break;
+
+                default:
+                    System.out.println("Unknown option.");
+            }
+        }
+    }
+    
+    private static void artistUI(Scanner scanner, Artist artist) {
+        // Placeholder for artist interaction loop
+    }
+    
+    private static void adminUI(Scanner scanner, Admin admin) {
+        // Placeholder for admin interaction loop
+    }
+    
     /**
      * Handles account creation flow with duplicate email and username validation.
      *

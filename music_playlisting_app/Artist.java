@@ -2,10 +2,11 @@ import java.util.*;
 
 /**
  * Represents an artist user in the system.
- * An artist can maintain a personal catalog of songs they have created.
+ * An artist can add songs to the global catalog.
  */
 public class Artist extends User {
-    private List<Song> catalog;
+    //private List<Song> catalog;  // Artists aren't supposed to maintain a personal catalog.
+    // I know our documentation is vague/slightly inconsistent on this--but I think this approach makes the most sense.  -Michael
 
     /**
      * Constructs a new Artist.
@@ -17,7 +18,7 @@ public class Artist extends User {
      */
     public Artist(String email, String username, String password, int id) {
         super(email, username, password, id);
-        this.catalog = new ArrayList<>();
+        //this.catalog = new ArrayList<>(); // See comment @ line 8+9
     }
 
     /**
@@ -29,10 +30,12 @@ public class Artist extends User {
      * - Duration must be positive.
      * - The catalog must not already contain the song.
      *
+     * @param the SearchService object from Main (so that the whole catalog remains searchable)
+     * ^ see comment @ line 8+9
      * @param song the song to add
      * @return true if the song was successfully added, false otherwise
      */
-    public boolean addSongToCatalog(Song song) {
+    public boolean addSongToCatalog(SearchService catalog, Song song) {
         if (song == null) return false;
     
         // Validation: title and artist name cannot be empty, duration must be positive
@@ -40,15 +43,23 @@ public class Artist extends User {
         if (song.getCreator() == null || song.getCreator().trim().isEmpty()) return false;
         if (song.getDuration() <= 0) return false;
     
-        if (catalog.contains(song)) return false; // Prevent duplicates
-        catalog.add(song);
+        if (catalog.globalCatContains(song)) return false; // Prevent duplicates
+        catalog.addSongToCatalog(song);
         return true;
     }
 
     /**
      * @return the list of songs in the artist's catalog
      */
-    public List<Song> getCatalog() {
-        return catalog;
+    public ArrayList<Song> getCatalog(SearchService catalog) {
+        ArrayList<Song> localCatalog = new ArrayList<Song>();
+        ArrayList<Song> globalCatalog = catalog.getGlobalCatalog();
+        for (Song s : globalCatalog) {
+            if (s.getCreator().equals(this.getUsername())) {
+                localCatalog.add(s);
+                System.out.println(s);
+            }
+        }
+        return localCatalog;
     }
 }

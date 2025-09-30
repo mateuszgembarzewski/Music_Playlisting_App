@@ -21,6 +21,10 @@ public class Playlist {
         this.creator = (creator == null) ? "unknown" : creator;
         this.tracklist = (tracklist != null) ? tracklist : new ArrayList<>();
     }
+    
+    public String getName() {
+        return name;
+    }
 
     /**
      * Adds a song to the playlist if it is not null and not already present.
@@ -65,6 +69,6 @@ public class Playlist {
      */
     @Override
     public String toString() {
-        return name + " created by " + creator + " - " + tracklist.size() + " songs";
+        return "'" + name + "' created by " + creator + " - " + tracklist.size() + " songs";
     }
 }

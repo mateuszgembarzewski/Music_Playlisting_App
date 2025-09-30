@@ -5,8 +5,8 @@ import java.util.*;
  * A listener can manage playlists and maintain a personal library of songs.
  */
 public class Listener extends User {
-    private List<Playlist> playlists;
-    private List<Song> personalLibrary; // Songs in the listener's personal library
+    private ArrayList<Playlist> playlists;
+    private ArrayList<Song> personalLibrary; // Songs in the listener's personal library
 
     /**
      * Constructs a new Listener.
@@ -17,7 +17,7 @@ public class Listener extends User {
      * @param id       the unique ID of the listener
      * @param library  the initial personal song library (can be empty but not null)
      */
-    public Listener(String email, String username, String password, int id, List<Song> library) {
+    public Listener(String email, String username, String password, int id, ArrayList<Song> library) {
         super(email, username, password, id);
         this.personalLibrary = library;
         this.playlists = new ArrayList<>();
@@ -41,6 +41,7 @@ public class Listener extends User {
      */
     public void clearPlaylists() {
         playlists.clear();
+        System.out.println("All of " + this.getUsername() + "'s playlists have been removed.");
     }
 
     /**
@@ -55,17 +56,30 @@ public class Listener extends User {
         return true;
     }
 
+    public Playlist getPlaylistAtIndex(int index) {
+        return playlists.get(index);
+    }
+    
     /**
      * @return the list of playlists owned by the listener
      */
-    public List<Playlist> getPlaylists() {
+    public ArrayList<Playlist> getPlaylists() {
         return playlists;
+    }
+    
+    public void listPlaylists() {
+        int i = 0;
+        System.out.println("=== " + this.getUsername() + "'s Playlists ===");
+        for (Playlist p : playlists) {
+            System.out.println("[" + i + "] - " + p.toString());
+            i++;
+        }
     }
 
     /**
      * @return the list of songs in the listener's personal library
      */
-    public List<Song> getPersonalLibrary() {
+    public ArrayList<Song> getPersonalLibrary() {
         return personalLibrary;
     }
 }
