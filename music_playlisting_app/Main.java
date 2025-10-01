@@ -59,7 +59,7 @@ public class Main {
         User loggedInUser = null;
 
         while (running) {
-            System.out.println("\n1 = Create Account | 2 = Login | 3 = Skip to Demo | 0 = Exit");
+            System.out.println("\n1 = Create Account \n2 = Login \n3 = Skip to Demo \n0 = Exit");
             System.out.print("Choice: ");
             String choice = scanner.nextLine().trim();
 
@@ -141,7 +141,7 @@ public class Main {
     private static void listenerUI(Scanner scanner, Listener listener) {
         boolean running = true;
         while (running) {
-            System.out.println("\n1 = Create Playlist | 2 = List Playlists | 3 = Search Catalog | 4 = Add to a Playlist | 5 = Remove from a Playlist | 6 = Delete all playlists.");
+            System.out.println("\n1 = Create a playlist \n2 = View all playlists \n3 = View a specific playlist \n4 = Search the catalog \n5 = Add a song to a playlist \n6 = Remove a song from a playlist \n7 = Delete a specific playlist \n8 = Delete all playlists");
             System.out.print("Choice: ");
             String choice = scanner.nextLine().trim();
             
@@ -156,36 +156,56 @@ public class Main {
                 case "2": 
                     listener.listPlaylists();
                     break;
+                    
+                case "3":
+                    listener.listPlaylists();
+                    System.out.print("Enter a playlist index: ");
+                    int viewPlaylistIndex = Integer.parseInt(scanner.nextLine());
+                    Playlist viewPlaylist = listener.getPlaylistAtIndex(viewPlaylistIndex);
+                    viewPlaylist.listSongs();
+                    break;
                 
-                case "3": 
-                    System.out.println("Search Catalog");
+                case "4": 
                     System.out.print("Enter a search term: ");
                     String term = scanner.nextLine();
                     ArrayList<Song> results = CATALOG.searchByPartialTitle(term);
                     System.out.println(results);
                     break;
                     
-                case "4": 
-                    System.out.println("Add to a Playlist");
+                case "5": 
                     listener.listPlaylists();
                     System.out.print("Enter a playlist index: ");
-                    int playlistIndex = scanner.nextInt();
-                    Playlist addPlaylist = listener.getPlaylistAtIndex(playlistIndex);
+                    int addPlaylistIndex = Integer.parseInt(scanner.nextLine());
+                    Playlist addPlaylist = listener.getPlaylistAtIndex(addPlaylistIndex);
                     CATALOG.listSongs();
                     System.out.print("Enter a song index: ");
-                    int songIndex = scanner.nextInt();
-                    Song addSong = CATALOG.getSongAtIndex(songIndex);
+                    int addSongIndex = Integer.parseInt(scanner.nextLine());
+                    Song addSong = CATALOG.getSongAtIndex(addSongIndex);
                     addPlaylist.addSong(addSong);
                     System.out.println("'" + addSong.getTitle() + "' has been added to '" + addPlaylist.getName() + "'.");
                     break;
                     
-                case "5": 
-                    System.out.println("Remove from a Playlist");
+                case "6": 
+                    listener.listPlaylists();
+                    System.out.print("Enter a playlist index: ");
+                    int removePlaylistIndex = Integer.parseInt(scanner.nextLine());
+                    Playlist removePlaylist = listener.getPlaylistAtIndex(removePlaylistIndex);
+                    removePlaylist.listSongs();
+                    System.out.print("Enter a song index: ");
+                    int removeSongIndex = Integer.parseInt(scanner.nextLine());
+                    removePlaylist.removeSongAtIndex(removeSongIndex);
                     break;
                     
-                case "6":
-                    listener.clearPlaylists();
+                case "7":
+                    listener.listPlaylists();
+                    System.out.print("Enter a playlist index: ");
+                    int deletePlaylistIndex = Integer.parseInt(scanner.nextLine());
+                    listener.deletePlaylistAtIndex(deletePlaylistIndex);
                     break;
+                    
+                case "8":
+                    listener.clearPlaylists();
+                    break;                
                     
                 case "0":
                     System.out.println("Exiting...");

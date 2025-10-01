@@ -60,6 +60,12 @@ public class Listener extends User {
         return playlists.get(index);
     }
     
+    public void deletePlaylistAtIndex(int index) {
+        Playlist deleted = playlists.get(index);
+        playlists.remove(index);
+        System.out.println("The playlist '" + deleted.getName() + "' has been deleted from " + this.getUsername() + "'s library.");
+    }
+    
     /**
      * @return the list of playlists owned by the listener
      */

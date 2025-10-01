@@ -26,6 +26,10 @@ public class Playlist {
         return name;
     }
 
+    public String getCreator() {
+        return creator;
+    }
+
     /**
      * Adds a song to the playlist if it is not null and not already present.
      *
@@ -36,6 +40,10 @@ public class Playlist {
         if (song == null || tracklist.contains(song)) return false;
         tracklist.add(song);
         return true;
+    }
+    
+    public void removeSongAtIndex(int index) {
+        tracklist.remove(index);
     }
 
     /**
@@ -59,6 +67,15 @@ public class Playlist {
         int minutes = totalDuration / 60;
         int seconds = totalDuration % 60;
         return String.format("%02d:%02d", minutes, seconds);
+    }
+    
+    public void listSongs() {
+        int i = 0;
+        System.out.println("=== " + this.getName() + "'s Songs ===");
+        for (Song s : tracklist) {
+            System.out.println("[" + i + "] - " + s.toString());
+            i++;
+        }
     }
 
     /**
