@@ -45,8 +45,18 @@ public class Main {
         
         Artist defaultArtist = new Artist("artist@gmail.com", "artist", "artistpass", 2);
         USERS.add(defaultArtist);
-        Song song1 = new Song("Bing Bong", "artist", 69);
+        Song song1 = new Song("Somebody Else", "The 1975", 347);
+        Song song2 = new Song("RAWFEAR", "Twenty One Pilots", 202);
+        Song song3 = new Song("Hammer", "Lorde", 193);
+        Song song4 = new Song("One More Time", "Daft Punk", 320);
+        Song song5 = new Song("Club classics", "Charli xcx", 153);
+        Song song6 = new Song("Hard Times", "Paramore", 182);
         defaultArtist.addSongToCatalog(CATALOG, song1);
+        defaultArtist.addSongToCatalog(CATALOG, song2);
+        defaultArtist.addSongToCatalog(CATALOG, song3);
+        defaultArtist.addSongToCatalog(CATALOG, song4);
+        defaultArtist.addSongToCatalog(CATALOG, song5);
+        defaultArtist.addSongToCatalog(CATALOG, song6);
         //ArrayList<Song> artistListTest = defaultArtist.getCatalog(CATALOG);
         //System.out.println(artistListTest);
         // ^ test for my modifications for the SearchService/catalog object.

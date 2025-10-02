@@ -75,6 +75,12 @@ public class Song {
      */
     @Override
     public String toString() {
-        return title + " – " + creator;
+        return title + " – " + creator + " - " + durationToString();
+    }
+    
+    public String durationToString() {
+        int minutes = duration / 60;
+        int seconds = duration % 60;
+        return String.format("%02d:%02d", minutes, seconds);
     }
 }
