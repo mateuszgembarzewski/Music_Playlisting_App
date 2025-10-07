@@ -62,4 +62,7 @@ public class Artist extends User {
         }
         return localCatalog;
     }
+    
+    
+    
 }

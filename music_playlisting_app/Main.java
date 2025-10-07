@@ -229,7 +229,27 @@ public class Main {
     }
     
     private static void artistUI(Scanner scanner, Artist artist) {
-        // Placeholder for artist interaction loop
+        boolean running = true;
+        while (running) {
+            System.out.println("\n1 = Upload to global catalog \n2 = Get global catalog");
+            System.out.print("Choice: ");
+            String choice = scanner.nextLine().trim();
+            
+            switch (choice) {
+                case "1": 
+                    System.out.print("Type song name to upload to catalog:");
+                    String title = scanner.nextLine();
+                    System.out.print("Enter duration in seconds to add to catalog:");
+                    int seconds = scanner.nextInt();
+                    Song s = new Song(title, artist.getUsername(), seconds);
+                    artist.addSongToCatalog(CATALOG, s);
+                    break;
+                    
+                    case "2": 
+                    CATALOG.listSongs();
+                    break;
+                }
+            }
     }
     
     private static void adminUI(Scanner scanner, Admin admin) {
