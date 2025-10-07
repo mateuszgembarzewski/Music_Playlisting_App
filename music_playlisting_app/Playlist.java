@@ -7,7 +7,7 @@ import java.util.*;
 public class Playlist {
     private String name;
     private String creator;
-    private List<Song> tracklist;
+    private ArrayList<Song> tracklist;
 
     /**
      * Constructs a new playlist.
@@ -16,7 +16,7 @@ public class Playlist {
      * @param creator  the creator of the playlist (defaults to "unknown" if null)
      * @param tracklist initial list of songs (defaults to an empty list if null)
      */
-    public Playlist(String name, String creator, List<Song> tracklist) {
+    public Playlist(String name, String creator, ArrayList<Song> tracklist) {
         this.name = (name == null) ? "Untitled" : name;
         this.creator = (creator == null) ? "unknown" : creator;
         this.tracklist = (tracklist != null) ? tracklist : new ArrayList<>();
@@ -29,7 +29,11 @@ public class Playlist {
     public String getCreator() {
         return creator;
     }
-
+    
+    public ArrayList<Song> getTrackList() {
+        return tracklist;
+    }
+    
     /**
      * Adds a song to the playlist if it is not null and not already present.
      *
@@ -42,8 +46,9 @@ public class Playlist {
         return true;
     }
     
-    public void removeSongAtIndex(int index) {
-        tracklist.remove(index);
+    public Song removeSongAtIndex(int index) {
+        Song songRemoved = tracklist.remove(index);
+        return songRemoved;
     }
 
     /**

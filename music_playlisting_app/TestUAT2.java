@@ -82,19 +82,13 @@ public class TestUAT2 {
         playlist.addSong(song); // Add the song to the playlist
     
         try {
-            // Use reflection to access the private 'songs' field in Playlist
-            Field songsField = Playlist.class.getDeclaredField("songs");
-            songsField.setAccessible(true); // Make the field accessible
-            ArrayList<Song> songsList = (ArrayList<Song>) songsField.get(playlist); // Get the 'songs' field value
-    
-            int before = songsList.size(); // Get the size of the 'songs' list before removal
-    
+            ArrayList<Song> PS = playlist.getTrackList();
+            int before = PS.size(); // Get the size of the 'songs' list before removal
             // Get the song by index (0 in this case) and remove it
-            Song songToRemove = songsList.get(0);  
-            playlist.removeSong(songToRemove); // Remove the song object
-    
-            int after = songsList.size(); // Get size after removal
-    
+            Song songToRemove = PS.get(0); 
+            Song songThatWasRemoved = playlist.removeSongAtIndex(0); // Remove the song object
+            //System.out.println("Song "+songThatWasRemoved+" has been removed");
+            int after = PS.size(); // Get size after removal
             // Test: Ensure the song was removed successfully
             assert after == before - 1 : "Test Failed: Song should be removed from the playlist";
             System.out.println("FUNC_REMOVE_SONG_SUCCESS: Passed");
