@@ -31,6 +31,25 @@ public class SearchService {
         songCatalog.add(song);
         return true;
     }
+    
+    public boolean removeSongToCatalog(Song song) {
+        int find = 0;
+        // Avoid duplicate songs in the catalog
+        for (Song s : songCatalog) {
+            if (s.equals(song)) {
+                find = 1; // Song already exists
+                break;
+            }
+            else find  = 0;
+        }
+        if (find == 1 ){
+            songCatalog.remove(song);
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
 
     /**
      * Searches for songs by exact title (case-insensitive).
@@ -59,6 +78,16 @@ public class SearchService {
         ArrayList<Song> result = new ArrayList<>();
         for (Song song : songCatalog) {
             if (song.getTitle().toLowerCase().contains(partialTitle.toLowerCase())) {
+                result.add(song);
+            }
+        }
+        return result;
+    }
+    
+    public ArrayList<Song> searchSongByArtist(String partialArtist) {
+        ArrayList<Song> result = new ArrayList<>();
+        for (Song song : songCatalog) {
+            if (song.getCreator().equals(partialArtist)) {
                 result.add(song);
             }
         }

@@ -69,7 +69,7 @@ public class Main {
         User loggedInUser = null;
 
         while (running) {
-            System.out.println("\n1 = Create Account \n2 = Login \n3 = Skip to Demo \n0 = Exit");
+            System.out.println("\n1 = Create Account \n2 = Login \n0 = Exit");
             System.out.print("Choice: ");
             String choice = scanner.nextLine().trim();
 
@@ -151,7 +151,7 @@ public class Main {
     private static void listenerUI(Scanner scanner, Listener listener) {
         boolean running = true;
         while (running) {
-            System.out.println("\n1 = Create a playlist \n2 = View all playlists \n3 = View a specific playlist \n4 = Search the catalog \n5 = Add a song to a playlist \n6 = Remove a song from a playlist \n7 = Delete a specific playlist \n8 = Delete all playlists");
+            System.out.println("\n1 = Create a playlist \n2 = View all playlists \n3 = View a specific playlist \n4 = Search the catalog \n5 = Add a song to a playlist \n6 = Remove a song from a playlist \n7 = Delete a specific playlist \n8 = Delete all playlists \n0 = Exit");
             System.out.print("Choice: ");
             String choice = scanner.nextLine().trim();
             
@@ -179,7 +179,10 @@ public class Main {
                     System.out.print("Enter a search term: ");
                     String term = scanner.nextLine();
                     ArrayList<Song> results = CATALOG.searchByPartialTitle(term);
-                    System.out.println(results);
+                    int tempSize = results.size();
+                    for(int i = 0; i < tempSize; i++) {
+                        System.out.println("[" + (i+1) + "]" + results.get(i));
+                    }
                     break;
                     
                 case "5": 
@@ -231,23 +234,50 @@ public class Main {
     private static void artistUI(Scanner scanner, Artist artist) {
         boolean running = true;
         while (running) {
-            System.out.println("\n1 = Upload to global catalog \n2 = Get global catalog");
+            System.out.println("\n1 = Upload to global catalog \n2 = Get global catalog \n3 = Remove from global catalog \n0 = Exit");
             System.out.print("Choice: ");
             String choice = scanner.nextLine().trim();
             
             switch (choice) {
                 case "1": 
                     System.out.print("Type song name to upload to catalog:");
-                    String title = scanner.nextLine();
+                    String title = scanner.nextLine().trim();
                     System.out.print("Enter duration in seconds to add to catalog:");
-                    int seconds = scanner.nextInt();
-                    Song s = new Song(title, artist.getUsername(), seconds);
+                    int time = scanner.nextInt();
+                    Song s = new Song(title, artist.getUsername(), time);
                     artist.addSongToCatalog(CATALOG, s);
                     break;
                     
-                    case "2": 
-                    CATALOG.listSongs();
+                case "2": 
+                    ArrayList<Song> results = CATALOG.searchSongByArtist(artist.getUsername());
+                    int tempSize = results.size();
+                    for(int i = 0; i < tempSize; i++) {
+                        System.out.println("[" + i + "]" + results.get(i));
+                    }
                     break;
+                    
+                case "3":
+                    ArrayList<Song> result = CATALOG.searchSongByArtist(artist.getUsername());
+                    tempSize = result.size();
+                    for(int i = 0; i < tempSize; i++) {
+                        System.out.println("[" + i + "]" + result.get(i));
+                    }
+                    System.out.print("Enter the index of the song you wan to delete:");
+                    int removeSongIndex = Integer.parseInt(scanner.nextLine());
+                    Song tempResult = result.get(removeSongIndex);
+                    boolean checker = CATALOG.removeSongToCatalog(tempResult);
+                    if (checker == true) {
+                        System.out.println(tempResult.getTitle() + " has been removed from the catalog");
+                    }
+                    break;                 
+                
+                case "0":
+                    System.out.println("Bye Bye!!!!!!");
+                    running = false;
+                    break;
+                    
+                default:
+                    System.out.print("Unknown option.");
                 }
             }
     }
