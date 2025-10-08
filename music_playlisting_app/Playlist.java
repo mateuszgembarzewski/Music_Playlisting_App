@@ -46,9 +46,20 @@ public class Playlist {
         return true;
     }
     
-    public Song removeSongAtIndex(int index) {
-        Song songRemoved = tracklist.remove(index);
-        return songRemoved;
+    public void removeSongAtIndex(int index) {
+        if (tracklist.size() <= 0) {
+            System.out.print("There are no songs to delete.\n");
+            return;
+        }
+        else if(index <= tracklist.size() && index >= 0) {
+            Song songRemoved = tracklist.remove(index);
+            return;
+        }
+        else {
+            System.out.println("Invalid Index Number");   
+            return;
+        }
+        
     }
 
     /**

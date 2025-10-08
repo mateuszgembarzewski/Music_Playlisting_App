@@ -17,9 +17,9 @@ public class TestUAT2 {
         // Run all test cases
         tester.testCreateMultiplePlaylists();
         tester.testRemovePlaylistSuccess();
-        //tester.testRemovePlaylistFail();  // Commented out for later tweaks
+        tester.testRemovePlaylistFail();  // Commented out for later tweaks
         tester.testRemoveSongFromPlaylistSuccess();
-        //tester.testRemoveSongFromEmptyPlaylistFail();  // Commented out for later tweaks
+        tester.testRemoveSongFromEmptyPlaylistFail();  // Commented out for later tweaks
         tester.testListenerSystemInteraction();
         tester.testListenerRestrictedAccess();
     }
@@ -54,21 +54,20 @@ public class TestUAT2 {
         }
     }
 
-    
-    //  3. Test Case: Listener fails to remove a playlist when none exist.
-      
-      // Commented out for later tweaks
-      // public void testRemovePlaylistFail() {
-          // Listener listener = new Listener("listener1@example.com", "listener1", "password", 1, new ArrayList<>());
+    /**
+     *3. Test Case: Listener fails to remove a playlist when none exist.
+     */ 
+    public void testRemovePlaylistFail() {
+        Listener listener = new Listener("listener1@example.com", "listener1", "password", 1, new ArrayList<>());
      
-          // try {
-              // listener.deletePlaylistAtIndex(0);
-              // System.out.println("Test Failed: Playlist removal should have failed due to no playlists.");
-          // } catch (Exception e) {
-              // assert e.getMessage().equals("No playlists exist") : "Test Failed: Exception message mismatch";
-              // System.out.println("FUNC_REMOVE_PLAYLIST_FAIL: Passed");
-          // }
-     // }
+        try {
+            listener.deletePlaylistAtIndex(0);
+            System.out.println("FUNC_REMOVE_PLAYLIST_FAIL: Passed");
+        } catch (Exception e) {
+            assert e.getMessage().equals("There are no playlist to delete") : "Test Failed: Exception message mismatch";
+            System.out.println("Test Failed: Playlist removal should have failed due to no playlists.");
+        }
+    }
      
 
     /**
@@ -79,46 +78,38 @@ public class TestUAT2 {
         listener.createNewPlaylist("Chill Vibes");
         Playlist playlist = listener.getPlaylists().get(0);
         Song song = new Song("Song A", "Artist A", 200);
-        playlist.addSong(song); // Add the song to the playlist
+        playlist.addSong(song);
     
         try {
             ArrayList<Song> PS = playlist.getTrackList();
-            int before = PS.size(); // Get the size of the 'songs' list before removal
-            // Get the song by index (0 in this case) and remove it
+            int before = PS.size();
             Song songToRemove = PS.get(0); 
-            Song songThatWasRemoved = playlist.removeSongAtIndex(0); // Remove the song object
-            //System.out.println("Song "+songThatWasRemoved+" has been removed");
-            int after = PS.size(); // Get size after removal
-            // Test: Ensure the song was removed successfully
+            playlist.removeSongAtIndex(0);
+            int after = PS.size();
             assert after == before - 1 : "Test Failed: Song should be removed from the playlist";
             System.out.println("FUNC_REMOVE_SONG_SUCCESS: Passed");
         } catch (Exception e) {
-            System.out.println("FUNC_REMOVE_SONG_SUCCESS: Failed Why " + e.getMessage());
+            System.out.println("FUNC_REMOVE_SONG_SUCCESS: Failed " + e.getMessage());
         }
     }
 
 
     /**
      * 5. Test Case: Listener fails to remove a song from an empty playlist.
-     * 
-     * // Commented out for later tweaks
-     * public void testRemoveSongFromEmptyPlaylistFail() {
-     *     Listener listener = new Listener("listener1@example.com", "listener1", "password", 1, new ArrayList<>());
-     *     listener.createNewPlaylist("Empty Playlist");
-     *     Playlist playlist = listener.getPlaylists().get(0);
-     *
-     *     try {
-     *         // Try to remove a song from the empty playlist (this should throw an exception)
-     *         playlist.removeSong(0);  // Since the playlist is empty, this should throw an exception
-     *         System.out.println("Test Failed: Removing from an empty playlist should throw an exception.");
-     *     } catch (Exception e) {
-     *         // Assert the exception message
-     *         assert e.getMessage().equals("No songs in playlist") : "Test Failed: Exception message mismatch";
-     *         System.out.println("FUNC_REMOVE_SONG_EMPTY_PLAYLIST_FAIL: Passed");
-     *     }
-     * }
-     */
-
+     */ 
+    public void testRemoveSongFromEmptyPlaylistFail() {
+        Listener listener = new Listener("listener1@example.com", "listener1", "password", 1, new ArrayList<>());
+        listener.createNewPlaylist("Empty Playlist");
+        Playlist playlist = listener.getPlaylists().get(0);
+        try {
+            playlist.removeSongAtIndex(0);
+            System.out.println("FUNC_REMOVE_SONG_EMPTY_PLAYLIST_FAIL: Passed");
+        } catch (Exception e) {
+            assert e.getMessage().equals("No songs in playlist") : "Test Failed: Exception message mismatch";
+            System.out.println("Test Failed: Removing from an empty playlist should throw an exception.");
+        }
+    }
+    
     /**
      * 6. Test Case: Listener interacts with the system (creates playlist).
      */

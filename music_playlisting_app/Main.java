@@ -149,6 +149,7 @@ public class Main {
     }
     
     private static void listenerUI(Scanner scanner, Listener listener) {
+        int sizePlaylist;
         boolean running = true;
         while (running) {
             System.out.println("\n1 = Create a playlist \n2 = View all playlists \n3 = View a specific playlist \n4 = Search the catalog \n5 = Add a song to a playlist \n6 = Remove a song from a playlist \n7 = Delete a specific playlist \n8 = Delete all playlists \n0 = Exit");
@@ -199,18 +200,30 @@ public class Main {
                     break;
                     
                 case "6": 
-                    listener.listPlaylists();
-                    System.out.print("Enter a playlist index: ");
-                    int removePlaylistIndex = Integer.parseInt(scanner.nextLine());
-                    Playlist removePlaylist = listener.getPlaylistAtIndex(removePlaylistIndex);
-                    removePlaylist.listSongs();
-                    System.out.print("Enter a song index: ");
-                    int removeSongIndex = Integer.parseInt(scanner.nextLine());
-                    removePlaylist.removeSongAtIndex(removeSongIndex);
+                    sizePlaylist = listener.getPlaylists().size();
+                    if (sizePlaylist > 0) {
+                        listener.listPlaylists();
+                        System.out.print("Enter a playlist index: ");
+                        int removePlaylistIndex = Integer.parseInt(scanner.nextLine());
+                        Playlist removePlaylist = listener.getPlaylistAtIndex(removePlaylistIndex);
+                        int sizeSongs = removePlaylist.getTrackList().size();
+                        if (sizeSongs > 0) {
+                            removePlaylist.listSongs();
+                            System.out.print("Enter a song index: ");
+                            int removeSongIndex = Integer.parseInt(scanner.nextLine());
+                            removePlaylist.removeSongAtIndex(removeSongIndex);
+                        }
+                        else {
+                            System.out.print("There are no songs.");
+                        }
+                    }
+                    else {
+                        System.out.print("There are no playlist.");
+                    }
                     break;
                     
                 case "7":
-                    int sizePlaylist = listener.getPlaylists().size();
+                    sizePlaylist = listener.getPlaylists().size();
                     if (sizePlaylist > 0) {
                         listener.listPlaylists();
                         System.out.print("Enter a playlist index: ");
