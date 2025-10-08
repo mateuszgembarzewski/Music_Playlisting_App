@@ -2,14 +2,28 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * Represents an administrator user with global management capabilities.
- * Admins can manage songs in the global catalog and modify listener playlists.
+ * Represents an administrator user with elevated privileges in the system.
+ * <p>
+ * An {@code Admin} can perform global management operations, including:
+ * </p>
+ * <ul>
+ *   <li>Managing songs in the global catalog</li>
+ *   <li>Removing songs from all user playlists</li>
+ *   <li>Deleting all playlists belonging to a specific listener</li>
+ * </ul>
+ *
+ * @see User
+ * @see Listener
+ * @see Playlist
+ * @see Song
  */
 public class Admin extends User {
+
+    /** The unique identifier assigned to this administrator. */
     private int adminId;
 
     /**
-     * Constructs a new Admin.
+     * Constructs a new {@code Admin}.
      *
      * @param email    the email address of the admin
      * @param username the username of the admin
@@ -22,26 +36,31 @@ public class Admin extends User {
     }
 
     /**
-     * @return the unique ID of the admin
+     * Returns the unique ID of this administrator.
+     *
+     * @return the administrator’s unique ID
      */
-    public int getAdminId() { return adminId; }
+    public int getAdminId() {
+        return adminId;
+    }
 
     /**
-     * Removes a song from the global catalog if present.
+     * Removes a specific song from the global catalog if it exists.
      *
-     * @param catalog       the global catalog of songs
-     * @param songToRemove  the song to remove
-     * @return true if the song was successfully removed, false otherwise
+     * @param catalog      the global catalog of songs
+     * @param songToRemove the {@link Song} to remove from the catalog
+     * @return {@code true} if the song was successfully removed;
+     *         {@code false} if the song was not found
      */
     public boolean deleteSongFromCatalog(List<Song> catalog, Song songToRemove) {
         return catalog.remove(songToRemove);
     }
 
     /**
-     * Removes all occurrences of a given song from the provided playlists.
+     * Removes all occurrences of a given song from every playlist in the system.
      *
-     * @param playlists     the list of playlists to scan
-     * @param songToRemove  the song to remove
+     * @param playlists     the list of {@link Playlist} objects to scan
+     * @param songToRemove  the {@link Song} to remove from all playlists
      * @return the total number of removals performed across all playlists
      */
     public int removeSongFromAllPlaylists(List<Playlist> playlists, Song songToRemove) {
@@ -55,9 +74,9 @@ public class Admin extends User {
     }
 
     /**
-     * Deletes all playlists belonging to a given listener.
+     * Deletes all playlists belonging to a specified listener.
      *
-     * @param listener the listener whose playlists will be cleared
+     * @param listener the {@link Listener} whose playlists will be cleared
      */
     public void deleteAllPlaylistsForListener(Listener listener) {
         listener.clearPlaylists();

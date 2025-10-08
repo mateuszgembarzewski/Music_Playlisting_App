@@ -2,14 +2,19 @@ import java.util.*;
 
 /**
  * Represents an artist user in the system.
- * An artist can add songs to the global catalog.
+ * <p>
+ * Artists can add songs to the global catalog (via {@link SearchService}) 
+ * instead of maintaining their own personal catalog.
+ * </p>
  */
 public class Artist extends User {
-    //private List<Song> catalog;  // Artists aren't supposed to maintain a personal catalog.
-    // I know our documentation is vague/slightly inconsistent on this--but I think this approach makes the most sense.  -Michael
+
+    // private List<Song> catalog;  
+    // Artists aren't supposed to maintain a personal catalog.
+    // This is intentional to ensure songs remain globally accessible.  -Michael
 
     /**
-     * Constructs a new Artist.
+     * Constructs a new {@code Artist} object.
      *
      * @param email     the email address of the artist
      * @param username  the username of the artist
@@ -18,22 +23,25 @@ public class Artist extends User {
      */
     public Artist(String email, String username, String password, int id) {
         super(email, username, password, id);
-        //this.catalog = new ArrayList<>(); // See comment @ line 8+9
+        // this.catalog = new ArrayList<>(); // See comment above
     }
 
     /**
-     * Adds a song to the artist's catalog after validating it.
+     * Adds a validated song to the global catalog using the provided {@link SearchService}.
+     * <p>
      * Validation rules:
-     * - The song must not be null.
-     * - Title must not be null or empty.
-     * - Creator must not be null or empty.
-     * - Duration must be positive.
-     * - The catalog must not already contain the song.
+     * <ul>
+     *   <li>The song must not be {@code null}.</li>
+     *   <li>The title must not be {@code null} or empty.</li>
+     *   <li>The creator name must not be {@code null} or empty.</li>
+     *   <li>The duration must be greater than zero.</li>
+     *   <li>The song must not already exist in the global catalog.</li>
+     * </ul>
+     * </p>
      *
-     * @param the SearchService object from Main (so that the whole catalog remains searchable)
-     * ^ see comment @ line 8+9
-     * @param song the song to add
-     * @return true if the song was successfully added, false otherwise
+     * @param catalog the {@link SearchService} instance managing the global catalog
+     * @param song    the {@link Song} to add
+     * @return {@code true} if the song was successfully added; {@code false} otherwise
      */
     public boolean addSongToCatalog(SearchService catalog, Song song) {
         if (song == null) return false;
@@ -43,17 +51,27 @@ public class Artist extends User {
         if (song.getCreator() == null || song.getCreator().trim().isEmpty()) return false;
         if (song.getDuration() <= 0) return false;
     
-        if (catalog.globalCatContains(song)) return false; // Prevent duplicates
+        // Prevent adding duplicate songs
+        if (catalog.globalCatContains(song)) return false;
+        
         catalog.addSongToCatalog(song);
         return true;
     }
 
     /**
-     * @return the list of songs in the artist's catalog
+     * Retrieves all songs in the global catalog created by this artist.
+     * <p>
+     * This method filters the global catalog to collect only songs whose
+     * creator name matches this artist's username.
+     * </p>
+     *
+     * @param catalog the {@link SearchService} containing the global catalog
+     * @return an {@link ArrayList} of {@link Song} objects created by this artist
      */
     public ArrayList<Song> getCatalog(SearchService catalog) {
-        ArrayList<Song> localCatalog = new ArrayList<Song>();
+        ArrayList<Song> localCatalog = new ArrayList<>();
         ArrayList<Song> globalCatalog = catalog.getGlobalCatalog();
+
         for (Song s : globalCatalog) {
             if (s.getCreator().equals(this.getUsername())) {
                 localCatalog.add(s);
@@ -62,7 +80,4 @@ public class Artist extends User {
         }
         return localCatalog;
     }
-    
-    
-    
 }

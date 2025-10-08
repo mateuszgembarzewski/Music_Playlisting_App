@@ -3,18 +3,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * User Acceptance Testing (UAT) for Playlist management, Song management,
- * and Listener actions in the music application.
+ * <p><b>User Acceptance Testing (UAT)</b> for Playlist management, Song management,
+ * and Listener actions in the music application.</p>
+ *
+ * <p>This class manually executes a sequence of test cases to validate
+ * end-user behavior for both {@code Listener} and {@code Artist} workflows.</p>
  */
 public class TestUAT2 {
 
     /**
-     * Main entry point to run all test cases sequentially.
+     * Main entry point to execute all User Acceptance Test cases sequentially.
+     * <p>
+     * Each test method is called individually, with console output indicating
+     * pass/fail status for easier readability and debugging.
+     * </p>
+     *
+     * @param args command-line arguments (not used)
      */
     public static void main(String[] args) {
         TestUAT2 tester = new TestUAT2();
 
-        // Run all test cases
+        // Run all test cases sequentially
         tester.testCreateMultiplePlaylists();
         tester.testRemovePlaylistSuccess();
         tester.testRemovePlaylistFail();
@@ -28,7 +37,9 @@ public class TestUAT2 {
     }
 
     /**
-     * 1. Test Case: Listener creates multiple playlists successfully.
+     * Test Case 1:
+     * Verifies that a listener can successfully create multiple playlists.
+     * <p>Expected Result: Two playlists are created and stored.</p>
      */
     public void testCreateMultiplePlaylists() {
         Listener listener = new Listener("listener1@example.com", "listener1", "password", 1, new ArrayList<>());
@@ -40,7 +51,9 @@ public class TestUAT2 {
     }
 
     /**
-     * 2. Test Case: Listener removes a playlist successfully.
+     * Test Case 2:
+     * Verifies that a listener can remove an existing playlist successfully.
+     * <p>Expected Result: Playlist count decreases by one after deletion.</p>
      */
     public void testRemovePlaylistSuccess() {
         Listener listener = new Listener("listener1@example.com", "listener1", "password", 1, new ArrayList<>());
@@ -58,11 +71,12 @@ public class TestUAT2 {
     }
 
     /**
-     *3. Test Case: Listener fails to remove a playlist when none exist.
-     */ 
+     * Test Case 3:
+     * Ensures the listener fails gracefully when attempting to remove a playlist that doesn't exist.
+     * <p>Expected Result: No exception crash; appropriate failure message is handled.</p>
+     */
     public void testRemovePlaylistFail() {
         Listener listener = new Listener("listener1@example.com", "listener1", "password", 1, new ArrayList<>());
-     
         try {
             listener.deletePlaylistAtIndex(0);
             System.out.println("FUNC_REMOVE_PLAYLIST_FAIL: Passed");
@@ -71,10 +85,11 @@ public class TestUAT2 {
             System.out.println("Test Failed: Playlist removal should have failed due to no playlists.");
         }
     }
-     
 
     /**
-     * 4. Test Case: Listener removes a song from a playlist successfully.
+     * Test Case 4:
+     * Verifies that a listener can remove a song from a playlist successfully.
+     * <p>Expected Result: Playlist song count decreases by one.</p>
      */
     public void testRemoveSongFromPlaylistSuccess() {
         Listener listener = new Listener("listener1@example.com", "listener1", "password", 1, new ArrayList<>());
@@ -82,11 +97,11 @@ public class TestUAT2 {
         Playlist playlist = listener.getPlaylists().get(0);
         Song song = new Song("Song A", "Artist A", 200);
         playlist.addSong(song);
-    
+
         try {
             ArrayList<Song> PS = playlist.getTrackList();
             int before = PS.size();
-            Song songToRemove = PS.get(0); 
+            Song songToRemove = PS.get(0);
             playlist.removeSongAtIndex(0);
             int after = PS.size();
             assert after == before - 1 : "Test Failed: Song should be removed from the playlist";
@@ -96,10 +111,11 @@ public class TestUAT2 {
         }
     }
 
-
     /**
-     * 5. Test Case: Listener fails to remove a song from an empty playlist.
-     */ 
+     * Test Case 5:
+     * Ensures that removing a song from an empty playlist fails gracefully.
+     * <p>Expected Result: An appropriate error message or handled exception is produced.</p>
+     */
     public void testRemoveSongFromEmptyPlaylistFail() {
         Listener listener = new Listener("listener1@example.com", "listener1", "password", 1, new ArrayList<>());
         listener.createNewPlaylist("Empty Playlist");
@@ -112,9 +128,11 @@ public class TestUAT2 {
             System.out.println("Test Failed: Removing from an empty playlist should throw an exception.");
         }
     }
-    
+
     /**
-     * 6. Test Case: Listener interacts with the system (creates playlist).
+     * Test Case 6:
+     * Verifies that a listener can interact with the system by creating a playlist.
+     * <p>Expected Result: At least one playlist is added to the listener’s collection.</p>
      */
     public void testListenerSystemInteraction() {
         Listener listener = new Listener("listener1@example.com", "listener1", "password", 1, new ArrayList<>());
@@ -125,36 +143,35 @@ public class TestUAT2 {
     }
 
     /**
-     * 7. Test Case: Listener restricted from accessing artist-only features.
+     * Test Case 7:
+     * Ensures listeners are restricted from performing artist-only actions (e.g., adding songs to catalog).
+     * <p>Expected Result: Access denied message is displayed.</p>
      */
     public void testListenerRestrictedAccess() {
         Listener listener = new Listener("listener1@example.com", "listener1", "password", 1, new ArrayList<>());
 
         try {
-            // Simulate listener trying to add a song to artist catalog (not allowed)
             throw new Exception("Access denied: Listener cannot add songs to catalog");
         } catch (Exception e) {
             assert e.getMessage().equals("Access denied: Listener cannot add songs to catalog") : "Test Failed: Access denial message mismatch";
             System.out.println("FUNC_LISTENER_RESTRICTED_ACCESS: Passed");
         }
     }
-    
-        /**
-     * 8. ARTIST_SEARCH_SUCCEED
-     * Test Case: Search by exact song title — song exists for this artist.
+
+    /**
+     * Test Case 8 (ARTIST_SEARCH_SUCCEED):
+     * Ensures that searching by an artist name returns matching songs.
+     * <p>Expected Result: The song with the specified title is found in the catalog.</p>
      */
     public void testArtistSearchSucceed() {
         SearchService catalog = new SearchService();
         Artist artist = new Artist("artist1@example.com", "Halsey", "password", 1);
 
-        // Preconditions
         Song song = new Song("TITLE", artist.getUsername(), 200);
         artist.addSongToCatalog(catalog, song);
 
-        // Execution
         ArrayList<Song> results = catalog.searchSongByArtist(artist.getUsername());
 
-        // Verification
         boolean found = false;
         for (Song s : results) {
             if (s.getTitle().equalsIgnoreCase("TITLE")) {
@@ -164,23 +181,22 @@ public class TestUAT2 {
         }
 
         assert found : "Test Failed: Expected song 'TITLE' in artist catalog";
-
         System.out.println("ARTIST_SEARCH_SUCCEED: Passed (Song found and displayed)");
         System.out.println("Redirecting to dashboard in 3-6s...");
     }
 
     /**
-     * 9. ARTIST_SEARCH_FAIL
-     * Test Case: Search by exact song title — song does not exist for this artist.
+     * Test Case 9 (ARTIST_SEARCH_FAIL):
+     * Ensures that searching for a non-existent song returns no results.
+     * <p>Expected Result: No matching song is found for the artist.</p>
      */
     public void testArtistSearchFail() {
         SearchService catalog = new SearchService();
         Artist artist = new Artist("artist2@example.com", "Billie Eilish", "password", 2);
 
-        // No songs uploaded
         ArrayList<Song> results = catalog.searchSongByArtist(artist.getUsername());
-
         boolean found = false;
+
         for (Song s : results) {
             if (s.getTitle().equalsIgnoreCase("TITLE")) {
                 found = true;
@@ -189,20 +205,19 @@ public class TestUAT2 {
         }
 
         assert !found : "Test Failed: Expected no song 'TITLE' for this artist";
-
         System.out.println("ARTIST_SEARCH_FAIL: Passed ('No song found' message displayed)");
         System.out.println("Redirecting to dashboard in 3-6s...");
     }
 
     /**
-     * 10. ARTIST_RETURNS_TO_DASH
-     * Test Case: Ensure artist can add multiple songs and return to dashboard without re-login.
+     * Test Case 10 (ARTIST_RETURNS_TO_DASH):
+     * Verifies that an artist can add multiple songs and remain in the dashboard without re-login.
+     * <p>Expected Result: Both uploaded songs appear in the artist’s catalog after returning to dashboard.</p>
      */
     public void testArtistReturnsToDashboard() {
         SearchService catalog = new SearchService();
         Artist artist = new Artist("artist3@example.com", "Halsey", "password", 3);
 
-        // Add songs sequentially
         Song song1 = new Song("Hold Me Down", artist.getUsername(), 262);
         Song song2 = new Song("Gasoline", artist.getUsername(), 182);
 
@@ -214,8 +229,6 @@ public class TestUAT2 {
 
         ArrayList<Song> uploaded = catalog.searchSongByArtist(artist.getUsername());
         assert uploaded.size() == 2 : "Test Failed: Expected 2 songs for artist in catalog";
-
         System.out.println("ARTIST_RETURNS_TO_DASH: Passed (Artist added multiple songs and returned to dashboard)");
     }
-
 }

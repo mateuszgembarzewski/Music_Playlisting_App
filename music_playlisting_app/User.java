@@ -1,16 +1,27 @@
 /**
  * Abstract base class representing a user in the system.
+ * <p>
  * A user has an email, username, password, and unique ID.
- * Subclasses (e.g., Artist, Listener) extend this class with additional functionality.
+ * Subclasses such as {@code Artist} and {@code Listener} extend this class
+ * to provide additional role-specific functionality.
+ * </p>
  */
 public abstract class User {
+
+    /** The email address of the user. */
     private String email;
+
+    /** The username of the user. */
     private String username;
+
+    /** The password of the user. */
     private String password;
+
+    /** The unique identifier assigned to the user. */
     private int id;
 
     /**
-     * Constructs a new User.
+     * Constructs a new {@code User} instance.
      *
      * @param email     the email address of the user
      * @param username  the username of the user
@@ -25,43 +36,65 @@ public abstract class User {
     }
 
     /**
-     * @return the email of the user
-     */
-    public String getEmail() { return email; }
-
-    /**
-     * @return the username of the user
-     */
-    public String getUsername() { return username; }
-
-    /**
-     * @return the password of the user
-     */
-    public String getPassword() { return password; }
-
-    /**
-     * @return the unique ID of the user
-     */
-    public int getId() { return id; }
-
-    /**
-     * Updates the email of the user.
+     * Returns the email address of the user.
      *
-     * @param email the new email address
+     * @return the user's email
      */
-    public void setEmail(String email) { this.email = email; }
+    public String getEmail() {
+        return email;
+    }
 
     /**
-     * Updates the username of the user.
+     * Returns the username of the user.
      *
-     * @param username the new username
+     * @return the user's username
      */
-    public void setUsername(String username) { this.username = username; }
+    public String getUsername() {
+        return username;
+    }
 
     /**
-     * Updates the password of the user.
+     * Returns the password of the user.
      *
-     * @param password the new password
+     * @return the user's password
      */
-    public void setPassword(String password) { this.password = password; }
+    public String getPassword() {
+        return password;
+    }
+
+    /**
+     * Returns the unique ID of the user.
+     *
+     * @return the user's unique identifier
+     */
+    public int getId() {
+        return id;
+    }
+
+    /**
+     * Updates the user's email address.
+     *
+     * @param email the new email address to set
+     */
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    /**
+     * Updates the user's username.
+     *
+     * @param username the new username to set
+     */
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    /**
+     * Updates the user's password.
+     *
+     * @param password the new password to set
+     */
+    public void setPassword(String password) {
+        this.password = password;
+    }
 }

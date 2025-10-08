@@ -1,4 +1,4 @@
- import java.util.*;
+import java.util.*;
 
 /**
  * Service responsible for handling user authentication and account lockouts.
@@ -16,13 +16,16 @@ public class LoginService {
 
     /**
      * Map tracking the number of failed login attempts by username.
+     * <p>The key is the username, and the value is the number of failed attempts.</p>
      */
-    private Map<String, Integer> failedAttempts = new HashMap<>();
+    private final Map<String, Integer> failedAttempts = new HashMap<>();
 
     /**
      * Map tracking locked users and the timestamp of when they were locked.
+     * <p>The key is the username, and the value is the time (in milliseconds)
+     * when the account was locked.</p>
      */
-    private Map<String, Long> lockedUsers = new HashMap<>();
+    private final Map<String, Long> lockedUsers = new HashMap<>();
 
     /**
      * Attempts to authenticate a user by validating username and password.
@@ -31,9 +34,9 @@ public class LoginService {
      * authentication will fail immediately. On successful authentication,
      * failed attempts are reset.</p>
      *
-     * @param username  the username provided by the user
-     * @param password  the password provided by the user
-     * @param allUsers  the list of all registered users
+     * @param username the username provided by the user
+     * @param password the password provided by the user
+     * @param allUsers the list of all registered users
      * @return the authenticated {@link User} if credentials are valid;
      *         {@code null} otherwise
      */
@@ -45,7 +48,7 @@ public class LoginService {
 
         User user = findUser(username, allUsers);
         if (user != null && user.getPassword().equals(password)) {
-            resetFailedAttempts(username); // successful login
+            resetFailedAttempts(username); // Successful login
             System.out.println("✅ Login successful! Welcome " + username);
             return user;
         } else {
@@ -111,10 +114,10 @@ public class LoginService {
     private boolean isLocked(String username) {
         if (lockedUsers.containsKey(username)) {
             long lockTime = lockedUsers.get(username);
-            if (System.currentTimeMillis() - lockTime < 600000) { // 10 minutes lockout
+            if (System.currentTimeMillis() - lockTime < 600_000) { // 10 minutes lockout
                 return true;
             } else {
-                lockedUsers.remove(username); // Unlock the user after 10 minutes
+                lockedUsers.remove(username); // Unlock after lockout period
             }
         }
         return false;
@@ -126,6 +129,6 @@ public class LoginService {
      * @param username the username whose attempts should be reset
      */
     private void resetFailedAttempts(String username) {
-        failedAttempts.put(username, 0); // Reset the failed attempts after successful login
+        failedAttempts.put(username, 0);
     }
 }

@@ -1,30 +1,38 @@
-
 import org.junit.jupiter.api.*;
 import static org.junit.jupiter.api.Assertions.*;
 import java.util.*;
 
 /**
- * Unit test suite for the music application using JUnit 5.
+ * <p><b>Unit Test Suite for the Music Application (JUnit 5)</b></p>
  *
- * <p>This class covers functional tests for:</p>
+ * <p>This test suite validates critical functionalities across the core system components,
+ * focusing on user authentication, listener operations, and song search capabilities.</p>
+ *
+ * <p>Covered Functional Areas:</p>
  * <ul>
  *   <li>User login and authentication flow</li>
- *   <li>Listener search functionality (exact and partial match)</li>
- *   <li>Library management (adding songs, preventing duplicates)</li>
- *   <li>Artist catalog management (valid and invalid song additions)</li>
+ *   <li>Listener search functionality (exact and partial title matches)</li>
+ *   <li>Listener’s personal library management (adding and preventing duplicates)</li>
+ *   <li>Artist catalog management (commented-out tests pending Sprint 2 updates)</li>
  * </ul>
  *
- * Each test corresponds to a specific functional requirement to ensure
- * proper behavior of the core system components.
+ * <p>Each test corresponds to a defined functional requirement to ensure
+ * correct integration and behavior within the application.</p>
  */
 public class TestUATJUnit {
 
+    /** Handles authentication and user verification logic. */
     private LoginService loginService;
+
+    /** Stores mock users for authentication and test purposes. */
     private List<User> users;
 
     /**
-     * Initializes test dependencies before each test case runs.
-     * Sets up a {@link LoginService} instance and a test user.
+     * Initializes common dependencies before each test case executes.
+     * <p>
+     * This setup ensures a fresh {@link LoginService} instance and
+     * test user for every test to maintain isolation and consistency.
+     * </p>
      */
     @BeforeEach
     public void setup() {
@@ -34,7 +42,9 @@ public class TestUATJUnit {
     }
 
     /**
-     * 1. Test Case: User login succeeds with correct credentials.
+     * Test Case 1:
+     * Verifies that a user can successfully log in with correct credentials.
+     * <p>Expected Result: {@link LoginService#authenticate(String, String, List)} returns a valid {@link User} object.</p>
      */
     @Test
     public void testUserLoginSuccess() {
@@ -43,7 +53,9 @@ public class TestUATJUnit {
     }
 
     /**
-     * 2. Test Case: User login fails with incorrect password.
+     * Test Case 2:
+     * Verifies that user login fails with an incorrect password.
+     * <p>Expected Result: Authentication returns {@code null} for invalid credentials.</p>
      */
     @Test
     public void testUserLoginFail() {
@@ -52,7 +64,9 @@ public class TestUATJUnit {
     }
 
     /**
-     * 3. Test Case: User account is locked after 3 failed login attempts.
+     * Test Case 3:
+     * Ensures that a user account is locked after three consecutive failed login attempts.
+     * <p>Expected Result: User cannot log in even with correct credentials after lockout.</p>
      */
     @Test
     public void testUserLoginLockout() {
@@ -65,7 +79,9 @@ public class TestUATJUnit {
     }
 
     /**
-     * 4. Test Case: Listener can search for a song by exact title.
+     * Test Case 4:
+     * Verifies that a listener can search for a song by its exact title.
+     * <p>Expected Result: The search returns exactly one matching song with the correct title.</p>
      */
     @Test
     public void testListenerSearchExact() {
@@ -79,7 +95,9 @@ public class TestUATJUnit {
     }
 
     /**
-     * 5. Test Case: Listener can search for a song by partial title.
+     * Test Case 5:
+     * Verifies that a listener can search for songs using a partial title.
+     * <p>Expected Result: The search returns songs containing the partial keyword in their title.</p>
      */
     @Test
     public void testListenerSearchPartial() {
@@ -93,7 +111,9 @@ public class TestUATJUnit {
     }
 
     /**
-     * 6. Test Case: Listener successfully adds a new song to their library.
+     * Test Case 6:
+     * Verifies that a listener can successfully add a new song to their personal library.
+     * <p>Expected Result: The song is added and reflected in the listener’s library list.</p>
      */
     @Test
     public void testListenerAddSongSuccess() {
@@ -106,7 +126,9 @@ public class TestUATJUnit {
     }
 
     /**
-     * 7. Test Case: Listener fails to add a duplicate song to their library.
+     * Test Case 7:
+     * Ensures that duplicate songs cannot be added to a listener’s personal library.
+     * <p>Expected Result: The second addition fails and library count remains unchanged.</p>
      */
     @Test
     public void testListenerAddSongFail() {
@@ -120,44 +142,56 @@ public class TestUATJUnit {
         assertEquals(1, listener.getPersonalLibrary().size(), "Library should still contain 1 song");
     }
 
-    // Tests are broken due to Sprint 2 changes.  Sorry.  --Michael
-    
+    /*
+     * ------------------------------------------------------------------------
+     * Sprint 2 Updates (Commented Tests)
+     * ------------------------------------------------------------------------
+     * These artist-related test cases are temporarily disabled
+     * pending updates to the {@link Artist} class and related catalog methods.
+     */
+
     // /**
-     // * 8. Test Case: Artist successfully adds a valid song to their catalog.
-     // */
+    //  * Test Case 8:
+    //  * Verifies that an artist can successfully add a valid song to their catalog.
+    //  * Expected Result: Song is added and catalog count increases.
+    //  */
     // @Test
     // public void testArtistAddSongSuccess() {
-        // Artist artist = new Artist("artist@gmail.com", "Artie", "secret", 1);
-        // Song song = new Song("New Song", "Artie", 180);
-
-        // boolean result = artist.addSongToCatalog(song);
-        // assertTrue(result, "Song should be added to catalog");
-        // assertEquals(1, artist.getCatalog().size(), "Catalog should contain 1 song");
+    //     Artist artist = new Artist("artist@gmail.com", "Artie", "secret", 1);
+    //     Song song = new Song("New Song", "Artie", 180);
+    //
+    //     boolean result = artist.addSongToCatalog(song);
+    //     assertTrue(result, "Song should be added to catalog");
+    //     assertEquals(1, artist.getCatalog().size(), "Catalog should contain 1 song");
     // }
 
     // /**
-     // * 9. Test Case: Artist fails to add a song with an invalid title.
-     // */
+    //  * Test Case 9:
+    //  * Ensures that an artist cannot add a song with an invalid (empty) title.
+    //  * Expected Result: Song is rejected and not added to catalog.
+    //  */
     // @Test
     // public void testArtistAddSongFailTitle() {
-        // Artist artist = new Artist("artist@gmail.com", "Artie", "secret", 1);
-        // Song song = new Song("", "Artie", 180);
-
-        // boolean result = artist.addSongToCatalog(song);
-        // assertFalse(result, "Song with invalid title should not be added");
-        // assertEquals(0, artist.getCatalog().size(), "Catalog should contain 0 songs");
+    //     Artist artist = new Artist("artist@gmail.com", "Artie", "secret", 1);
+    //     Song song = new Song("", "Artie", 180);
+    //
+    //     boolean result = artist.addSongToCatalog(song);
+    //     assertFalse(result, "Song with invalid title should not be added");
+    //     assertEquals(0, artist.getCatalog().size(), "Catalog should contain 0 songs");
     // }
 
     // /**
-     // * 10. Test Case: Artist fails to add a song with an invalid duration.
-     // */
+    //  * Test Case 10:
+    //  * Ensures that an artist cannot add a song with an invalid (negative) duration.
+    //  * Expected Result: Song is rejected and not added to catalog.
+    //  */
     // @Test
     // public void testArtistAddSongFailDuration() {
-        // Artist artist = new Artist("artist@gmail.com", "Artie", "secret", 1);
-        // Song song = new Song("New Song", "Artie", -1);
-
-        // boolean result = artist.addSongToCatalog(song);
-        // assertFalse(result, "Song with invalid duration should not be added");
-        // assertEquals(0, artist.getCatalog().size(), "Catalog should contain 0 songs");
+    //     Artist artist = new Artist("artist@gmail.com", "Artie", "secret", 1);
+    //     Song song = new Song("New Song", "Artie", -1);
+    //
+    //     boolean result = artist.addSongToCatalog(song);
+    //     assertFalse(result, "Song with invalid duration should not be added");
+    //     assertEquals(0, artist.getCatalog().size(), "Catalog should contain 0 songs");
     // }
 }

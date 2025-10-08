@@ -25,7 +25,7 @@ public class Main {
     /**
      * Service responsible for handling user authentication.
      */
-    private static LoginService loginService = new LoginService(); // Login service instance
+    private static LoginService loginService = new LoginService();
 
     /**
      * Main entry point of the application.
@@ -39,29 +39,26 @@ public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        // Preload a listener user for testing/demo
+        // Preload demo users and songs
         Listener defaultListener = new Listener("testuser@gmail.com", "testuser", "password", 1, new ArrayList<>());
         USERS.add(defaultListener);
-        
+
         Artist defaultArtist = new Artist("artist@gmail.com", "artist", "artistpass", 2);
         USERS.add(defaultArtist);
+
         Song song1 = new Song("Somebody Else", "The 1975", 347);
         Song song2 = new Song("RAWFEAR", "Twenty One Pilots", 202);
         Song song3 = new Song("Hammer", "Lorde", 193);
         Song song4 = new Song("One More Time", "Daft Punk", 320);
         Song song5 = new Song("Club classics", "Charli xcx", 153);
         Song song6 = new Song("Hard Times", "Paramore", 182);
+
         defaultArtist.addSongToCatalog(CATALOG, song1);
         defaultArtist.addSongToCatalog(CATALOG, song2);
         defaultArtist.addSongToCatalog(CATALOG, song3);
         defaultArtist.addSongToCatalog(CATALOG, song4);
         defaultArtist.addSongToCatalog(CATALOG, song5);
         defaultArtist.addSongToCatalog(CATALOG, song6);
-        //ArrayList<Song> artistListTest = defaultArtist.getCatalog(CATALOG);
-        //System.out.println(artistListTest);
-        // ^ test for my modifications for the SearchService/catalog object.
-        // This version now works as I believe it should--we pass the global catalog to the 
-        // artist object so it can modify it, and since it is static the modifications hold.
 
         System.out.println("Welcome to the HMM Music Playlisting Application!");
 
@@ -79,7 +76,6 @@ public class Main {
                     if (loggedInUser != null) {
                         System.out.println("You are now logged in as: " + loggedInUser.getUsername());
                         userToUI(scanner, loggedInUser);
-                        //running = false; // Exit loop after successful account creation
                     }
                     break;
 
@@ -91,7 +87,6 @@ public class Main {
                     loggedInUser = loginService.authenticate(u, p, USERS);
                     if (loggedInUser != null) {
                         userToUI(scanner, loggedInUser);
-                        //running = false;
                     }
                     break;
 
@@ -110,64 +105,58 @@ public class Main {
             }
         }
 
-        // // Demo: populate catalog and perform a few operations
-        // Artist demoArtist = new Artist("artist@gmail.com", "Artie", "secret", 1);
-        // Song song1 = new Song("Bing Bong", "Artie", 69);
-        // demoArtist.addSongToCatalog(song1);
-        // Song song2 = new Song("Whoa", "Artie", 30);
-        // demoArtist.addSongToCatalog(song2);
-
-        // System.out.println("\nCatalog:");
-        // for (Song s : CATALOG) {
-            // System.out.println(" - " + s);
-        // }
-
-        // // If logged in as listener demo playlist ops
-        // if (loggedInUser instanceof Listener) {
-            // Listener listener = (Listener) loggedInUser;
-            // Playlist p1 = listener.createNewPlaylist("Favorites");
-            // boolean added = p1.addSong(new Song("Bing Bong", "Artie", 69));
-            // System.out.println("Added Bing Bong to playlist: " + added);
-            // System.out.println("Playlist length: " + p1.getTotalDurationFormatted());
-        // }
-
         scanner.close();
-        System.out.println("Closing application."); 
+        System.out.println("Closing application.");
     }
 
+    /**
+     * Routes the logged-in {@link User} to the correct user interface (UI)
+     * based on their account type.
+     *
+     * @param scanner the scanner for user input
+     * @param user    the logged-in user
+     */
     private static void userToUI(Scanner scanner, User user) {
         if (user instanceof Listener) {
-            Listener listener = (Listener) user;
-            listenerUI(scanner, listener);
+            listenerUI(scanner, (Listener) user);
         } else if (user instanceof Artist) {
-            Artist artist = (Artist) user;
-            artistUI(scanner, artist);
+            artistUI(scanner, (Artist) user);
         } else if (user instanceof Admin) {
-            Admin admin = (Admin) user;
-            adminUI(scanner, admin);
+            adminUI(scanner, (Admin) user);
         }
     }
-    
+
+    /**
+     * Provides an interactive menu for a {@link Listener} user,
+     * enabling playlist creation, modification, and catalog searching.
+     *
+     * @param scanner  the scanner for reading user input
+     * @param listener the logged-in listener user
+     */
     private static void listenerUI(Scanner scanner, Listener listener) {
         int sizePlaylist;
         boolean running = true;
         while (running) {
-            System.out.println("\n1 = Create a playlist \n2 = View all playlists \n3 = View a specific playlist \n4 = Search the catalog \n5 = Add a song to a playlist \n6 = Remove a song from a playlist \n7 = Delete a specific playlist \n8 = Delete all playlists \n0 = Exit");
+            System.out.println(
+                "\n1 = Create a playlist \n2 = View all playlists \n3 = View a specific playlist " +
+                "\n4 = Search the catalog \n5 = Add a song to a playlist \n6 = Remove a song from a playlist " +
+                "\n7 = Delete a specific playlist \n8 = Delete all playlists \n0 = Exit"
+            );
             System.out.print("Choice: ");
             String choice = scanner.nextLine().trim();
-            
+
             switch (choice) {
-                case "1": 
+                case "1":
                     System.out.print("Enter a playlist title: ");
                     String title = scanner.nextLine();
                     Playlist playlist = listener.createNewPlaylist(title);
                     System.out.println("Playlist '" + title + "' created.");
                     break;
-                    
-                case "2": 
+
+                case "2":
                     listener.listPlaylists();
                     break;
-                    
+
                 case "3":
                     listener.listPlaylists();
                     System.out.print("Enter a playlist index: ");
@@ -175,18 +164,17 @@ public class Main {
                     Playlist viewPlaylist = listener.getPlaylistAtIndex(viewPlaylistIndex);
                     viewPlaylist.listSongs();
                     break;
-                
-                case "4": 
+
+                case "4":
                     System.out.print("Enter a search term: ");
                     String term = scanner.nextLine();
                     ArrayList<Song> results = CATALOG.searchByPartialTitle(term);
-                    int tempSize = results.size();
-                    for(int i = 0; i < tempSize; i++) {
-                        System.out.println("[" + (i+1) + "]" + results.get(i));
+                    for (int i = 0; i < results.size(); i++) {
+                        System.out.println("[" + (i + 1) + "] " + results.get(i));
                     }
                     break;
-                    
-                case "5": 
+
+                case "5":
                     listener.listPlaylists();
                     System.out.print("Enter a playlist index: ");
                     int addPlaylistIndex = Integer.parseInt(scanner.nextLine());
@@ -198,8 +186,8 @@ public class Main {
                     addPlaylist.addSong(addSong);
                     System.out.println("'" + addSong.getTitle() + "' has been added to '" + addPlaylist.getName() + "'.");
                     break;
-                    
-                case "6": 
+
+                case "6":
                     sizePlaylist = listener.getPlaylists().size();
                     if (sizePlaylist > 0) {
                         listener.listPlaylists();
@@ -212,16 +200,14 @@ public class Main {
                             System.out.print("Enter a song index: ");
                             int removeSongIndex = Integer.parseInt(scanner.nextLine());
                             removePlaylist.removeSongAtIndex(removeSongIndex);
-                        }
-                        else {
+                        } else {
                             System.out.print("There are no songs.");
                         }
-                    }
-                    else {
-                        System.out.print("There are no playlist.");
+                    } else {
+                        System.out.print("There are no playlists.");
                     }
                     break;
-                    
+
                 case "7":
                     sizePlaylist = listener.getPlaylists().size();
                     if (sizePlaylist > 0) {
@@ -229,22 +215,20 @@ public class Main {
                         System.out.print("Enter a playlist index: ");
                         int deletePlaylistIndex = Integer.parseInt(scanner.nextLine());
                         listener.deletePlaylistAtIndex(deletePlaylistIndex);
-                    }
-                    else {
-                        System.out.print("There are no playlist to delete");
+                    } else {
+                        System.out.print("There are no playlists to delete.");
                     }
                     break;
-                    
+
                 case "8":
                     sizePlaylist = listener.getPlaylists().size();
                     if (sizePlaylist > 0) {
                         listener.clearPlaylists();
+                    } else {
+                        System.out.print("There are no playlists to delete.");
                     }
-                    else {
-                        System.out.print("There are no playlist to delete");
-                    }
-                    break;                
-                    
+                    break;
+
                 case "0":
                     System.out.println("Exiting...");
                     running = false;
@@ -255,62 +239,74 @@ public class Main {
             }
         }
     }
-    
+
+    /**
+     * Provides an interactive menu for an {@link Artist} user,
+     * enabling song uploads, catalog viewing, and removal.
+     *
+     * @param scanner the scanner for reading user input
+     * @param artist  the logged-in artist user
+     */
     private static void artistUI(Scanner scanner, Artist artist) {
         boolean running = true;
         while (running) {
             System.out.println("\n1 = Upload to global catalog \n2 = Get global catalog \n3 = Remove from global catalog \n0 = Exit");
             System.out.print("Choice: ");
             String choice = scanner.nextLine().trim();
-            
+
             switch (choice) {
-                case "1": 
-                    System.out.print("Type song name to upload to catalog:");
+                case "1":
+                    System.out.print("Type song name to upload to catalog: ");
                     String title = scanner.nextLine().trim();
-                    System.out.print("Enter duration in seconds to add to catalog:");
+                    System.out.print("Enter duration in seconds to add to catalog: ");
                     int time = Integer.parseInt(scanner.nextLine());
                     Song s = new Song(title, artist.getUsername(), time);
                     artist.addSongToCatalog(CATALOG, s);
                     break;
-                    
-                case "2": 
+
+                case "2":
                     ArrayList<Song> results = CATALOG.searchSongByArtist(artist.getUsername());
-                    int tempSize = results.size();
-                    for(int i = 0; i < tempSize; i++) {
-                        System.out.println("[" + i + "]" + results.get(i));
+                    for (int i = 0; i < results.size(); i++) {
+                        System.out.println("[" + i + "] " + results.get(i));
                     }
                     break;
-                    
+
                 case "3":
                     ArrayList<Song> result = CATALOG.searchSongByArtist(artist.getUsername());
-                    tempSize = result.size();
-                    for(int i = 0; i < tempSize; i++) {
-                        System.out.println("[" + i + "]" + result.get(i));
+                    for (int i = 0; i < result.size(); i++) {
+                        System.out.println("[" + i + "] " + result.get(i));
                     }
-                    System.out.print("Enter the index of the song you wan to delete:");
+                    System.out.print("Enter the index of the song you want to delete: ");
                     int removeSongIndex = Integer.parseInt(scanner.nextLine());
                     Song tempResult = result.get(removeSongIndex);
                     boolean checker = CATALOG.removeSongToCatalog(tempResult);
-                    if (checker == true) {
-                        System.out.println(tempResult.getTitle() + " has been removed from the catalog");
+                    if (checker) {
+                        System.out.println(tempResult.getTitle() + " has been removed from the catalog.");
                     }
-                    break;                 
-                
+                    break;
+
                 case "0":
-                    System.out.println("Bye Bye!!!!!!");
+                    System.out.println("Bye Bye!");
                     running = false;
                     break;
-                    
+
                 default:
                     System.out.print("Unknown option.");
-                }
             }
+        }
     }
-    
+
+    /**
+     * Provides an interactive menu for an {@link Admin} user.
+     * <p>Currently a placeholder for future admin-specific operations.</p>
+     *
+     * @param scanner the scanner for reading user input
+     * @param admin   the logged-in admin user
+     */
     private static void adminUI(Scanner scanner, Admin admin) {
         // Placeholder for admin interaction loop
     }
-    
+
     /**
      * Handles account creation flow with duplicate email and username validation.
      *
@@ -331,7 +327,7 @@ public class Main {
         System.out.print("Type L for Listener or A for Artist: ");
         String type = scanner.nextLine().trim().toUpperCase();
 
-        // 🔎 Check for duplicate email or username
+        // Check for duplicate email or username
         for (User u : USERS) {
             if (u.getEmail().equalsIgnoreCase(email)) {
                 System.out.println("❌ Error: An account with this email already exists.");

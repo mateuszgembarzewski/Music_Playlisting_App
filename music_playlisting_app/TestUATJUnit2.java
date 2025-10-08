@@ -3,14 +3,27 @@ import org.junit.Test;
 import java.util.ArrayList;
 
 /**
- * JUnit Test Suite for User Acceptance Testing (UAT)
- * Covers Playlist management, Song management,
- * Listener actions, and Artist interactions in the music app.
+ * <p><b>JUnit Test Suite for User Acceptance Testing (UAT)</b></p>
+ * 
+ * <p>This suite validates key user interactions within the music application,
+ * including playlist management, song manipulation, listener restrictions,
+ * and artist catalog features.</p>
+ *
+ * <p>Primary components under test:</p>
+ * <ul>
+ *   <li>{@code Listener} — manages user playlists and songs</li>
+ *   <li>{@code Playlist} — represents a collection of {@code Song} objects</li>
+ *   <li>{@code Artist} — manages songs uploaded to the catalog</li>
+ *   <li>{@code SearchService} — provides song search capabilities</li>
+ * </ul>
  */
 public class TestUATJUnit2 {
 
     /**
-     * 1. Test Case: Listener creates multiple playlists successfully.
+     * Test Case 1: Verifies that a listener can create multiple playlists successfully.
+     * 
+     * <p>Expected behavior: {@code Listener.createNewPlaylist()} correctly adds
+     * multiple playlists to the listener's collection.</p>
      */
     @Test
     public void testCreateMultiplePlaylists() {
@@ -22,7 +35,10 @@ public class TestUATJUnit2 {
     }
 
     /**
-     * 2. Test Case: Listener removes a playlist successfully.
+     * Test Case 2: Verifies successful removal of a playlist by a listener.
+     * 
+     * <p>Expected behavior: Removing a valid playlist index decreases the total
+     * playlist count by one.</p>
      */
     @Test
     public void testRemovePlaylistSuccess() {
@@ -36,21 +52,26 @@ public class TestUATJUnit2 {
         assertEquals("Playlist should be removed successfully", before - 1, after);
     }
 
-      /**
-     * 3. Test Case: Listener fails to remove a playlist when none exist.
+    /**
+     * Test Case 3: Ensures that attempting to remove a playlist when none exist fails gracefully.
+     * 
+     * <p>Expected behavior: Playlist list size remains unchanged; no exceptions should be thrown.</p>
      */
     @Test
     public void testRemovePlaylistFail() {
         Listener listener = new Listener("listener1@example.com", "listener1", "password", 1, new ArrayList<>());
         int before = listener.getPlaylists().size();
-        listener.deletePlaylistAtIndex(0);  // likely prints an error message, not throw
+
+        listener.deletePlaylistAtIndex(0);  // should handle gracefully
         int after = listener.getPlaylists().size();
 
         assertEquals("Playlist count should remain unchanged when none exist", before, after);
     }
 
     /**
-     * 4. Test Case: Listener removes a song from a playlist successfully.
+     * Test Case 4: Validates successful song removal from an existing playlist.
+     * 
+     * <p>Expected behavior: Removing a song decreases playlist size by one.</p>
      */
     @Test
     public void testRemoveSongFromPlaylistSuccess() {
@@ -67,8 +88,10 @@ public class TestUATJUnit2 {
         assertEquals("Song should be removed from playlist", before - 1, after);
     }
 
-     /**
-     * 5. Test Case: Listener fails to remove a song from an empty playlist.
+    /**
+     * Test Case 5: Ensures that attempting to remove a song from an empty playlist fails gracefully.
+     * 
+     * <p>Expected behavior: Playlist size remains unchanged; no exceptions thrown.</p>
      */
     @Test
     public void testRemoveSongFromEmptyPlaylistFail() {
@@ -77,14 +100,16 @@ public class TestUATJUnit2 {
         Playlist playlist = listener.getPlaylists().get(0);
 
         int before = playlist.getTrackList().size();
-        playlist.removeSongAtIndex(0);  // likely prints 'No songs in playlist'
+        playlist.removeSongAtIndex(0);
         int after = playlist.getTrackList().size();
 
         assertEquals("Song count should remain unchanged for empty playlist", before, after);
     }
 
     /**
-     * 6. Test Case: Listener interacts with the system (creates playlist).
+     * Test Case 6: Verifies that a listener can interact with the system by creating a playlist.
+     * 
+     * <p>Expected behavior: A new playlist is added to the listener’s playlist collection.</p>
      */
     @Test
     public void testListenerSystemInteraction() {
@@ -95,7 +120,9 @@ public class TestUATJUnit2 {
     }
 
     /**
-     * 7. Test Case: Listener restricted from accessing artist-only features.
+     * Test Case 7: Validates that a listener is restricted from performing artist-only actions.
+     * 
+     * <p>Expected behavior: The system should prevent listeners from adding songs to the global catalog.</p>
      */
     @Test
     public void testListenerRestrictedAccess() {
@@ -107,8 +134,9 @@ public class TestUATJUnit2 {
     }
 
     /**
-     * 8. ARTIST_SEARCH_SUCCEED
-     * Test Case: Search by exact song title — song exists for this artist.
+     * Test Case 8: Ensures successful artist song search by song title.
+     * 
+     * <p>Expected behavior: Search returns at least one matching song when it exists in the artist's catalog.</p>
      */
     @Test
     public void testArtistSearchSucceed() {
@@ -125,8 +153,9 @@ public class TestUATJUnit2 {
     }
 
     /**
-     * 9. ARTIST_SEARCH_FAIL
-     * Test Case: Search by exact song title — song does not exist for this artist.
+     * Test Case 9: Ensures search fails when an artist has no matching songs.
+     * 
+     * <p>Expected behavior: Search returns an empty list or no matches for a nonexistent song title.</p>
      */
     @Test
     public void testArtistSearchFail() {
@@ -140,8 +169,9 @@ public class TestUATJUnit2 {
     }
 
     /**
-     * 10. ARTIST_RETURNS_TO_DASH
-     * Test Case: Ensure artist can add multiple songs and return to dashboard without re-login.
+     * Test Case 10: Validates that artists can add multiple songs and remain logged in after actions.
+     * 
+     * <p>Expected behavior: Both songs appear in the catalog after being added by the same artist.</p>
      */
     @Test
     public void testArtistReturnsToDashboard() {
