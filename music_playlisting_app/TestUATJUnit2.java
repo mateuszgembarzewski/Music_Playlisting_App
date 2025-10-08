@@ -101,22 +101,21 @@ public class TestUATJUnit2 {
         }
     }
 
-    /**
-     * 6. Test Case: Listener fails to remove a playlist when none exist.
-     * 
-     * // Commented out for later tweaks
-     * @Test
-     * public void testRemovePlaylistFail() {
-     *     Listener listener = new Listener("listener1@example.com", "listener1", "password", 1, new ArrayList<>());
-     *
-     *     try {
-     *         listener.deletePlaylistAtIndex(0);
-     *         fail("Test Failed: Playlist removal should have failed due to no playlists.");
-     *     } catch (Exception e) {
-     *         assertEquals("No playlists exist", e.getMessage(), "Test Failed: Exception message mismatch");
-     *     }
-     * }
-     */
+    
+    //6. Test Case: Listener fails to remove a playlist when none exist.
+     
+    // Commented out for later tweaks
+    @Test
+    public void testRemovePlaylistFail() {
+        Listener listener = new Listener("listener1@example.com", "listener1", "password", 1, new ArrayList<>());
+        try {
+           listener.deletePlaylistAtIndex(0);
+           fail("Test Failed: Playlist removal should have failed due to no playlists.");
+        } catch (Exception e) {
+            assertEquals("No playlists exist", e.getMessage(), "Test Failed: Exception message mismatch");
+        }
+    }
+    
     
     /**
      * 7. Test Case: Listener fails to remove a song from an empty playlist.
