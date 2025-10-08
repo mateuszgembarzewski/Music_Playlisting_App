@@ -243,7 +243,7 @@ public class Main {
                     System.out.print("Type song name to upload to catalog:");
                     String title = scanner.nextLine().trim();
                     System.out.print("Enter duration in seconds to add to catalog:");
-                    int time = scanner.nextInt();
+                    int time = Integer.parseInt(scanner.nextLine());
                     Song s = new Song(title, artist.getUsername(), time);
                     artist.addSongToCatalog(CATALOG, s);
                     break;
