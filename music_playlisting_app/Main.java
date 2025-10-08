@@ -210,14 +210,26 @@ public class Main {
                     break;
                     
                 case "7":
-                    listener.listPlaylists();
-                    System.out.print("Enter a playlist index: ");
-                    int deletePlaylistIndex = Integer.parseInt(scanner.nextLine());
-                    listener.deletePlaylistAtIndex(deletePlaylistIndex);
+                    int sizePlaylist = listener.getPlaylists().size();
+                    if (sizePlaylist > 0) {
+                        listener.listPlaylists();
+                        System.out.print("Enter a playlist index: ");
+                        int deletePlaylistIndex = Integer.parseInt(scanner.nextLine());
+                        listener.deletePlaylistAtIndex(deletePlaylistIndex);
+                    }
+                    else {
+                        System.out.print("There are no playlist to delete");
+                    }
                     break;
                     
                 case "8":
-                    listener.clearPlaylists();
+                    sizePlaylist = listener.getPlaylists().size();
+                    if (sizePlaylist > 0) {
+                        listener.clearPlaylists();
+                    }
+                    else {
+                        System.out.print("There are no playlist to delete");
+                    }
                     break;                
                     
                 case "0":

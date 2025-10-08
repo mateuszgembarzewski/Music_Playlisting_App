@@ -61,9 +61,22 @@ public class Listener extends User {
     }
     
     public void deletePlaylistAtIndex(int index) {
-        Playlist deleted = playlists.get(index);
-        playlists.remove(index);
-        System.out.println("The playlist '" + deleted.getName() + "' has been deleted from " + this.getUsername() + "'s library.");
+        System.out.println(playlists.size());
+        if (index > playlists.size() - 1) {
+            System.out.println("Provided playlist index is larger than total playlists.");
+            return;
+        }
+        
+        else if (index < 0) {
+            System.out.println("Provided index is < 0, invalid entry.");
+            return;
+        } 
+        
+        else {
+            Playlist deleted = playlists.get(index);
+            playlists.remove(index);
+            System.out.println("The playlist '" + deleted.getName() + "' has been deleted from " + this.getUsername() + "'s library.");   
+        }
     }
     
     /**
