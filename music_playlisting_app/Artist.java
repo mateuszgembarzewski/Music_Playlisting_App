@@ -71,13 +71,46 @@ public class Artist extends User {
     public ArrayList<Song> getCatalog(SearchService catalog) {
         ArrayList<Song> localCatalog = new ArrayList<>();
         ArrayList<Song> globalCatalog = catalog.getGlobalCatalog();
-
+        boolean artistHasSongs = false;
+        // Runs to first check that the artist has any songs at all on the catalog.
+        // If the artist has NO songs, the boolean remains false and nothing happens.
         for (Song s : globalCatalog) {
             if (s.getCreator().equals(this.getUsername())) {
-                localCatalog.add(s);
-                System.out.println(s);
+                artistHasSongs = true;
+                break;
             }
         }
+        // We only try printing data on an Artist's songs if they have any.
+        if (artistHasSongs) {
+            System.out.println("=== " + this.getUsername() + "'s CATALOG ===");
+            for (Song s : globalCatalog) {
+                if (s.getCreator().equals(this.getUsername())) {
+                    localCatalog.add(s);
+                    System.out.println(s);
+                }
+            }
+        } else {
+            System.out.println(this.getUsername() + " does not have any songs.");
+        }
+        
         return localCatalog;
+    }
+    
+    /**
+     * Returns a short description of the Artist.
+     *
+     * @return a formatted summary string for this user.
+     */
+    @Override
+    public String toString() {
+        return "ID#" + super.getId() + " - '" + this.getUsername() + "' - " + this.getEmail() + " - ARTIST";
+    }
+    
+    /**
+     * Called on an Artist object when an Admin type user queries the account.
+     */
+    public void adminQuery() {
+        System.out.println("=== " + this.getUsername() + "'s Data ===");
+        System.out.println(toString());
     }
 }

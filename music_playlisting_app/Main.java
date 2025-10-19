@@ -45,13 +45,23 @@ public class Main {
 
         Artist defaultArtist = new Artist("artist@gmail.com", "artist", "artistpass", 2);
         USERS.add(defaultArtist);
+        
+        Admin admin = new Admin("admin@gmail.com", "admin", "adminpass", 3);
+        USERS.add(admin);
+        
+        // Users with no data
+        Listener noNameListener = new Listener("noname1@gmail.com", "noname", "password", 1, new ArrayList<>());
+        USERS.add(noNameListener);
 
-        Song song1 = new Song("Somebody Else", "The 1975", 347);
-        Song song2 = new Song("RAWFEAR", "Twenty One Pilots", 202);
-        Song song3 = new Song("Hammer", "Lorde", 193);
-        Song song4 = new Song("One More Time", "Daft Punk", 320);
-        Song song5 = new Song("Club classics", "Charli xcx", 153);
-        Song song6 = new Song("Hard Times", "Paramore", 182);
+        Artist noNameArtist = new Artist("noname2@gmail.com", "nothing", "password", 2);
+        USERS.add(noNameArtist);
+
+        Song song1 = new Song("Somebody Else", "artist", 347);
+        Song song2 = new Song("RAWFEAR", "artist", 202);
+        Song song3 = new Song("Hammer", "artist", 193);
+        Song song4 = new Song("One More Time", "artist", 320);
+        Song song5 = new Song("Club classics", "artist", 153);
+        Song song6 = new Song("Hard Times", "artist", 182);
 
         defaultArtist.addSongToCatalog(CATALOG, song1);
         defaultArtist.addSongToCatalog(CATALOG, song2);
@@ -66,7 +76,11 @@ public class Main {
         User loggedInUser = null;
 
         while (running) {
-            System.out.println("\n1 = Create Account \n2 = Login \n0 = Exit");
+            System.out.println(
+                "\n1 = Create Account " + 
+                "\n2 = Login " + 
+                "\n0 = Exit"
+            );
             System.out.print("Choice: ");
             String choice = scanner.nextLine().trim();
 
@@ -138,9 +152,15 @@ public class Main {
         boolean running = true;
         while (running) {
             System.out.println(
-                "\n1 = Create a playlist \n2 = View all playlists \n3 = View a specific playlist " +
-                "\n4 = Search the catalog \n5 = Add a song to a playlist \n6 = Remove a song from a playlist " +
-                "\n7 = Delete a specific playlist \n8 = Delete all playlists \n0 = Exit"
+                "\n1 = Create a playlist " + 
+                "\n2 = View all playlists " + 
+                "\n3 = View a specific playlist " +
+                "\n4 = Search the catalog " + 
+                "\n5 = Add a song to a playlist " + 
+                "\n6 = Remove a song from a playlist " +
+                "\n7 = Delete a specific playlist " + 
+                "\n8 = Delete all playlists " + 
+                "\n0 = Exit"
             );
             System.out.print("Choice: ");
             String choice = scanner.nextLine().trim();
@@ -162,7 +182,11 @@ public class Main {
                     System.out.print("Enter a playlist index: ");
                     int viewPlaylistIndex = Integer.parseInt(scanner.nextLine());
                     Playlist viewPlaylist = listener.getPlaylistAtIndex(viewPlaylistIndex);
-                    viewPlaylist.listSongs();
+                    if (viewPlaylist.getTrackList().size() > 0) {
+                        viewPlaylist.listSongs();
+                    } else {
+                        System.out.println(viewPlaylist.getName() + " is empty.");
+                    }
                     break;
 
                 case "4":
@@ -250,7 +274,12 @@ public class Main {
     private static void artistUI(Scanner scanner, Artist artist) {
         boolean running = true;
         while (running) {
-            System.out.println("\n1 = Upload to global catalog \n2 = Get global catalog \n3 = Remove from global catalog \n0 = Exit");
+            System.out.println(
+                "\n1 = Upload to global catalog" + 
+                "\n2 = Get global catalog " + 
+                "\n3 = Remove from global catalog " + 
+                "\n0 = Exit"
+            );
             System.out.print("Choice: ");
             String choice = scanner.nextLine().trim();
 
@@ -304,7 +333,57 @@ public class Main {
      * @param admin   the logged-in admin user
      */
     private static void adminUI(Scanner scanner, Admin admin) {
-        // Placeholder for admin interaction loop
+        boolean running = true;
+        while (running) {
+            System.out.println(
+                "\n1 = List all users" +
+                "\n2 = Query a user" + 
+                "\n3 = Upload to global catalog" + 
+                "\n4 = Remove from global catalog" + 
+                "\n5 = Add new user" + 
+                "\n6 = Delete a user" + 
+                "\n0 = Exit"
+            );
+            System.out.print("Choice: ");
+            String choice = scanner.nextLine().trim();
+
+            switch (choice) {
+                case "1":
+                    if (USERS.size() <= 0) {
+                        System.out.println("No users.");
+                    } else {
+                        listUsers();
+                    }
+                    break; 
+                
+                case "2":
+                    if (USERS.size() <= 0) {
+                        System.out.println("No users.");
+                    } else {
+                        listUsers();
+                    }
+                    System.out.print("Enter a user index: ");
+                    int userIndex = Integer.parseInt(scanner.nextLine());
+                    // Validate user input
+                    if (USERS.size() <= 0) {
+                        System.out.println("No users.");
+                    } else if (userIndex < USERS.size() && userIndex >= 0) {
+                        queryUser(USERS.get(userIndex), scanner); 
+                        // Passes User object and Scanner forward since we may need to ask the user to select a playlist as well.
+                    } else {
+                        System.out.println("Invalid index.");
+                    }
+                    break;
+                    
+                case "0":
+                    System.out.println("Exiting...");
+                    running = false;
+                    break;
+
+                default:
+                    System.out.println("Unknown option.");
+            }
+        }
     }
 
     /**
@@ -355,4 +434,52 @@ public class Main {
 
         return newUser;
     }
+    
+    private static void listUsers() {
+        System.out.println("=== ALL USERS ===");
+        for (int i = 0; i < USERS.size(); i++) {
+            System.out.println("[" + i + "] - " + USERS.get(i).toString());
+        }
+    }
+    
+    /**
+     * Called from Admin user Choice #2
+     * 
+     * @param User queryUser -- the User we are querying data for from the Admin perspective
+     * @param Scanner scanner -- Keep the Scanner object consistent so we can continue taking in user input without interuption.
+     */
+    private static void queryUser(User queryUser, Scanner scanner) {
+        // Check the type of user
+        if (queryUser instanceof Listener) {
+            Listener queryListener = (Listener) queryUser; // Cast to new listener-type object
+            queryListener.adminQuery(); // Run listener.adminQuery() to print general data
+            
+            // We need only proceed if this Listener has playlists
+            if (queryListener.getPlaylists().size() > 0) { 
+                System.out.print("Enter a playlist index: ");
+                int viewPlaylistIndex = Integer.parseInt(scanner.nextLine());
+                // If-else validates the user input
+                if (viewPlaylistIndex < queryListener.getPlaylists().size() && viewPlaylistIndex >= 0) {
+                    Playlist viewPlaylist = queryListener.getPlaylistAtIndex(viewPlaylistIndex);
+                    // Only run Playlist.listSongs() if the tracklist actually has Songs to list.
+                    if (viewPlaylist.getTrackList().size() > 0) {
+                        viewPlaylist.listSongs();
+                    } else {
+                        System.out.println(viewPlaylist.getName() + " is empty.");
+                    }
+                } else {
+                    System.out.println("Invalid index.");
+                }
+            }
+        } else if (queryUser instanceof Artist) {
+            Artist queryArtist = (Artist) queryUser;
+            queryArtist.adminQuery();
+            // Printing the Catalog must be done from Main as the Catalog must be passed forward to the Artist class.
+            ArrayList artistCatalog = queryArtist.getCatalog(CATALOG);
+        } else if (queryUser instanceof Admin) {
+            Admin queryAdmin = (Admin) queryUser;
+            queryAdmin.adminQuery();
+        }
+    }
+
 }

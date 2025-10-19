@@ -108,11 +108,17 @@ public class Listener extends User {
      */
     public void listPlaylists() {
         int i = 0;
-        System.out.println("=== " + this.getUsername() + "'s Playlists ===");
-        for (Playlist p : playlists) {
-            System.out.println("[" + i + "] - " + p.toString());
-            i++;
+        // Checks the amount of playlists before trying to print data on them.
+        if (playlists.size() > 0) {
+            System.out.println("=== " + this.getUsername() + "'s Playlists ===");
+            for (Playlist p : playlists) {
+                System.out.println("[" + i + "] - " + p.toString());
+                i++;
+            }
+        } else {
+            System.out.println(this.getUsername() + " does not have any playlists.");
         }
+        
     }
 
     /**
@@ -122,5 +128,24 @@ public class Listener extends User {
      */
     public ArrayList<Song> getPersonalLibrary() {
         return personalLibrary;
+    }
+    
+    /**
+     * Returns a short description of the Listener.
+     *
+     * @return a formatted summary string for this user.
+     */
+    @Override
+    public String toString() {
+        return "ID#" + super.getId() + " - '" + this.getUsername() + "' - " + this.getEmail() + " - LISTENER";
+    }
+    
+    /**
+     * Called on an Listener object when an Admin type user queries the account.
+     */
+    public void adminQuery() {
+        System.out.println("=== " + this.getUsername() + "'s Data ===");
+        System.out.println(toString());
+        listPlaylists();
     }
 }

@@ -81,4 +81,22 @@ public class Admin extends User {
     public void deleteAllPlaylistsForListener(Listener listener) {
         listener.clearPlaylists();
     }
+    
+    /**
+     * Returns a short description of the Admin.
+     *
+     * @return a formatted summary string for this user.
+     */
+    @Override
+    public String toString() {
+        return "ID#" + super.getId() + " - '" + this.getUsername() + "' - " + this.getEmail() + " - ADMIN";
+    }
+    
+    /**
+     * Called on an Admin object when an Admin type user queries the account.
+     */
+    public void adminQuery() {
+        System.out.println("=== " + this.getUsername() + "'s Data ===");
+        System.out.println(toString());
+    }
 }
