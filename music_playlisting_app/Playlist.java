@@ -55,7 +55,7 @@ public class Playlist {
      *
      * @return the tracklist
      */
-    public ArrayList<Song> getTrackList() {
+    public ArrayList<Song> getTracklist() {
         return tracklist;
     }
 

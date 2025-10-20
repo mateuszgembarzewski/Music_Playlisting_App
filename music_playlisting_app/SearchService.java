@@ -43,13 +43,14 @@ public class SearchService {
      */
     public boolean addSongToCatalog(Song song) {
         if (song == null) return false;
-        for (Song s : songCatalog) {
-            if (s.equals(song)) {
-                return false; // Song already exists
-            }
+        // Refactored present code to use ArrayList.contains() method instead of a for-loop to find a match
+        // This is cleaner--use this scheme if you need to be certain an object exists before doing an action on it.
+        if (songCatalog.contains(song)) {
+            return false;
+        } else {
+            songCatalog.add(song);
+            return true;
         }
-        songCatalog.add(song);
-        return true;
     }
 
     /**
@@ -59,17 +60,10 @@ public class SearchService {
      * @return {@code true} if the song was found and removed;
      *         {@code false} otherwise
      */
-    public boolean removeSongToCatalog(Song song) {
-        int find = 0;
-        for (Song s : songCatalog) {
-            if (s.equals(song)) {
-                find = 1;
-                break;
-            } else {
-                find = 0;
-            }
-        }
-        if (find == 1) {
+    public boolean removeSongFromCatalog(Song song) {
+        // We only try to remove a song that we can prove exists
+        // See comment in addSongToCatalog method above
+        if (songCatalog.contains(song)) {
             songCatalog.remove(song);
             return true;
         } else {

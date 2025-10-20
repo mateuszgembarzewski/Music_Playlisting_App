@@ -45,7 +45,7 @@ public class Listener extends User {
      * Removes all playlists owned by the listener.
      * Prints a confirmation message upon completion.
      */
-    public void clearPlaylists() {
+    public void clearLibrary() {
         playlists.clear();
         System.out.println("All of " + this.getUsername() + "'s playlists have been removed.");
     }
@@ -99,14 +99,14 @@ public class Listener extends User {
      *
      * @return an {@link ArrayList} of {@link Playlist} objects
      */
-    public ArrayList<Playlist> getPlaylists() {
+    public ArrayList<Playlist> getLibrary() {
         return playlists;
     }
 
     /**
      * Prints all playlists owned by the listener with their corresponding indexes.
      */
-    public void listPlaylists() {
+    public void listLibrary() {
         int i = 0;
         // Checks the amount of playlists before trying to print data on them.
         if (playlists.size() > 0) {
@@ -146,6 +146,6 @@ public class Listener extends User {
     public void adminQuery() {
         System.out.println("=== " + this.getUsername() + "'s Data ===");
         System.out.println(toString());
-        listPlaylists();
+        listLibrary();
     }
 }

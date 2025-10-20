@@ -46,7 +46,7 @@ public class TestUAT2 {
         listener.createNewPlaylist("Playlist #1");
         listener.createNewPlaylist("Playlist #2");
 
-        assert listener.getPlaylists().size() == 2 : "Test Failed: Listener should have created 2 playlists";
+        assert listener.getLibrary().size() == 2 : "Test Failed: Listener should have created 2 playlists";
         System.out.println("\nFUNC_CREATE_MULTIPLE_PLAYLISTS: Passed");
     }
 
@@ -58,11 +58,11 @@ public class TestUAT2 {
     public void testRemovePlaylistSuccess() {
         Listener listener = new Listener("listener1@example.com", "listener1", "password", 1, new ArrayList<>());
         listener.createNewPlaylist("Playlist #1");
-        int before = listener.getPlaylists().size();
+        int before = listener.getLibrary().size();
 
         try {
             listener.deletePlaylistAtIndex(0);
-            int after = listener.getPlaylists().size();
+            int after = listener.getLibrary().size();
             assert after == before - 1 : "Test Failed: Playlist should be removed successfully";
             System.out.println("FUNC_REMOVE_PLAYLIST_SUCCESS: Passed");
         } catch (Exception e) {
@@ -94,12 +94,12 @@ public class TestUAT2 {
     public void testRemoveSongFromPlaylistSuccess() {
         Listener listener = new Listener("listener1@example.com", "listener1", "password", 1, new ArrayList<>());
         listener.createNewPlaylist("Chill Vibes");
-        Playlist playlist = listener.getPlaylists().get(0);
+        Playlist playlist = listener.getLibrary().get(0);
         Song song = new Song("Song A", "Artist A", 200);
         playlist.addSong(song);
 
         try {
-            ArrayList<Song> PS = playlist.getTrackList();
+            ArrayList<Song> PS = playlist.getTracklist();
             int before = PS.size();
             Song songToRemove = PS.get(0);
             playlist.removeSongAtIndex(0);
@@ -119,7 +119,7 @@ public class TestUAT2 {
     public void testRemoveSongFromEmptyPlaylistFail() {
         Listener listener = new Listener("listener1@example.com", "listener1", "password", 1, new ArrayList<>());
         listener.createNewPlaylist("Empty Playlist");
-        Playlist playlist = listener.getPlaylists().get(0);
+        Playlist playlist = listener.getLibrary().get(0);
         try {
             playlist.removeSongAtIndex(0);
             System.out.println("FUNC_REMOVE_SONG_EMPTY_PLAYLIST_FAIL: Passed");
@@ -138,7 +138,7 @@ public class TestUAT2 {
         Listener listener = new Listener("listener1@example.com", "listener1", "password", 1, new ArrayList<>());
         listener.createNewPlaylist("My Hits");
 
-        assert listener.getPlaylists().size() > 0 : "Test Failed: Listener should have interacted with the system and created a playlist";
+        assert listener.getLibrary().size() > 0 : "Test Failed: Listener should have interacted with the system and created a playlist";
         System.out.println("FUNC_LISTENER_SYSTEM_INTERACTION: Passed");
     }
 

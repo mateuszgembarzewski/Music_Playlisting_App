@@ -79,7 +79,7 @@ public class Admin extends User {
      * @param listener the {@link Listener} whose playlists will be cleared
      */
     public void deleteAllPlaylistsForListener(Listener listener) {
-        listener.clearPlaylists();
+        listener.clearLibrary();
     }
     
     /**

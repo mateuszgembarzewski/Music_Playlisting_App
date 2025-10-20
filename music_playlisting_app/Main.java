@@ -79,7 +79,7 @@ public class Main {
             System.out.println(
                 "\n1 = Create Account " + 
                 "\n2 = Login " + 
-                "\n0 = Exit"
+                "\n0 = Close application"
             );
             System.out.print("Choice: ");
             String choice = scanner.nextLine().trim();
@@ -148,8 +148,9 @@ public class Main {
      * @param listener the logged-in listener user
      */
     private static void listenerUI(Scanner scanner, Listener listener) {
-        int sizePlaylist;
-        boolean running = true;
+        int sizePlaylist; // Value for Delete playlist functions
+        boolean running = true; // Is only set to false on Choice 0; Log out
+        // while in the context of this while loop, the user is a listener interacting w/ listener-role systems
         while (running) {
             System.out.println(
                 "\n1 = Create a playlist " + 
@@ -160,11 +161,10 @@ public class Main {
                 "\n6 = Remove a song from a playlist " +
                 "\n7 = Delete a specific playlist " + 
                 "\n8 = Delete all playlists " + 
-                "\n0 = Exit"
+                "\n0 = Log out"
             );
             System.out.print("Choice: ");
             String choice = scanner.nextLine().trim();
-
             switch (choice) {
                 case "1":
                     System.out.print("Enter a playlist title: ");
@@ -174,15 +174,15 @@ public class Main {
                     break;
 
                 case "2":
-                    listener.listPlaylists();
+                    listener.listLibrary();
                     break;
 
                 case "3":
-                    listener.listPlaylists();
+                    listener.listLibrary();
                     System.out.print("Enter a playlist index: ");
                     int viewPlaylistIndex = Integer.parseInt(scanner.nextLine());
                     Playlist viewPlaylist = listener.getPlaylistAtIndex(viewPlaylistIndex);
-                    if (viewPlaylist.getTrackList().size() > 0) {
+                    if (viewPlaylist.getTracklist().size() > 0) {
                         viewPlaylist.listSongs();
                     } else {
                         System.out.println(viewPlaylist.getName() + " is empty.");
@@ -199,26 +199,39 @@ public class Main {
                     break;
 
                 case "5":
-                    listener.listPlaylists();
-                    System.out.print("Enter a playlist index: ");
-                    int addPlaylistIndex = Integer.parseInt(scanner.nextLine());
-                    Playlist addPlaylist = listener.getPlaylistAtIndex(addPlaylistIndex);
-                    CATALOG.listSongs();
-                    System.out.print("Enter a song index: ");
-                    int addSongIndex = Integer.parseInt(scanner.nextLine());
-                    Song addSong = CATALOG.getSongAtIndex(addSongIndex);
-                    addPlaylist.addSong(addSong);
-                    System.out.println("'" + addSong.getTitle() + "' has been added to '" + addPlaylist.getName() + "'.");
+                    listener.listLibrary();
+                    // Don't allow the user to enter a value if they have no playlists.   
+                    if (listener.getLibrary().size() > 0) {
+                        System.out.print("Enter a playlist index: ");
+                        int addPlaylistIndex = Integer.parseInt(scanner.nextLine());
+                        // Validate user input 
+                        if (addPlaylistIndex < listener.getLibrary().size() && addPlaylistIndex >= 0) {
+                            Playlist addPlaylist = listener.getPlaylistAtIndex(addPlaylistIndex);
+                            CATALOG.listSongs();
+                            System.out.print("Enter a song index: ");
+                            int addSongIndex = Integer.parseInt(scanner.nextLine());
+                            // Validate user input 
+                            if (addSongIndex < CATALOG.getGlobalCatalog().size() && addSongIndex >= 0) {
+                                Song addSong = CATALOG.getSongAtIndex(addSongIndex);
+                                addPlaylist.addSong(addSong);
+                                System.out.println("'" + addSong.getTitle() + "' has been added to '" + addPlaylist.getName() + "'.");
+                            } else {
+                                System.out.println("Invalid index.");
+                            }
+                        } else {
+                            System.out.println("Invalid index.");
+                        }
+                    }
                     break;
 
                 case "6":
-                    sizePlaylist = listener.getPlaylists().size();
+                    sizePlaylist = listener.getLibrary().size();
                     if (sizePlaylist > 0) {
-                        listener.listPlaylists();
+                        listener.listLibrary();
                         System.out.print("Enter a playlist index: ");
                         int removePlaylistIndex = Integer.parseInt(scanner.nextLine());
                         Playlist removePlaylist = listener.getPlaylistAtIndex(removePlaylistIndex);
-                        int sizeSongs = removePlaylist.getTrackList().size();
+                        int sizeSongs = removePlaylist.getTracklist().size();
                         if (sizeSongs > 0) {
                             removePlaylist.listSongs();
                             System.out.print("Enter a song index: ");
@@ -233,9 +246,9 @@ public class Main {
                     break;
 
                 case "7":
-                    sizePlaylist = listener.getPlaylists().size();
+                    sizePlaylist = listener.getLibrary().size();
                     if (sizePlaylist > 0) {
-                        listener.listPlaylists();
+                        listener.listLibrary();
                         System.out.print("Enter a playlist index: ");
                         int deletePlaylistIndex = Integer.parseInt(scanner.nextLine());
                         listener.deletePlaylistAtIndex(deletePlaylistIndex);
@@ -245,16 +258,16 @@ public class Main {
                     break;
 
                 case "8":
-                    sizePlaylist = listener.getPlaylists().size();
+                    sizePlaylist = listener.getLibrary().size();
                     if (sizePlaylist > 0) {
-                        listener.clearPlaylists();
+                        listener.clearLibrary();
                     } else {
                         System.out.print("There are no playlists to delete.");
                     }
                     break;
 
                 case "0":
-                    System.out.println("Exiting...");
+                    System.out.println("Logging out...");
                     running = false;
                     break;
 
@@ -278,7 +291,7 @@ public class Main {
                 "\n1 = Upload to global catalog" + 
                 "\n2 = Get global catalog " + 
                 "\n3 = Remove from global catalog " + 
-                "\n0 = Exit"
+                "\n0 = Log out"
             );
             System.out.print("Choice: ");
             String choice = scanner.nextLine().trim();
@@ -308,14 +321,19 @@ public class Main {
                     System.out.print("Enter the index of the song you want to delete: ");
                     int removeSongIndex = Integer.parseInt(scanner.nextLine());
                     Song tempResult = result.get(removeSongIndex);
-                    boolean checker = CATALOG.removeSongToCatalog(tempResult);
+                    boolean checker = CATALOG.removeSongFromCatalog(tempResult);
                     if (checker) {
                         System.out.println(tempResult.getTitle() + " has been removed from the catalog.");
+                    }
+                    
+                    boolean removePlaylistSuccess = removeSongFromPlaylists(tempResult);
+                    if (!removePlaylistSuccess){
+                        System.out.println("Song did not exist in any playlists.");
                     }
                     break;
 
                 case "0":
-                    System.out.println("Bye Bye!");
+                    System.out.println("Logging out...");
                     running = false;
                     break;
 
@@ -327,7 +345,6 @@ public class Main {
 
     /**
      * Provides an interactive menu for an {@link Admin} user.
-     * <p>Currently a placeholder for future admin-specific operations.</p>
      *
      * @param scanner the scanner for reading user input
      * @param admin   the logged-in admin user
@@ -342,11 +359,11 @@ public class Main {
                 "\n4 = Remove from global catalog" + 
                 "\n5 = Add new user" + 
                 "\n6 = Delete a user" + 
-                "\n0 = Exit"
+                "\n0 = Logout"
             );
+            
             System.out.print("Choice: ");
             String choice = scanner.nextLine().trim();
-
             switch (choice) {
                 case "1":
                     if (USERS.size() <= 0) {
@@ -365,9 +382,7 @@ public class Main {
                     System.out.print("Enter a user index: ");
                     int userIndex = Integer.parseInt(scanner.nextLine());
                     // Validate user input
-                    if (USERS.size() <= 0) {
-                        System.out.println("No users.");
-                    } else if (userIndex < USERS.size() && userIndex >= 0) {
+                    if (userIndex < USERS.size() && userIndex >= 0) {
                         queryUser(USERS.get(userIndex), scanner); 
                         // Passes User object and Scanner forward since we may need to ask the user to select a playlist as well.
                     } else {
@@ -375,8 +390,55 @@ public class Main {
                     }
                     break;
                     
+                case "3":
+                    // Entered value for "artistName" will correlate to the account the song is tied to-- so if you add a song by "artist" and
+                    // log in with the 'artist' and 'artistpass' credentials and check the local artist catalog, you will see the song.
+                    System.out.print("Enter a song title: ");
+                    String title = scanner.nextLine().trim();
+                    System.out.print("Enter the name of the song's artist: ");
+                    String artistName = scanner.nextLine().trim();
+                    System.out.print("Enter duration in seconds to add to catalog: ");
+                    int time = Integer.parseInt(scanner.nextLine());
+                    Song s = new Song(title, artistName, time);
+                    boolean addSuccess = CATALOG.addSongToCatalog(s);
+                    // Print off information based on outcome.
+                    // SearchService.addSongToCatalog() returns false if 
+                    if (addSuccess) {
+                        System.out.println("Added: " + s.toString());
+                    } else {
+                        System.out.println("Song already exists in catalog.");
+                    }
+                    break;
+                    
+                case "4":
+                    if (CATALOG.getGlobalCatalog().size() <= 0) {
+                        System.out.println("No songs exist on the catalog.");
+                    } else {
+                        CATALOG.listSongs();
+                    }
+                    System.out.print("Enter a song index: ");
+                    int removeSongIndex = Integer.parseInt(scanner.nextLine());
+                    // Validate user input
+                    if (removeSongIndex < CATALOG.getGlobalCatalog().size() && removeSongIndex >= 0) {
+                        Song removeSong = CATALOG.getSongAtIndex(removeSongIndex);
+                        boolean removeCatalogSuccess = CATALOG.removeSongFromCatalog(removeSong);
+                        boolean removePlaylistSuccess = removeSongFromPlaylists(removeSong);
+                        // If song was successfully removed, print information about it
+                        if (removeCatalogSuccess) {
+                            System.out.println("Removed: " + removeSong.toString());
+                        } else {
+                            System.out.println("Song does not exist on the catalog.");
+                        }
+                        if (!removePlaylistSuccess) {
+                            System.out.println("Song did not exist in any playlists.");
+                        } 
+                    } else {
+                        System.out.println("Invalid index.");
+                    }
+                    break;
+                    
                 case "0":
-                    System.out.println("Exiting...");
+                    System.out.println("Logging out...");
                     running = false;
                     break;
 
@@ -423,11 +485,11 @@ public class Main {
         if ("A".equals(type)) {
             newUser = new Artist(email, username, password, USERS.size() + 1);
             USERS.add(newUser);
-            System.out.println("✅ Artist account created successfully!");
+            System.out.println("Artist account created successfully!");
         } else if ("L".equals(type)) {
             newUser = new Listener(email, username, password, USERS.size() + 1, new ArrayList<>());
             USERS.add(newUser);
-            System.out.println("✅ Listener account created successfully!");
+            System.out.println("Listener account created successfully!");
         } else {
             System.out.println("❌ Invalid type, account creation rejected.");
         }
@@ -455,14 +517,14 @@ public class Main {
             queryListener.adminQuery(); // Run listener.adminQuery() to print general data
             
             // We need only proceed if this Listener has playlists
-            if (queryListener.getPlaylists().size() > 0) { 
+            if (queryListener.getLibrary().size() > 0) { 
                 System.out.print("Enter a playlist index: ");
                 int viewPlaylistIndex = Integer.parseInt(scanner.nextLine());
                 // If-else validates the user input
-                if (viewPlaylistIndex < queryListener.getPlaylists().size() && viewPlaylistIndex >= 0) {
+                if (viewPlaylistIndex < queryListener.getLibrary().size() && viewPlaylistIndex >= 0) {
                     Playlist viewPlaylist = queryListener.getPlaylistAtIndex(viewPlaylistIndex);
                     // Only run Playlist.listSongs() if the tracklist actually has Songs to list.
-                    if (viewPlaylist.getTrackList().size() > 0) {
+                    if (viewPlaylist.getTracklist().size() > 0) {
                         viewPlaylist.listSongs();
                     } else {
                         System.out.println(viewPlaylist.getName() + " is empty.");
@@ -482,4 +544,33 @@ public class Main {
         }
     }
 
+    /**
+     * Iterates through all listener's libraries' and playlists' and removes a specific song.
+     * 
+     * @param Song removeSong -- the song we are searching for and removing
+     */
+    private static boolean removeSongFromPlaylists(Song removeSong) {
+        boolean success = false;
+        for (User u : USERS) {
+            if (u instanceof Listener) {
+                Listener l = (Listener) u;
+                ArrayList<Playlist> library = l.getLibrary();
+                for (Playlist p : library) {
+                    ArrayList<Song> tracklist = p.getTracklist();
+                    for (Song s : tracklist) {
+                        if (tracklist.contains(removeSong)) {
+                            success = true;
+                        }
+                    }
+                    // Only try to remove the song if a match was found
+                    // This avoids a ConcurrentModificationException that
+                    // you reach when trying to modify the playlist during iteration
+                    if (success) {
+                        p.removeSong(removeSong);
+                    }
+                }
+            }
+        }
+        return success;
+    }
 }

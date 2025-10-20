@@ -31,7 +31,7 @@ public class TestUATJUnit2 {
         listener.createNewPlaylist("Playlist #1");
         listener.createNewPlaylist("Playlist #2");
 
-        assertEquals("Listener should have created 2 playlists", 2, listener.getPlaylists().size());
+        assertEquals("Listener should have created 2 playlists", 2, listener.getLibrary().size());
     }
 
     /**
@@ -44,10 +44,10 @@ public class TestUATJUnit2 {
     public void testRemovePlaylistSuccess() {
         Listener listener = new Listener("listener1@example.com", "listener1", "password", 1, new ArrayList<>());
         listener.createNewPlaylist("Playlist #1");
-        int before = listener.getPlaylists().size();
+        int before = listener.getLibrary().size();
 
         listener.deletePlaylistAtIndex(0);
-        int after = listener.getPlaylists().size();
+        int after = listener.getLibrary().size();
 
         assertEquals("Playlist should be removed successfully", before - 1, after);
     }
@@ -60,10 +60,10 @@ public class TestUATJUnit2 {
     @Test
     public void testRemovePlaylistFail() {
         Listener listener = new Listener("listener1@example.com", "listener1", "password", 1, new ArrayList<>());
-        int before = listener.getPlaylists().size();
+        int before = listener.getLibrary().size();
 
         listener.deletePlaylistAtIndex(0);  // should handle gracefully
-        int after = listener.getPlaylists().size();
+        int after = listener.getLibrary().size();
 
         assertEquals("Playlist count should remain unchanged when none exist", before, after);
     }
@@ -77,13 +77,13 @@ public class TestUATJUnit2 {
     public void testRemoveSongFromPlaylistSuccess() {
         Listener listener = new Listener("listener1@example.com", "listener1", "password", 1, new ArrayList<>());
         listener.createNewPlaylist("Chill Vibes");
-        Playlist playlist = listener.getPlaylists().get(0);
+        Playlist playlist = listener.getLibrary().get(0);
         Song song = new Song("Song A", "Artist A", 200);
         playlist.addSong(song);
 
-        int before = playlist.getTrackList().size();
+        int before = playlist.getTracklist().size();
         playlist.removeSongAtIndex(0);
-        int after = playlist.getTrackList().size();
+        int after = playlist.getTracklist().size();
 
         assertEquals("Song should be removed from playlist", before - 1, after);
     }
@@ -97,11 +97,11 @@ public class TestUATJUnit2 {
     public void testRemoveSongFromEmptyPlaylistFail() {
         Listener listener = new Listener("listener1@example.com", "listener1", "password", 1, new ArrayList<>());
         listener.createNewPlaylist("Empty Playlist");
-        Playlist playlist = listener.getPlaylists().get(0);
+        Playlist playlist = listener.getLibrary().get(0);
 
-        int before = playlist.getTrackList().size();
+        int before = playlist.getTracklist().size();
         playlist.removeSongAtIndex(0);
-        int after = playlist.getTrackList().size();
+        int after = playlist.getTracklist().size();
 
         assertEquals("Song count should remain unchanged for empty playlist", before, after);
     }
@@ -116,7 +116,7 @@ public class TestUATJUnit2 {
         Listener listener = new Listener("listener1@example.com", "listener1", "password", 1, new ArrayList<>());
         listener.createNewPlaylist("My Hits");
 
-        assertTrue("Listener should have created a playlist", listener.getPlaylists().size() > 0);
+        assertTrue("Listener should have created a playlist", listener.getLibrary().size() > 0);
     }
 
     /**
