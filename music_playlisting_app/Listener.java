@@ -19,9 +19,9 @@ public class Listener extends User {
      * @param id       unique identifier for listener
      * @param library  library (collection of Playlists) for the listener
      */
-    public Listener(String email, String username, String password, int id, ArrayList<Song> library) {
+    public Listener(String email, String username, String password, int id, ArrayList<Playlist> library) {
         super(email, username, password, id); // Inherits from User class
-        this.library = new ArrayList<>();
+        this.library = new ArrayList<Playlist>();
     }
 
     /**
@@ -31,7 +31,7 @@ public class Listener extends User {
      * @return Playlist object of the new playlist.  Any string is valid.
      */
     public Playlist createNewPlaylist(String playlistName) {
-        Playlist newPlaylist = new Playlist(playlistName, this.getUsername(), new ArrayList<>());
+        Playlist newPlaylist = new Playlist(playlistName, this.getUsername(), new ArrayList<Song>());
         library.add(newPlaylist);  // Add the new playlist to the listener's list of playlists
         return newPlaylist;
     }
