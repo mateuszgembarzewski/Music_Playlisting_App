@@ -127,6 +127,6 @@ public class Listener extends User {
     public void adminQuery() {
         System.out.println("=== " + this.getUsername() + "'s Data ===");
         System.out.println(toString());
-        listLibrary();
+        listLibrary(); // Specific to this adminQuery().
     }
 }
