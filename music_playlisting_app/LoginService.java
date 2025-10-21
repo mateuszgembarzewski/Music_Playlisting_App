@@ -1,19 +1,27 @@
 import java.util.*;
+import java.util.regex.*;
 
-/**
- * Service responsible for handling user authentication and account lockouts.
- *
- * <p>This class validates user login attempts, tracks failed login counts,
- * enforces temporary account lockouts after repeated failures, and resets
- * counters upon successful login.</p>
- */
 public class LoginService {
-
-    /**
-     * Maximum number of allowed failed login attempts before locking the account.
-     */
-    private static final int MAX_FAILED_ATTEMPTS = 3;
-
+    
+    public static boolean isValidUsername(String username) {
+        String usernameRegex = "^[A-Za-z][A-Za-z0-9_]{5,30}$";
+        Pattern pattern = Pattern.compile(usernameRegex);
+        return username !=null && pattern.matcher(username).matches();
+    }
+    
+    public static boolean isValidEmail(String email) {
+        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@" +
+                            "(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+        Pattern pattern = Pattern.compile(emailRegex);
+        return email !=null && pattern.matcher(email).matches();
+    }
+    
+    public static boolean isValidPassword(String password) {
+        String passwordRegex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,20}$";
+        Pattern pattern = Pattern.compile(passwordRegex);
+        return password !=null && pattern.matcher(password).matches();
+    }
+    
     /**
      * Map tracking the number of failed login attempts by username.
      * <p>The key is the username, and the value is the number of failed attempts.</p>
@@ -42,14 +50,14 @@ public class LoginService {
      */
     public User authenticate(String username, String password, List<User> allUsers) {
         if (isLocked(username)) {
-            System.out.println("❌ Account is locked due to too many failed login attempts.");
+            System.out.println("Account is locked due to too many failed login attempts.");
             return null;
         }
 
         User user = findUser(username, allUsers);
         if (user != null && user.getPassword().equals(password)) {
             resetFailedAttempts(username); // Successful login
-            System.out.println("✅ Login successful! Welcome " + username);
+            System.out.println("Login successful! Welcome " + username);
             return user;
         } else {
             handleFailedAttempt(username);
@@ -85,11 +93,11 @@ public class LoginService {
         failedAttempts.put(username, failedAttempts.getOrDefault(username, 0) + 1);
         int attempts = failedAttempts.get(username);
 
-        if (attempts >= MAX_FAILED_ATTEMPTS) {
+        if (attempts >= 3) {
             lockUser(username);
-            System.out.println("❌ Too many failed attempts. Your account has been locked.");
+            System.out.println("Too many failed attempts. Your account has been locked.");
         } else {
-            System.out.println("❌ Invalid login. Try again.");
+            System.out.println("Invalid login. Try again.");
         }
     }
 

@@ -102,11 +102,6 @@ public class Main {
                     }
                     break;
 
-                case "3":
-                    System.out.println("Skipping to demo...");
-                    running = false;
-                    break;
-
                 case "0":
                     System.out.println("Exiting...");
                     running = false;
@@ -465,74 +460,63 @@ public class Main {
                         break; 
                     }
                     
-                    System.out.println("Please enter an email for the new user: ");
-                    String enteredEmail = scanner.nextLine().trim();
-                        
-                    System.out.println("Please enter a username for the new user: ");
-                    String enteredUser = scanner.nextLine().trim();
-                        
-                    System.out.println("Please enter a password for the new user: ");
-                    String enteredPass = scanner.nextLine().trim();
+                    int check = 0;
+                    String email = null;
+                    String username = null;
+                    String password = null;
+                    
+                    while(check == 0){
+                        System.out.print("Enter new email: ");
+                        email = scanner.nextLine().trim();
+                        if (LoginService.isValidEmail(email) == true) break;
+                        else {
+                            System.out.print("Invalid Email Id.\n");
+                        }
+                    }
+                    
+                    while(check == 0){
+                        System.out.print("Enter new username: ");
+                        username = scanner.nextLine().trim();
+                        if (LoginService.isValidUsername(username) == true) break;
+                        else {
+                            System.out.print("Invalid Username.\n");
+                            System.out.print("Username should start with Letter.\nUsername should be atleast 5 charaters long.\nUsername should not have any speachial charecters excpet underscore\n");
+                        }
+                    }
+                    
+                    while(check == 0){
+                        System.out.print("Enter new password: ");
+                        password = scanner.nextLine().trim();
+                        if (LoginService.isValidPassword(password) == true) break;
+                        else {
+                            System.out.print("Invalid Password.\n");
+                            System.out.print("Password should be atleast 8 characters long.\nPassword should have atleast one UPPERCASE, one lowercase, 1 number & one special character\n");
+                        }
+                    }
+                    
+                    for (User u : USERS) {
+                        if (u.getEmail().equalsIgnoreCase(email)) {
+                            System.out.println("Error: An account with this email already exists.");
+                            break;
+                        }
+                        if (u.getUsername().equalsIgnoreCase(username)) {
+                            System.out.println("Error: Username already taken, please choose another.");
+                            break;
+                        }
+                    }
                     
                     if (entry.equalsIgnoreCase("ADM")) {
-                                          
-                        for (User u : USERS) {
-                            if (u.getEmail().equalsIgnoreCase(enteredEmail)) {
-                                System.out.println("❌ Error: An account with this email already exists.");
-                                break;
-                            }
-                            if (u.getUsername().equalsIgnoreCase(enteredUser)) {
-                                System.out.println("❌ Error: Username already taken, please choose another.");
-                                break;
-                            }
-                        }
-                        
-                        User newUser = null; 
-                        
-                        newUser = new Admin(enteredEmail, enteredUser, enteredPass, USERS.size() + 1);
+                        User newUser = new Admin(email, username, password, USERS.size() + 1);
                         USERS.add(newUser);
                         System.out.println("Admin account created successfully!");
-                        System.out.print("This account has been created: " + USERS.get(USERS.size() - 1).toString());
-                        
-                            
+                        System.out.print("This account has been created: " + USERS.get(USERS.size() - 1).toString());   
                     } else if (entry.equalsIgnoreCase("LIS")) {
-                                                               
-                        for (User u : USERS) {
-                            if (u.getEmail().equalsIgnoreCase(enteredEmail)) {
-                                System.out.println("❌ Error: An account with this email already exists.");
-                                break;
-                            }
-                            if (u.getUsername().equalsIgnoreCase(enteredUser)) {
-                                System.out.println("❌ Error: Username already taken, please choose another.");
-                                break;
-                            }
-                        }
-                        
-                        User newUser = null;
-                        
-                        newUser = new Listener(enteredEmail, enteredUser, enteredPass, USERS.size() + 1, new ArrayList<Playlist>());
+                        User newUser = new Listener(email, username, password, USERS.size() + 1, new ArrayList<Playlist>());
                         USERS.add(newUser);
                         System.out.println("Listener account created successfully!");
                         System.out.print("This account has been created: " + USERS.get(USERS.size() - 1).toString());
-                        
-                        
-                        
                     } else if (entry.equalsIgnoreCase("ART")) {
-                                        
-                        for (User u : USERS) {
-                            if (u.getEmail().equalsIgnoreCase(enteredEmail)) {
-                                System.out.println("❌ Error: An account with this email already exists.");
-                                break;
-                            }
-                            if (u.getUsername().equalsIgnoreCase(enteredUser)) {
-                                System.out.println("❌ Error: Username already taken, please choose another.");
-                                break;
-                            }
-                        }
-                        
-                        User newUser = null;
-                        
-                        newUser = new Artist(enteredEmail, enteredUser, enteredPass, USERS.size() + 1);
+                        User newUser = new Artist(email, username, password, USERS.size() + 1);
                         USERS.add(newUser);
                         System.out.println("Artist account created successfully!");
                         System.out.print("This account has been created: " + USERS.get(USERS.size() - 1).toString());
@@ -576,23 +560,50 @@ public class Main {
      * @return the authenticated User, or null when account creation fails.
      */
     private static User createAccount(Scanner scanner) {
-        System.out.print("Enter email: ");
-        String email = scanner.nextLine().trim();
-        System.out.print("Enter username: ");
-        String username = scanner.nextLine().trim();
-        System.out.print("Enter password: ");
-        String password = scanner.nextLine().trim();
+        int check = 0;
+        String email = null;
+        String username = null;
+        String password = null;
+        
+        while(check == 0){
+            System.out.print("Enter email: ");
+            email = scanner.nextLine().trim();
+            if (LoginService.isValidEmail(email) == true) break;
+            else {
+                System.out.print("Invalid Email Id.\n");
+            }
+        }
+        
+        while(check == 0){
+            System.out.print("Enter username: ");
+            username = scanner.nextLine().trim();
+            if (LoginService.isValidUsername(username) == true) break;
+            else {
+                System.out.print("Invalid Username.\n");
+                System.out.print("Username should start with Letter.\nUsername should be atleast 5 charaters long.\nUsername should not have any speachial charecters excpet underscore\n");
+            }
+        }
+        
+        while(check == 0){
+            System.out.print("Enter password: ");
+            password = scanner.nextLine().trim();
+            if (LoginService.isValidPassword(password) == true) break;
+            else {
+                System.out.print("Invalid Password.\n");
+                System.out.print("Password should be atleast 8 characters long.\nPassword should have atleast one UPPERCASE, one lowercase, 1 number & one special character\n");
+            }
+        }
         System.out.print("Type L for Listener or A for Artist: ");
         String type = scanner.nextLine().trim().toUpperCase();
 
         // Check for duplicate email or username
         for (User u : USERS) {
             if (u.getEmail().equalsIgnoreCase(email)) {
-                System.out.println("❌ Error: An account with this email already exists.");
+                System.out.println("Error: An account with this email already exists.");
                 return null;
             }
             if (u.getUsername().equalsIgnoreCase(username)) {
-                System.out.println("❌ Error: Username already taken, please choose another.");
+                System.out.println("Error: Username already taken, please choose another.");
                 return null;
             }
         }
@@ -608,20 +619,10 @@ public class Main {
             USERS.add(newUser);
             System.out.println("Listener account created successfully!");
         } else {
-            System.out.println("❌ Invalid type, account creation rejected.");
+            System.out.println("Invalid type, account creation rejected.");
         }
 
         return newUser;
-    }
-    
-    /**
-     * 
-     * 
-     * 
-     */
-    
-    private static void adminCreateUser() {
-        
     }
     
     /**
