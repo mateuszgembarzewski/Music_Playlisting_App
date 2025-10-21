@@ -112,34 +112,37 @@ public class TestUATJUnit {
 
     /**
      * Test Case 6:
-     * Verifies that a listener can successfully add a new song to their personal library.
+     * Verifies that a listener can successfully add a new song to a playlist.
      * <p>Expected Result: The song is added and reflected in the listener’s library list.</p>
      */
     @Test
     public void testListenerAddSongSuccess() {
         Listener listener = new Listener("testuser@gmail.com", "testuser", "password", 1, new ArrayList<>());
+        Playlist playlist = listener.createNewPlaylist("testcase6");
         Song song = new Song("Imagine", "John Lennon", 183);
 
-        boolean result = listener.addSongToLibrary(song);
-        assertTrue(result, "Song should be added successfully to library");
-        assertEquals(1, listener.getPersonalLibrary().size(), "Library should contain 1 song");
+        boolean result = playlist.addSong(song);
+        
+        assertTrue(result, "Song should be added successfully to playlist");
+        assertEquals(1, listener.getPlaylistAtIndex(0).getTracklist().size(), "Playlist should contain 1 song");
     }
 
     /**
      * Test Case 7:
-     * Ensures that duplicate songs cannot be added to a listener’s personal library.
+     * Ensures that duplicate songs cannot be added to a listener’s playlist.
      * <p>Expected Result: The second addition fails and library count remains unchanged.</p>
      */
     @Test
     public void testListenerAddSongFail() {
         Listener listener = new Listener("testuser@gmail.com", "testuser", "password", 1, new ArrayList<>());
+        Playlist playlist = listener.createNewPlaylist("testcase7");
         Song song = new Song("Imagine", "John Lennon", 183);
 
-        listener.addSongToLibrary(song);
-        boolean result = listener.addSongToLibrary(song);
+        playlist.addSong(song);
+        boolean result = playlist.addSong(song);
 
         assertFalse(result, "Duplicate song should not be added");
-        assertEquals(1, listener.getPersonalLibrary().size(), "Library should still contain 1 song");
+        assertEquals(1, listener.getPlaylistAtIndex(0).getTracklist().size(), "Playlist should still contain 1 song");
     }
 
     /*

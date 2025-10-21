@@ -1,117 +1,104 @@
 import java.util.*;
 
 /**
- * Represents a listener user in the system.
- * <p>
- * A listener can manage playlists and maintain a personal library of songs.
- * </p>
+ * Class representing a Listener type of User.  Extends User class.
+ * 
+ * Listeners store an ArrayList of Playlists representing their library.
+ * Methods here serve to modify that library's content.
  */
 public class Listener extends User {
-    /** The list of playlists owned by the listener. */
-    private ArrayList<Playlist> playlists;
-
-    /** The listener's personal library of songs. */
-    private ArrayList<Song> personalLibrary;
+    // Represents the library as a collection of Playlists
+    private ArrayList<Playlist> library;
 
     /**
-     * Constructs a new {@code Listener}.
+     * Constructor for Listener-type Users.
      *
-     * @param email    the email address of the listener
-     * @param username the username of the listener
-     * @param password the password of the listener
-     * @param id       the unique ID of the listener
-     * @param library  the initial personal song library (can be empty but not {@code null})
+     * @param email    email address for the listener
+     * @param username username for the listener
+     * @param password password for the listener
+     * @param id       unique identifier for listener
+     * @param library  library (collection of Playlists) for the listener
      */
     public Listener(String email, String username, String password, int id, ArrayList<Song> library) {
-        super(email, username, password, id);
-        this.personalLibrary = library;
-        this.playlists = new ArrayList<>();
+        super(email, username, password, id); // Inherits from User class
+        this.library = new ArrayList<>();
     }
 
     /**
-     * Creates a new empty playlist with the given name.
-     * The playlist is automatically attributed to this listener as the creator.
+     * Creates a new playlist and adds it to the Listener's library.
      *
-     * @param playlistName the name of the new playlist
-     * @return the newly created {@link Playlist}
+     * @param playlistName the new playlist's name
+     * @return Playlist object of the new playlist.  Any string is valid.
      */
     public Playlist createNewPlaylist(String playlistName) {
         Playlist newPlaylist = new Playlist(playlistName, this.getUsername(), new ArrayList<>());
-        playlists.add(newPlaylist);  // Add the new playlist to the listener's list of playlists
+        library.add(newPlaylist);  // Add the new playlist to the listener's list of playlists
         return newPlaylist;
     }
 
     /**
-     * Removes all playlists owned by the listener.
-     * Prints a confirmation message upon completion.
+     * Clears the Listener's library of all it's playlists.
+     * 
+     * @return void
      */
     public void clearLibrary() {
-        playlists.clear();
+        library.clear();
         System.out.println("All of " + this.getUsername() + "'s playlists have been removed.");
     }
 
     /**
-     * Adds a song to the listener's personal library if it is not {@code null}
-     * and not already present.
+     * Getter for a specific playlist from the Listener's library based on an index.
+     * Before this method is run the user is printed a list of their playlists with
+     * the corresponding indexes provided.
      *
-     * @param song the {@link Song} to add
-     * @return {@code true} if the song was added; {@code false} if the song was
-     *         {@code null} or already exists in the library
-     */
-    public boolean addSongToLibrary(Song song) {
-        if (song == null || personalLibrary.contains(song)) return false;
-        personalLibrary.add(song);
-        return true;
-    }
-
-    /**
-     * Retrieves a playlist by its index.
-     *
-     * @param index the index of the desired playlist
-     * @return the {@link Playlist} at the specified index
-     * @throws IndexOutOfBoundsException if the index is out of range
+     * @param index an integer provided by the user representing their desired playlist.  The index is validated before being passed to this method.
+     * @return Playlist object of the desired playlist
      */
     public Playlist getPlaylistAtIndex(int index) {
-        return playlists.get(index);
+        return library.get(index);
     }
 
     /**
-     * Deletes a playlist from the listener’s list by index.
-     * Prints a message indicating success or failure.
+     * Deletes a specific playlist from the Listener's library based on an index.
      *
-     * @param index the index of the playlist to delete
+     * @param index an integer representing the desired playlist.  The index is validated inside the method.
+     * @return void
      */
     public void deletePlaylistAtIndex(int index) {
-        if (playlists.size() <= 0) {
+        // Validates the user input
+        if (library.size() <= 0) {
             System.out.print("There are no playlists to delete");
             return;
-        } else if (index < playlists.size() && index >= 0) {
-            Playlist deleted = playlists.get(index);
-            playlists.remove(index);
+        } else if (index < library.size() && index >= 0) { // We directly use Java's count-from-0 indexes here, so we need to allow values 0 and above so long as they are within the range of the Library's indexes.
+            Playlist deleted = library.get(index);
+            library.remove(index);
             System.out.println("The playlist '" + deleted.getName() + "' has been deleted from " + this.getUsername() + "'s library.");
         } else {
-            System.out.println("Invalid Index Number");
+            System.out.println("Invalid index.");
         }
     }
 
     /**
-     * Returns all playlists owned by the listener.
-     *
-     * @return an {@link ArrayList} of {@link Playlist} objects
+     * Getter for the Listener's 'library', or collection of Playlists 
+     * 
+     * @return ArrayList<Playlist> representing the Listener's library
      */
     public ArrayList<Playlist> getLibrary() {
-        return playlists;
+        return library;
     }
 
     /**
-     * Prints all playlists owned by the listener with their corresponding indexes.
+     * Prints an indexed list of all playlists within the Listener's library.
+     * Prints a notice if no playlists exist within the library.
+     * 
+     * @return void
      */
     public void listLibrary() {
         int i = 0;
         // Checks the amount of playlists before trying to print data on them.
-        if (playlists.size() > 0) {
+        if (library.size() > 0) {
             System.out.println("=== " + this.getUsername() + "'s Playlists ===");
-            for (Playlist p : playlists) {
+            for (Playlist p : library) {
                 System.out.println("[" + i + "] - " + p.toString());
                 i++;
             }
@@ -120,20 +107,11 @@ public class Listener extends User {
         }
         
     }
-
-    /**
-     * Returns all songs in the listener’s personal library.
-     *
-     * @return an {@link ArrayList} of {@link Song} objects in the personal library
-     */
-    public ArrayList<Song> getPersonalLibrary() {
-        return personalLibrary;
-    }
     
     /**
-     * Returns a short description of the Listener.
+     * Override for the toString() method; prints a description of the Listener
      *
-     * @return a formatted summary string for this user.
+     * @return String descriptor of a Listener object
      */
     @Override
     public String toString() {
@@ -141,7 +119,10 @@ public class Listener extends User {
     }
     
     /**
-     * Called on an Listener object when an Admin type user queries the account.
+     * Prints a specific output of data for the purposes of the Admin user type.
+     * This is only called from the Admin's query functionality.
+     * 
+     * @return void
      */
     public void adminQuery() {
         System.out.println("=== " + this.getUsername() + "'s Data ===");

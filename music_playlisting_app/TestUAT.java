@@ -143,37 +143,39 @@ public class TestUAT {
 
     /**
      * Test Case 6:
-     * Confirms that a listener can add a new song to their personal library.
+     * Confirms that a listener can add a new song to a playlist.
      *
-     * <p><b>Expected Result:</b> The song is successfully added, and the library
+     * <p><b>Expected Result:</b> The song is successfully added, and the playlist
      * reflects one new entry.</p>
      */
     public void testListenerAddSongSuccess() {
         Listener listener = new Listener("testuser@gmail.com", "testuser", "password", 1, new ArrayList<>());
+        Playlist playlist = listener.createNewPlaylist("testcase6");
         Song song = new Song("Imagine", "John Lennon", 183);
 
-        boolean result = listener.addSongToLibrary(song);
+        boolean result = playlist.addSong(song);
 
         assert result == true : "Test Failed: Song should be added successfully to the library";
-        assert listener.getPersonalLibrary().size() == 1 : "Test Failed: Listener library should contain 1 song";
+        assert listener.getPlaylistAtIndex(0).getTracklist().size() == 1 : "Test Failed: Listener library should contain 1 song";
         System.out.println("LISTENER_ADD_SONG_SUCCESS: Passed");
     }
 
     /**
      * Test Case 7:
-     * Ensures that a listener cannot add duplicate songs to their personal library.
+     * Ensures that a listener cannot add duplicate songs to a listener's playlist.
      *
-     * <p><b>Expected Result:</b> Duplicate addition fails, and the library size remains unchanged.</p>
+     * <p><b>Expected Result:</b> Duplicate addition fails, and the playlist size remains unchanged.</p>
      */
     public void testListenerAddSongFail() {
         Listener listener = new Listener("testuser@gmail.com", "testuser", "password", 1, new ArrayList<>());
+        Playlist playlist = listener.createNewPlaylist("testcase7");
         Song song = new Song("Imagine", "John Lennon", 183);
 
-        listener.addSongToLibrary(song); // First addition
-        boolean result = listener.addSongToLibrary(song); // Attempt duplicate
+        playlist.addSong(song); // First addition
+        boolean result = playlist.addSong(song); // Attempt duplicate
 
         assert result == false : "Test Failed: Song should not be added again to the library";
-        assert listener.getPersonalLibrary().size() == 1 : "Test Failed: Listener library should still contain 1 song";
+        assert listener.getPlaylistAtIndex(0).getTracklist().size() == 1 : "Test Failed: Listener library should still contain 1 song";
         System.out.println("LISTENER_ADD_SONG_FAIL: Passed");
     }
 
