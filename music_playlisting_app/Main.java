@@ -457,7 +457,7 @@ public class Main {
                     break;
                     
                 case "5": 
-                    System.out.println("What kind of user would you like to create? Enter 'ADM' for Admin, 'LIS' for Listener, or 'ART' for Artist: ");
+                    System.out.println("What kind of user would you like to create? \n Enter 'ADM' for Admin, 'LIS' for Listener, or 'ART' for Artist: ");
                     String entry = scanner.nextLine().trim();
                     
                     if (!entry.equalsIgnoreCase("ADM") && !entry.equalsIgnoreCase("LIS") && !entry.equalsIgnoreCase("ART")) {
@@ -541,6 +541,19 @@ public class Main {
                         System.out.println("Invalid entry, please try again. ");
                     }
                     break;
+                    
+                case "6": 
+                    listUsers();
+                    System.out.print("Enter a user index: ");
+                    int value = Integer.parseInt(scanner.nextLine());
+                    System.out.println("The arraylist USERS.size() is : " + USERS.size());
+                    if( value >= USERS.size() || value < 0 ) {
+                        System.out.println("Invalid entry, value out of arraylist bounds."); 
+                        break;
+                    } else {
+                    USERS.remove(value);
+                    }
+                    break; 
                     
                 case "0":
                     System.out.println("Logging out...");
