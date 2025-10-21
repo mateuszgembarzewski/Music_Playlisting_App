@@ -456,6 +456,55 @@ public class Main {
                     }
                     break;
                     
+                case "5": 
+                    System.out.println("What kind of user would you like to create? Enter 'ADM' for Admin, 'LIS' for listener, or 'ART' for Artist.");
+                    String entry = scanner.nextLine().trim();
+                    
+                    if (entry.equals("ADM")) {
+                        System.out.println("Please enter an email for the new admin user: ");
+                        String enteredEmail = scanner.nextLine().trim();
+                        
+                        System.out.println("Please enter a username for the new admin user: ");
+                        String enteredUser = scanner.nextLine().trim();
+                        
+                        System.out.println("Please enter a password for the new admin user: ");
+                        String enteredPass = scanner.nextLine().trim();
+                                          
+                        for (User u : USERS) {
+                            if (u.getEmail().equalsIgnoreCase(enteredEmail)) {
+                                System.out.println("❌ Error: An account with this email already exists.");
+                                break;
+                            }
+                            if (u.getUsername().equalsIgnoreCase(enteredUser)) {
+                                System.out.println("❌ Error: Username already taken, please choose another.");
+                                break;
+                            }
+                        }
+                        
+                        User newUser = null; 
+                        
+                        newUser = new Admin(enteredEmail, enteredUser, enteredPass, USERS.size() + 1);
+                        USERS.add(newUser);
+                        System.out.println("Artist account created successfully!");
+                        System.out.print("This account has been created: " + USERS.get(USERS.size() - 1).toString());
+
+                        
+                            
+                    }else if (entry.equals("LIS")) {
+                        
+                        
+                        
+                        
+                    }else if(entry.equals("ART")) {
+                    
+                    }else {
+                        System.out.println("Invalid entry, please try again. ");
+                    }
+                    
+                    break;
+                    
+                    
+                    
                 case "0":
                     System.out.println("Logging out...");
                     running = false;
@@ -513,6 +562,16 @@ public class Main {
         }
 
         return newUser;
+    }
+    
+    /**
+     * 
+     * 
+     * 
+     */
+    
+    private static void adminCreateUser() {
+        
     }
     
     /**
