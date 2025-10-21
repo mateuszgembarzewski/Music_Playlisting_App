@@ -1,47 +1,31 @@
 import java.util.*;
 
 /**
- * Represents an artist user in the system.
- * <p>
- * Artists can add songs to the global catalog (via {@link SearchService}) 
- * instead of maintaining their own personal catalog.
- * </p>
+ * Class representing an Artist type of User.  Extends User class.
+ * 
+ * Methods here serve to add songs to the Catalog and list the Artist's songs from the Catalog.
  */
 public class Artist extends User {
-
-    // private List<Song> catalog;  
-    // Artists aren't supposed to maintain a personal catalog.
-    // This is intentional to ensure songs remain globally accessible.  -Michael
-
     /**
-     * Constructs a new {@code Artist} object.
+     * Constructor for Artist-type Users.
      *
-     * @param email     the email address of the artist
-     * @param username  the username of the artist
-     * @param password  the password of the artist
-     * @param id        the unique ID of the artist
+     * @param email     email address for the artist
+     * @param username  username for the artist
+     * @param password  password for the artist
+     * @param id        unique identifier for the artist
      */
     public Artist(String email, String username, String password, int id) {
-        super(email, username, password, id);
-        // this.catalog = new ArrayList<>(); // See comment above
+        super(email, username, password, id); // Inherits from User class
     }
 
     /**
-     * Adds a validated song to the global catalog using the provided {@link SearchService}.
-     * <p>
-     * Validation rules:
-     * <ul>
-     *   <li>The song must not be {@code null}.</li>
-     *   <li>The title must not be {@code null} or empty.</li>
-     *   <li>The creator name must not be {@code null} or empty.</li>
-     *   <li>The duration must be greater than zero.</li>
-     *   <li>The song must not already exist in the global catalog.</li>
-     * </ul>
-     * </p>
+     * Adds a Song to a Catalog, always the global Catalog.
+     * 
+     * Validates that the title and artist name are non-null and the duration is positive.
      *
-     * @param catalog the {@link SearchService} instance managing the global catalog
-     * @param song    the {@link Song} to add
-     * @return {@code true} if the song was successfully added; {@code false} otherwise
+     * @param catalog An instance of the SearchService that manages the global Catalog
+     * @param song    The song to be added to the catalog
+     * @return true if song was successfully added; false otherwise.
      */
     public boolean addSongToCatalog(SearchService catalog, Song song) {
         if (song == null) return false;
@@ -59,14 +43,10 @@ public class Artist extends User {
     }
 
     /**
-     * Retrieves all songs in the global catalog created by this artist.
-     * <p>
-     * This method filters the global catalog to collect only songs whose
-     * creator name matches this artist's username.
-     * </p>
+     * Prints the indexed list of all Songs uploaded by this Artist.
      *
-     * @param catalog the {@link SearchService} containing the global catalog
-     * @return an {@link ArrayList} of {@link Song} objects created by this artist
+     * @param catalog An instance of the SearchService that manages the global catalog.
+     * @return ArrayList<Song> An ArrayList of all Songs uploaded by this Artist.
      */
     public ArrayList<Song> getCatalog(SearchService catalog) {
         ArrayList<Song> localCatalog = new ArrayList<>();
@@ -97,9 +77,9 @@ public class Artist extends User {
     }
     
     /**
-     * Returns a short description of the Artist.
+     * Override for the toString() method; prints a description of the Artist
      *
-     * @return a formatted summary string for this user.
+     * @return String descriptor of an Artist object
      */
     @Override
     public String toString() {
@@ -107,7 +87,10 @@ public class Artist extends User {
     }
     
     /**
-     * Called on an Artist object when an Admin type user queries the account.
+     * Prints a specific output of data for the purposes of the Admin user type.
+     * This is only called from the Admin's query functionality.
+     * 
+     * @return void
      */
     public void adminQuery() {
         System.out.println("=== " + this.getUsername() + "'s Data ===");
