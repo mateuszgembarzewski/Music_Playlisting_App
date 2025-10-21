@@ -1,43 +1,41 @@
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 /**
- * Entry point for the HMM Music Playlisting Application.
- *
- * <p>This class provides a lightweight demo implementation of the
- * application. It keeps state in memory (no database), allows for
- * account creation and login, and demonstrates catalog and playlist
- * operations.</p>
+ * The entry point for the Music Playlisting Application
+ * 
+ * GLOBAL VARIABLES:
+ * ArrayList<User> USERS - Stores the created, valid login credentials for all accounts
+ * SearchService CATALOG - Manages the searchable global song catalog for the application
+ * LoginService loginService - Responsible for authenticating credentials against the stored USER credentials.
+ * 
+ * The application can be started be executing the main() method.
+ * 
+ * @author Hitiksh Doshi
+ * @author Mateusz Gembarzewski
+ * @author Michael Scandiffio
  */
 public class Main {
+    // Stores created, valid login credentials for all accounts
+    public static final ArrayList<User> USERS = new ArrayList<>();
 
-    /**
-     * Global list of all registered users in the application.
-     */
-    public static final List<User> USERS = new ArrayList<>();
-
-    /**
-     * Global catalog of songs available in the application.
-     */
+    // Manages the global song catalog.
     private static SearchService CATALOG = new SearchService();
 
-    /**
-     * Service responsible for handling user authentication.
-     */
+    // Necessary for authenticating credentials.
     private static LoginService loginService = new LoginService();
 
     /**
-     * Main entry point of the application.
+     * The actual method setup to begin the application's proper execution.
      *
-     * <p>Handles user interaction, account creation, login, demo skipping,
-     * and catalog/playlist demonstrations. Keeps the program running
-     * until the user chooses to exit or a successful login occurs.</p>
-     *
+     * main() initializes account and song data to assist in demoing and development.
+     * It then feeds into a while loop that simulates an interactive text-based UI.
+     * 
      * @param args command-line arguments (not used in this demo)
+     * @return void
      */
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in); // Set up to take user input
 
         // Preload demo users and songs
         Listener defaultListener = new Listener("testuser@gmail.com", "testuser", "password", 1, new ArrayList<>());
@@ -55,14 +53,16 @@ public class Main {
 
         Artist noNameArtist = new Artist("noname2@gmail.com", "nothing", "password", 2);
         USERS.add(noNameArtist);
-
+        
+        // Initialize songs to populate catalog
         Song song1 = new Song("Somebody Else", "artist", 347);
         Song song2 = new Song("RAWFEAR", "artist", 202);
         Song song3 = new Song("Hammer", "artist", 193);
         Song song4 = new Song("One More Time", "artist", 320);
         Song song5 = new Song("Club classics", "artist", 153);
         Song song6 = new Song("Hard Times", "artist", 182);
-
+        
+        // Populate the catalog
         defaultArtist.addSongToCatalog(CATALOG, song1);
         defaultArtist.addSongToCatalog(CATALOG, song2);
         defaultArtist.addSongToCatalog(CATALOG, song3);
@@ -70,11 +70,10 @@ public class Main {
         defaultArtist.addSongToCatalog(CATALOG, song5);
         defaultArtist.addSongToCatalog(CATALOG, song6);
 
-        System.out.println("Welcome to the HMM Music Playlisting Application!");
+        System.out.println("Welcome to the HMM Music Playlisting Application!"); // welcome message
 
-        boolean running = true;
+        boolean running = true; // While true, user is within the execution of our app
         User loggedInUser = null;
-
         while (running) {
             System.out.println(
                 "\n1 = Create Account " + 
@@ -83,7 +82,6 @@ public class Main {
             );
             System.out.print("Choice: ");
             String choice = scanner.nextLine().trim();
-
             switch (choice) {
                 case "1":
                     loggedInUser = createAccount(scanner);
@@ -100,7 +98,7 @@ public class Main {
                     String p = scanner.nextLine().trim();
                     loggedInUser = loginService.authenticate(u, p, USERS);
                     if (loggedInUser != null) {
-                        userToUI(scanner, loggedInUser);
+                        userToUI(scanner, loggedInUser); // Passes the authenticated user to one of our UI loops
                     }
                     break;
 
@@ -124,13 +122,15 @@ public class Main {
     }
 
     /**
-     * Routes the logged-in {@link User} to the correct user interface (UI)
-     * based on their account type.
+     * Takes in the Scanner and authenticated User and casts it to a specific user type.
+     * Then passes context over to that user type's UI.
      *
      * @param scanner the scanner for user input
-     * @param user    the logged-in user
+     * @param user    an authenticated User
+     * @return void
      */
     private static void userToUI(Scanner scanner, User user) {
+        // Determines the type of the user as we do not store any concrete marker for it
         if (user instanceof Listener) {
             listenerUI(scanner, (Listener) user);
         } else if (user instanceof Artist) {
@@ -141,11 +141,17 @@ public class Main {
     }
 
     /**
-     * Provides an interactive menu for a {@link Listener} user,
-     * enabling playlist creation, modification, and catalog searching.
+     * Interactivity loop for Listener-type Users.
+     * It is impossible to reach here without being an authenticated Listener-type user.
+     * While loop functions similar to the initial log-in loop and will allow the user to perform actions until they exit.
      *
-     * @param scanner  the scanner for reading user input
-     * @param listener the logged-in listener user
+     * Allows for the creation, modification, and deletion of playlists.
+     * Allows for searching the global catalog.
+     * Allows for viewing lists of and the content of playlists.
+     *
+     * @param scanner  the scanner for user input
+     * @param listener an authenticated Listener-type user
+     * @return void
      */
     private static void listenerUI(Scanner scanner, Listener listener) {
         int sizePlaylist; // Value for Delete playlist functions
@@ -170,11 +176,12 @@ public class Main {
                     System.out.print("Enter a playlist title: ");
                     String title = scanner.nextLine();
                     Playlist playlist = listener.createNewPlaylist(title);
-                    System.out.println("Playlist '" + title + "' created.");
+                    
+                    System.out.println("Playlist '" + title + "' created."); // Convey action to user
                     break;
 
                 case "2":
-                    listener.listLibrary();
+                    listener.listLibrary(); // Prints library to user
                     break;
 
                 case "3":
@@ -182,8 +189,10 @@ public class Main {
                     System.out.print("Enter a playlist index: ");
                     int viewPlaylistIndex = Integer.parseInt(scanner.nextLine());
                     Playlist viewPlaylist = listener.getPlaylistAtIndex(viewPlaylistIndex);
+                    
+                    // Only try to print data to the user if that data exists.
                     if (viewPlaylist.getTracklist().size() > 0) {
-                        viewPlaylist.listSongs();
+                        viewPlaylist.listSongs(); // Prints tracklist to user
                     } else {
                         System.out.println(viewPlaylist.getName() + " is empty.");
                     }
@@ -226,12 +235,14 @@ public class Main {
 
                 case "6":
                     sizePlaylist = listener.getLibrary().size();
+                    // Only allow user to select a playlist when at least one exists.
                     if (sizePlaylist > 0) {
                         listener.listLibrary();
                         System.out.print("Enter a playlist index: ");
                         int removePlaylistIndex = Integer.parseInt(scanner.nextLine());
                         Playlist removePlaylist = listener.getPlaylistAtIndex(removePlaylistIndex);
                         int sizeSongs = removePlaylist.getTracklist().size();
+                        // Only allow a user to select a song when at least one exists.
                         if (sizeSongs > 0) {
                             removePlaylist.listSongs();
                             System.out.print("Enter a song index: ");
@@ -278,11 +289,14 @@ public class Main {
     }
 
     /**
-     * Provides an interactive menu for an {@link Artist} user,
-     * enabling song uploads, catalog viewing, and removal.
-     *
-     * @param scanner the scanner for reading user input
-     * @param artist  the logged-in artist user
+     * Interactivity loop for Artist-type Users.
+     * 
+     * Allows for the addition or removal of the authenticated Artist's songs from the global catalog.
+     * Allows artist to view their own catalog that they have added..
+     * 
+     * @param scanner the scanner for user input
+     * @param artist  an authenticated Artist-type user
+     * @return void
      */
     private static void artistUI(Scanner scanner, Artist artist) {
         boolean running = true;
@@ -321,15 +335,15 @@ public class Main {
                     System.out.print("Enter the index of the song you want to delete: ");
                     int removeSongIndex = Integer.parseInt(scanner.nextLine());
                     Song tempResult = result.get(removeSongIndex);
-                    boolean checker = CATALOG.removeSongFromCatalog(tempResult);
+                    boolean checker = CATALOG.removeSongFromCatalog(tempResult); // Validates that a removal actually occurred.
                     if (checker) {
                         System.out.println(tempResult.getTitle() + " has been removed from the catalog.");
-                    }
+                    } // If nothing got removed, we print nothing to the user.
                     
-                    boolean removePlaylistSuccess = removeSongFromPlaylists(tempResult);
+                    boolean removePlaylistSuccess = removeSongFromPlaylists(tempResult); // Validates that the song actually existed on some playlist.
                     if (!removePlaylistSuccess){
                         System.out.println("Song did not exist in any playlists.");
-                    }
+                    } // If the song did not exist anywhere, nothing is printed to the user.
                     break;
 
                 case "0":
@@ -344,10 +358,15 @@ public class Main {
     }
 
     /**
-     * Provides an interactive menu for an {@link Admin} user.
+     * Interactivity loop for Admin-type Users.
+     * 
+     * Allows for listing users and querying their account details
+     * Allows for adding or removing songs from the global catalog for ANY artist name.
+     * Allows for adding or removing Users from the application.
      *
-     * @param scanner the scanner for reading user input
-     * @param admin   the logged-in admin user
+     * @param scanner the scanner for user input
+     * @param admin   an authenticated Admin-type user
+     * @return void
      */
     private static void adminUI(Scanner scanner, Admin admin) {
         boolean running = true;
@@ -367,7 +386,7 @@ public class Main {
             switch (choice) {
                 case "1":
                     if (USERS.size() <= 0) {
-                        System.out.println("No users.");
+                        System.out.println("No users."); // This should never be triggered.
                     } else {
                         listUsers();
                     }
@@ -375,7 +394,7 @@ public class Main {
                 
                 case "2":
                     if (USERS.size() <= 0) {
-                        System.out.println("No users.");
+                        System.out.println("No users."); // This should never be triggered.
                     } else {
                         listUsers();
                     }
@@ -449,14 +468,13 @@ public class Main {
     }
 
     /**
-     * Handles account creation flow with duplicate email and username validation.
+     * Called from the initial loop's Create Account option.
      *
-     * <p>Prompts the user for account details and creates either a
-     * {@link Listener} or {@link Artist} based on user input.
-     * If validation fails, returns {@code null}.</p>
+     * Asks the user for their email, username, password, and type (Listener or Artist)
+     * Creates their account details and stores them in USERS.
      *
-     * @param scanner the {@link Scanner} instance for reading user input
-     * @return the newly created {@link User}, or {@code null} if creation fails
+     * @param scanner the scanner for user input
+     * @return the authenticated User, or null when account creation fails.
      */
     private static User createAccount(Scanner scanner) {
         System.out.print("Enter email: ");
@@ -480,7 +498,7 @@ public class Main {
             }
         }
 
-        User newUser = null;
+        User newUser = null; // Initialize a value for the new User
 
         if ("A".equals(type)) {
             newUser = new Artist(email, username, password, USERS.size() + 1);
@@ -497,6 +515,12 @@ public class Main {
         return newUser;
     }
     
+    /**
+     * Prints the contents of the USERS ArrayList to the user.
+     * Called from Admin user Choice #1
+     * 
+     * @return void
+     */
     private static void listUsers() {
         System.out.println("=== ALL USERS ===");
         for (int i = 0; i < USERS.size(); i++) {
@@ -505,10 +529,13 @@ public class Main {
     }
     
     /**
+     * Determines the type of user and runs the corresponding adminQuery() function, 
+     * which prints account details in a format specific to the Admin user role
      * Called from Admin user Choice #2
      * 
-     * @param User queryUser -- the User we are querying data for from the Admin perspective
-     * @param Scanner scanner -- Keep the Scanner object consistent so we can continue taking in user input without interuption.
+     * @param queryUser  the User we are querying data for from the Admin perspective
+     * @param scanner Keep the Scanner object consistent so we can continue taking in user input without interuption.
+     * @return void
      */
     private static void queryUser(User queryUser, Scanner scanner) {
         // Check the type of user
@@ -547,7 +574,8 @@ public class Main {
     /**
      * Iterates through all listener's libraries' and playlists' and removes a specific song.
      * 
-     * @param Song removeSong -- the song we are searching for and removing
+     * @param removeSong the song we are searching for and removing
+     * @return boolean true if removeSong actually existed on any playlists; false otherwise
      */
     private static boolean removeSongFromPlaylists(Song removeSong) {
         boolean success = false;
