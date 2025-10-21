@@ -465,16 +465,16 @@ public class Main {
                         break; 
                     }
                     
-                    System.out.println("Please enter an email for the new admin user: ");
+                    System.out.println("Please enter an email for the new user: ");
                     String enteredEmail = scanner.nextLine().trim();
                         
-                    System.out.println("Please enter a username for the new admin user: ");
+                    System.out.println("Please enter a username for the new user: ");
                     String enteredUser = scanner.nextLine().trim();
                         
-                    System.out.println("Please enter a password for the new admin user: ");
+                    System.out.println("Please enter a password for the new user: ");
                     String enteredPass = scanner.nextLine().trim();
                     
-                    if (entry.equals("ADM")) {
+                    if (entry.equalsIgnoreCase("ADM")) {
                                           
                         for (User u : USERS) {
                             if (u.getEmail().equalsIgnoreCase(enteredEmail)) {
@@ -491,14 +491,12 @@ public class Main {
                         
                         newUser = new Admin(enteredEmail, enteredUser, enteredPass, USERS.size() + 1);
                         USERS.add(newUser);
-                        System.out.println("Artist account created successfully!");
+                        System.out.println("Admin account created successfully!");
                         System.out.print("This account has been created: " + USERS.get(USERS.size() - 1).toString());
-
                         
                             
-                    } else if (entry.equals("LIS")) {
-                        
-                                        
+                    } else if (entry.equalsIgnoreCase("LIS")) {
+                                                               
                         for (User u : USERS) {
                             if (u.getEmail().equalsIgnoreCase(enteredEmail)) {
                                 System.out.println("❌ Error: An account with this email already exists.");
@@ -514,17 +512,34 @@ public class Main {
                         
                         newUser = new Listener(enteredEmail, enteredUser, enteredPass, USERS.size() + 1, new ArrayList<Playlist>());
                         USERS.add(newUser);
-                        System.out.println("Artist account created successfully!");
+                        System.out.println("Listener account created successfully!");
                         System.out.print("This account has been created: " + USERS.get(USERS.size() - 1).toString());
                         
                         
                         
-                    } else if (entry.equals("ART")) {
+                    } else if (entry.equalsIgnoreCase("ART")) {
+                                        
+                        for (User u : USERS) {
+                            if (u.getEmail().equalsIgnoreCase(enteredEmail)) {
+                                System.out.println("❌ Error: An account with this email already exists.");
+                                break;
+                            }
+                            if (u.getUsername().equalsIgnoreCase(enteredUser)) {
+                                System.out.println("❌ Error: Username already taken, please choose another.");
+                                break;
+                            }
+                        }
+                        
+                        User newUser = null;
+                        
+                        newUser = new Artist(enteredEmail, enteredUser, enteredPass, USERS.size() + 1);
+                        USERS.add(newUser);
+                        System.out.println("Artist account created successfully!");
+                        System.out.print("This account has been created: " + USERS.get(USERS.size() - 1).toString());
                     
                     } else {
                         System.out.println("Invalid entry, please try again. ");
                     }
-                    
                     break;
                     
                 case "0":
