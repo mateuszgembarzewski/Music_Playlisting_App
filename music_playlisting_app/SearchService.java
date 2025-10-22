@@ -1,45 +1,25 @@
 import java.util.*;
 
 /**
- * Provides a centralized service for managing and searching songs
- * within a local or global music catalog.
- * <p>
- * This service supports adding, removing, and searching songs
- * by title or artist. It prevents duplicates based on a song’s
- * title and creator combination.
- * </p>
- *
- * <p><strong>Key features include:</strong></p>
- * <ul>
- *   <li>Adding and removing songs safely from the catalog</li>
- *   <li>Exact and partial title searches</li>
- *   <li>Artist-based search functionality</li>
- *   <li>Catalog listing and retrieval by index</li>
- * </ul>
- *
- * @see Song
+ * Provides a service and object representing the searchable catalog of songs on the system.
+ * One SearchService instance should be created in main to manage the global catalog.
  */
 public class SearchService {
-
-    /** The list of all songs currently available in the catalog. */
+    // Represents the global catalog as a collection of Songs
     private ArrayList<Song> songCatalog;
 
     /**
-     * Constructs a new {@code SearchService} instance with an empty catalog.
+     * Constructor for a SearchService instance
      */
     public SearchService() {
         this.songCatalog = new ArrayList<Song>();
     }
 
     /**
-     * Adds a song to the catalog if it does not already exist.
-     * <p>
-     * A duplicate song is defined as one that matches both title and creator.
-     * </p>
-     *
-     * @param song the {@link Song} to add
-     * @return {@code true} if the song was successfully added;
-     *         {@code false} if it already exists or is {@code null}
+     * Adds a Song object to the catalog provided it is not already present.
+     * 
+     * @param song Song we are adding to the catalog
+     * @return boolean true if Song is added to catalog; false if catalog already contains Song
      */
     public boolean addSongToCatalog(Song song) {
         if (song == null) return false;
@@ -54,11 +34,10 @@ public class SearchService {
     }
 
     /**
-     * Removes a song from the catalog if it exists.
-     *
-     * @param song the {@link Song} to remove
-     * @return {@code true} if the song was found and removed;
-     *         {@code false} otherwise
+     * Removes a specific song from the catalog wherever it may exist.
+     * 
+     * @param song Song we are removing from the catalog.
+     * @return boolean true if song was present and removed; false otherwise.
      */
     public boolean removeSongFromCatalog(Song song) {
         // We only try to remove a song that we can prove exists
@@ -72,12 +51,11 @@ public class SearchService {
     }
 
     /**
-     * Searches for songs that exactly match the given title.
-     * The search is case-insensitive.
-     *
-     * @param title the exact song title to search for
-     * @return a list of {@link Song} objects that match the exact title;
-     *         an empty list if no matches are found
+     * Constructs an ArrayList of Songs where the 'title' matches the parameter (ignoring case)
+     * Allows user to search the global catalog by a hard term.
+     * 
+     * @param title The string we are matching against the catalog's Song titles.
+     * @return ArrayList<Song> containing search results.
      */
     public ArrayList<Song> searchByTitle(String title) {
         ArrayList<Song> result = new ArrayList<>();
@@ -90,12 +68,11 @@ public class SearchService {
     }
 
     /**
-     * Searches for songs whose titles contain the given partial string.
-     * The search is case-insensitive.
-     *
-     * @param partialTitle the partial title to search for
-     * @return a list of {@link Song} objects whose titles contain
-     *         the partial search string; an empty list if no matches are found
+     * Constructs an ArrayList of Songs where the 'title' contains the parameter.
+     * Allows the user to search the global catalog by a soft term.
+     * 
+     * @param partialTitle The string we are checking for the presence of in the catalog's Song titles.
+     * @return ArrayList<Song> containing search results.
      */
     public ArrayList<Song> searchByPartialTitle(String partialTitle) {
         ArrayList<Song> result = new ArrayList<>();
@@ -108,11 +85,11 @@ public class SearchService {
     }
 
     /**
-     * Searches for songs by the exact artist name.
-     *
-     * @param partialArtist the name of the artist to search for
-     * @return a list of {@link Song} objects created by the specified artist;
-     *         an empty list if no songs are found
+     * Constructs an ArrayList of Songs where the 'creator' contains the parameter.
+     * Allows the user to search the global catalog by an artist's name, softly.
+     * 
+     * @param partialArtist The string we are checking for the presence of in the catalog's Song's 'creator' attribute.
+     * @return ArrayList<Song> containing search results.
      */
     public ArrayList<Song> searchSongByArtist(String partialArtist) {
         ArrayList<Song> result = new ArrayList<>();
@@ -125,29 +102,29 @@ public class SearchService {
     }
 
     /**
-     * Checks if the catalog already contains the given song.
-     *
-     * @param song the {@link Song} to check for
-     * @return {@code true} if the catalog contains the song; {@code false} otherwise
+     * Signifies if the catalog does or does not contain a specific Song.
+     * 
+     * @param song Song we are checking for.
+     * @return boolean true if song is present; false otherwise.
      */
     public boolean globalCatContains(Song song) {
         return songCatalog.contains(song);
     }
 
     /**
-     * Returns the entire catalog of songs managed by this service.
-     *
-     * @return the global {@link ArrayList} of songs
+     * Getter for the catalog's ArrayList of Songs.
+     * 
+     * @return ArrayList<Song> representing the entire catalog.
      */
     public ArrayList<Song> getGlobalCatalog() {
         return songCatalog;
     }
 
     /**
-     * Prints all songs in the catalog to the console with index numbers.
-     * <p>
-     * Useful for debugging and manual verification of catalog contents.
-     * </p>
+     * Prints the contents of the catalog to the user.
+     * Songs are printed with an index as this function typically is to help the user choose a song.
+     * 
+     * @return void
      */
     public void listSongs() {
         int i = 0;
@@ -158,11 +135,10 @@ public class SearchService {
     }
 
     /**
-     * Retrieves a song from the catalog by its index position.
-     *
-     * @param index the zero-based index of the song in the catalog
-     * @return the {@link Song} at the specified index
-     * @throws IndexOutOfBoundsException if the index is invalid
+     * Getter for a song at a specified index.
+     * 
+     * @param index the targetting index (Positive integer >=0; must be within range of the Catalog's size)
+     * @return Song the song being targetted.
      */
     public Song getSongAtIndex(int index) {
         return songCatalog.get(index);

@@ -1,69 +1,63 @@
 import java.util.*;
 
 /**
- * Represents a playlist containing a collection of songs.
- * <p>
- * A playlist has a name, a creator, and a list of tracks.
- * It provides methods for adding, removing, and listing songs,
- * as well as computing the total duration of the playlist.
- * </p>
+ * Represents a collection of Songs with an attached 'name' and 'creator' (corresponds to some existing Listener's username)
  */
 public class Playlist {
-
-    /** The name of the playlist. */
+    // Represents the name of the playlist
     private String name;
 
-    /** The creator (owner) of the playlist. */
+    // Represents the creator of the playlist
     private String creator;
 
-    /** The list of songs contained in the playlist. */
+    // Represents the tracklisting of the playlist itself
     private ArrayList<Song> tracklist;
 
     /**
-     * Constructs a new {@code Playlist}.
+     * Constructor for Song objects
      *
-     * @param name      the name of the playlist (defaults to "Untitled" if {@code null})
-     * @param creator   the creator of the playlist (defaults to "unknown" if {@code null})
-     * @param tracklist the initial list of songs (defaults to an empty list if {@code null})
+     * @param name      name of the playlist
+     * @param creator   Listener who created and owns the playlist
+     * @param tracklist the tracklisting of the playlist; contains the Song content of the object.
      */
     public Playlist(String name, String creator, ArrayList<Song> tracklist) {
-        this.name = (name == null) ? "Untitled" : name;
-        this.creator = (creator == null) ? "unknown" : creator;
-        this.tracklist = (tracklist != null) ? tracklist : new ArrayList<>();
+        this.name = name;
+        this.creator = creator;
+        this.tracklist = tracklist;
     }
 
     /**
-     * Returns the name of the playlist.
-     *
-     * @return the playlist name
+     * Getter for the Playlist's 'name'
+     * 
+     * @return String storing the Playlist's name
      */
     public String getName() {
         return name;
     }
 
     /**
-     * Returns the creator (owner) of the playlist.
-     *
-     * @return the playlist creator
+     * Getter for the Playlist's 'creator'
+     * 
+     * @return String storing the Playlist's creator 
      */
     public String getCreator() {
         return creator;
     }
 
     /**
-     * Returns the list of songs in the playlist.
+     * Getter for the Playlist's 'tracklist'
      *
-     * @return the tracklist
+     * @return ArrayList<Song> storing the Song content of the Playlist object.
      */
     public ArrayList<Song> getTracklist() {
         return tracklist;
     }
 
     /**
-     * Adds a song to the playlist if it is not {@code null} and not already present.
+     * Adds a song to this Playlist provided it is not already present.
      *
-     * @param song the song to add
-     * @return {@code true} if the song was added, {@code false} if it was {@code null} or already present
+     * @param song Song we are adding to the Playlist
+     * @return boolean true if Song is added to Playlist; false if Playlist already contains Song
      */
     public boolean addSong(Song song) {
         if (song == null || tracklist.contains(song)) return false;
@@ -72,12 +66,10 @@ public class Playlist {
     }
 
     /**
-     * Removes the song at the specified index.
-     * <p>
-     * Prints a message if the playlist is empty or the index is invalid.
-     * </p>
+     * Removes a song from this Playlist at a specified index.
      *
-     * @param index the position of the song to remove
+     * @param index the targetting index (Positive integer >=0; function rejects invalid values.
+     * @return void
      */
     public void removeSongAtIndex(int index) {
         if (tracklist.isEmpty()) {
@@ -93,30 +85,36 @@ public class Playlist {
     }
 
     /**
-     * Removes a specific song from the playlist.
-     *
-     * @param song the song to remove
-     * @return {@code true} if the song was successfully removed, {@code false} otherwise
+     * Removes a specific song from this Playlist wherever it may exist.
+     * 
+     * @param song Song we are removing from this Playlist.
+     * @return boolean true if song was present and removed; false otherwise.
      */
     public boolean removeSong(Song song) {
         return tracklist.remove(song);
     }
 
     /**
-     * Returns the total duration of all songs in the playlist, formatted as {@code MM:SS}.
+     * Calculates the total duration of the Playlist
+     * Then converts the duration integer value into a formatted string with colon separated values.
      *
-     * @return the total duration as a formatted string
+     * @return String formatted time string
      */
     public String getTotalDurationFormatted() {
-        int totalDuration = tracklist.stream().mapToInt(Song::getDuration).sum();
+        int totalDuration = 0;
+        for (Song s : tracklist) {
+            totalDuration += s.getDuration();
+        }
         int minutes = totalDuration / 60;
         int seconds = totalDuration % 60;
         return String.format("%02d:%02d", minutes, seconds);
     }
 
     /**
-     * Prints all songs in the playlist to the console.
-     * Each song is displayed with its index and details.
+     * Prints the contents of the 'tracklist' to the user.
+     * Songs are printed with an index as this function can be used to help users choose a song
+     * 
+     * @return void
      */
     public void listSongs() {
         System.out.println("=== " + this.getName() + "'s Songs ===");
@@ -126,13 +124,12 @@ public class Playlist {
     }
 
     /**
-     * Returns a short description of the playlist, including its name, creator,
-     * and the number of songs it contains.
+     * Override of the toString() method; prints a description of the Playlist
      *
-     * @return a formatted summary string for this playlist
+     * @return String descriptor of a Playlist object
      */
     @Override
     public String toString() {
-        return "'" + name + "' created by " + creator + " - " + tracklist.size() + " songs";
+        return "'" + name + "' created by " + creator + " - " + tracklist.size() + " songs - " + getTotalDurationFormatted();
     }
 }

@@ -53,10 +53,11 @@ public class Song {
     }
 
     /**
-     * toString() method; prints a description of the Song
+     * Override of the toString() method; prints a description of the Song
      *
      * @return String descriptor of a Song object
      */
+    @Override
     public String toString() {
         return title + " – " + creator + " - " + durationToString();
     }
