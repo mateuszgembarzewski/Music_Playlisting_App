@@ -47,6 +47,8 @@ public class Main {
         Admin admin = new Admin("admin@gmail.com", "admin", "adminpass", 3);
         USERS.add(admin);
         
+        
+        
         // Users with no data
         Listener noNameListener = new Listener("noname1@gmail.com", "noname", "password", 1, new ArrayList<>());
         USERS.add(noNameListener);
@@ -129,9 +131,9 @@ public class Main {
         if (user instanceof Listener) {
             listenerUI(scanner, (Listener) user);
         } else if (user instanceof Artist) {
-            artistUI(scanner, (Artist) user);
+            artistUI((Artist) user);
         } else if (user instanceof Admin) {
-            adminUI(scanner, (Admin) user);
+            adminUI((Admin) user);
         }
     }
 
@@ -292,9 +294,30 @@ public class Main {
      * @param scanner the scanner for user input
      * @param artist  an authenticated Artist-type user
      * @return void
+     * 
+     * Mateusz Gembarzewski
+     * Oct 26th 2025
+     * 
+     * While using the reflect.Method library
+     * I noticed we are passing in a scanner
+     * as a parameter into this method. 
+     * 
+     * Is this necesarry? Can't we just initialize
+     * a scanner at the start of the method? 
+     * 
+     * After testing this method with the scanner
+     * initalized at the start of this method instead
+     * of being passed in as a parameter, this method
+     * works just as it did before. Removing the scanner
+     * parameter made my testing job much easier. 
+     * 
      */
-    private static void artistUI(Scanner scanner, Artist artist) {
+    private static void artistUI(Artist artist) {
+        Scanner scanner = new Scanner(System.in);
+        
         boolean running = true;
+        String status = "initial";
+        
         while (running) {
             System.out.println(
                 "\n1 = Upload to global catalog" + 
@@ -313,6 +336,7 @@ public class Main {
                     int time = Integer.parseInt(scanner.nextLine());
                     Song s = new Song(title, artist.getUsername(), time);
                     artist.addSongToCatalog(CATALOG, s);
+                    status = "case 1";
                     break;
 
                 case "2":
@@ -320,6 +344,7 @@ public class Main {
                     for (int i = 0; i < results.size(); i++) {
                         System.out.println("[" + i + "] " + results.get(i));
                     }
+                    status = "case 2";
                     break;
 
                 case "3":
@@ -352,6 +377,8 @@ public class Main {
         }
     }
 
+    
+    
     /**
      * Interactivity loop for Admin-type Users.
      * 
@@ -362,8 +389,28 @@ public class Main {
      * @param scanner the scanner for user input
      * @param admin   an authenticated Admin-type user
      * @return void
+     * 
+     * 
+     * Mateusz Gembarzewski 
+     * Oct 26th 2025 - 6:30pm.
+     * 
+     * Whilist working with the reflect.Method library to 
+     * access this private class for testing, I had an 
+     * issue creating an array which holds the objects 
+     * of type scanner and of type admin. 
+     * 
+     * This made me consider why we are passing in a Scanner
+     * object at all into this method?
+     * 
+     * Can we perhaps just initialize a scanner within the 
+     * method and drop it from the parameters?
+     * 
+     * Testing this now. 
+     * 
      */
-    private static void adminUI(Scanner scanner, Admin admin) {
+    private static void adminUI(Admin admin) {
+        int instance = 0; 
+        Scanner scanner = new Scanner(System.in);
         boolean running = true;
         while (running) {
             System.out.println(
@@ -375,6 +422,8 @@ public class Main {
                 "\n6 = Delete a user" + 
                 "\n0 = Logout"
             );
+            
+            instance = 1; 
             
             System.out.print("Choice: ");
             String choice = scanner.nextLine().trim();
