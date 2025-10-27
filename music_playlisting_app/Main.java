@@ -533,17 +533,13 @@ public class Main {
                     break;
                     
                 case "6": 
+                    
                     listUsers();
                     System.out.print("Enter a user index: ");
                     int value = Integer.parseInt(scanner.nextLine());
                     System.out.println("The arraylist USERS.size() is : " + USERS.size());
-                    if( value >= USERS.size() || value < 0 ) {
-                        System.out.println("Invalid entry, value out of arraylist bounds."); 
-                        break;
-                    } else {
-                        USERS.remove(value);
-                    }
-                    break; 
+                    adminDeleteAccount(value); 
+                    break;
                     
                 case "0":
                     System.out.println("Logging out...");
@@ -647,6 +643,16 @@ public class Main {
             return false;
         }
         else return true;
+    }
+    
+    public static void adminDeleteAccount(int value) {
+        
+        if( value >= USERS.size() || value < 0 ) {
+            System.out.println("Invalid entry, value out of arraylist bounds.");
+        } else {
+            USERS.remove(value);
+        }
+        
     }
     
     public static void adminCreatesAccount(String email, String username, String password, String entry){

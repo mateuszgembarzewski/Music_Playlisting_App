@@ -98,6 +98,18 @@ public class TestUATJUnit3
         int after = USERS.size();
         assertEquals("New User Account has been created", before + 1, after);
     }
+
     
+    @Test
+    public void testAdminAccountDeletion() {
+        Main mainClassInstance = new Main();
+        ArrayList<User> USERS = mainClassInstance.USERS;
+        int before = USERS.size();
+        
+        mainClassInstance.adminDeleteAccount(3);
+        
+        int after = mainClassInstance.USERS.size();
+        assertEquals("New User Account has been deleted", before - 1, after);
+    }
     
 }
