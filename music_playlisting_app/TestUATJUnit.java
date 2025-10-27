@@ -145,56 +145,48 @@ public class TestUATJUnit {
         assertEquals(1, listener.getPlaylistAtIndex(0).getTracklist().size(), "Playlist should still contain 1 song");
     }
 
-    /*
-     * ------------------------------------------------------------------------
-     * Sprint 2 Updates (Commented Tests)
-     * ------------------------------------------------------------------------
-     * These artist-related test cases are temporarily disabled
-     * pending updates to the {@link Artist} class and related catalog methods.
-     */
+    /**
+     * Test Case 8:
+     * Verifies that an artist can successfully add a valid song to their catalog.
+     * Expected Result: Song is added and catalog count increases.
+     
+    @Test
+    public void testArtistAddSongSuccess() {
+        Artist artist = new Artist("artist@gmail.com", "Artie", "secret", 1);
+        Song song = new Song("New Song", "Artie", 180);
+    
+        boolean result = artist.addSongToCatalog(song);
+        assertTrue(result, "Song should be added to catalog");
+        assertEquals(1, artist.getCatalog().size(), "Catalog should contain 1 song");
+    }*/
 
-    // /**
-    //  * Test Case 8:
-    //  * Verifies that an artist can successfully add a valid song to their catalog.
-    //  * Expected Result: Song is added and catalog count increases.
-    //  */
-    // @Test
-    // public void testArtistAddSongSuccess() {
-    //     Artist artist = new Artist("artist@gmail.com", "Artie", "secret", 1);
-    //     Song song = new Song("New Song", "Artie", 180);
-    //
-    //     boolean result = artist.addSongToCatalog(song);
-    //     assertTrue(result, "Song should be added to catalog");
-    //     assertEquals(1, artist.getCatalog().size(), "Catalog should contain 1 song");
-    // }
+    /**
+     * Test Case 9:
+     * Ensures that an artist cannot add a song with an invalid (empty) title.
+     * Expected Result: Song is rejected and not added to catalog.
+     
+    @Test
+    public void testArtistAddSongFailTitle() {
+        Artist artist = new Artist("artist@gmail.com", "Artie", "secret", 1);
+        Song song = new Song("", "Artie", 180);
+    
+        boolean result = artist.addSongToCatalog(song);
+        assertFalse(result, "Song with invalid title should not be added");
+        assertEquals(0, artist.getCatalog().size(), "Catalog should contain 0 songs");
+    }*/
 
-    // /**
-    //  * Test Case 9:
-    //  * Ensures that an artist cannot add a song with an invalid (empty) title.
-    //  * Expected Result: Song is rejected and not added to catalog.
-    //  */
-    // @Test
-    // public void testArtistAddSongFailTitle() {
-    //     Artist artist = new Artist("artist@gmail.com", "Artie", "secret", 1);
-    //     Song song = new Song("", "Artie", 180);
-    //
-    //     boolean result = artist.addSongToCatalog(song);
-    //     assertFalse(result, "Song with invalid title should not be added");
-    //     assertEquals(0, artist.getCatalog().size(), "Catalog should contain 0 songs");
-    // }
-
-    // /**
-    //  * Test Case 10:
-    //  * Ensures that an artist cannot add a song with an invalid (negative) duration.
-    //  * Expected Result: Song is rejected and not added to catalog.
-    //  */
-    // @Test
-    // public void testArtistAddSongFailDuration() {
-    //     Artist artist = new Artist("artist@gmail.com", "Artie", "secret", 1);
-    //     Song song = new Song("New Song", "Artie", -1);
-    //
-    //     boolean result = artist.addSongToCatalog(song);
-    //     assertFalse(result, "Song with invalid duration should not be added");
-    //     assertEquals(0, artist.getCatalog().size(), "Catalog should contain 0 songs");
-    // }
+    /**
+     * Test Case 10:
+     * Ensures that an artist cannot add a song with an invalid (negative) duration.
+     * Expected Result: Song is rejected and not added to catalog.
+     
+    @Test
+    public void testArtistAddSongFailDuration() {
+        Artist artist = new Artist("artist@gmail.com", "Artie", "secret", 1);
+        Song song = new Song("New Song", "Artie", -1);
+    
+        boolean result = artist.addSongToCatalog(song);
+        assertFalse(result, "Song with invalid duration should not be added");
+        assertEquals(0, artist.getCatalog().size(), "Catalog should contain 0 songs");
+    }*/
 }
