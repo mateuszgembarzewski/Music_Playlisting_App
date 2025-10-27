@@ -93,10 +93,10 @@ public class TestUATJUnit3
         ArrayList<User> USERS = mainClassInstance.USERS;
         int before = USERS.size();
         
-        mainClassInstance.adminCreatesAccount("test@test.com","Test123","Test1","lis");
+        mainClassInstance.adminCreatesAccount("test@test.com","Test123","Test1234@6","lis");
         
         int after = USERS.size();
-        assertEquals("New User Account has been created", before, after - 1);
+        assertEquals("New User Account has been created", before + 1, after);
     }
     
     

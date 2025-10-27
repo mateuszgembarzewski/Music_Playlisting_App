@@ -508,39 +508,15 @@ public class Main {
                         break; 
                     }
                     
-                    int check = 0;
-                    String email = null;
-                    String username = null;
-                    String password = null;
+        
+                    System.out.print("Enter new email: ");
+                    String email = scanner.nextLine().trim();
                     
-                    while(check == 0){
-                        System.out.print("Enter new email: ");
-                        email = scanner.nextLine().trim();
-                        if (LoginService.isValidEmail(email) == true) break;
-                        else {
-                            System.out.print("Invalid Email Id.\n");
-                        }
-                    }
+                    System.out.print("Enter new username: ");
+                    String username = scanner.nextLine().trim();
                     
-                    while(check == 0){
-                        System.out.print("Enter new username: ");
-                        username = scanner.nextLine().trim();
-                        if (LoginService.isValidUsername(username) == true) break;
-                        else {
-                            System.out.print("Invalid Username.\n");
-                            System.out.print("Username should start with Letter.\nUsername should be atleast 5 charaters long.\nUsername should not have any speachial charecters excpet underscore\n");
-                        }
-                    }
-                    
-                    while(check == 0){
-                        System.out.print("Enter new password: ");
-                        password = scanner.nextLine().trim();
-                        if (LoginService.isValidPassword(password) == true) break;
-                        else {
-                            System.out.print("Invalid Password.\n");
-                            System.out.print("Password should be atleast 8 characters long.\nPassword should have atleast one UPPERCASE, one lowercase, 1 number & one special character\n");
-                        }
-                    }
+                    System.out.print("Enter new password: ");
+                    String password = scanner.nextLine().trim();
                     
                     for (User u : USERS) {
                         if (u.getEmail().equalsIgnoreCase(email)) {
@@ -655,27 +631,47 @@ public class Main {
         return newUser;
     }
     
+    private static boolean checkFunction(String email, String username, String password){
+        if (LoginService.isValidEmail(email) != true){
+            System.out.print("Invalid Email Id.\n");
+            return false;
+        }
+        else if(LoginService.isValidUsername(username) != true){
+            System.out.print("Invalid Username.\n");
+            System.out.print("Username should start with Letter.\nUsername should be atleast 5 charaters long.\nUsername should not have any speachial charecters excpet underscore\n");
+            return false;
+        }
+        else if (LoginService.isValidPassword(password) != true){
+            System.out.print("Invalid Password.\n");
+            System.out.print("Password should be atleast 8 characters long.\nPassword should have atleast one UPPERCASE, one lowercase, 1 number & one special character\n");
+            return false;
+        }
+        else return true;
+    }
+    
     public static void adminCreatesAccount(String email, String username, String password, String entry){
-        User newUser = null;
-        if (entry.equalsIgnoreCase("ADM")) {
-            newUser = new Admin(email, username, password, USERS.size() + 1);
-            USERS.add(newUser);
-            System.out.println("Admin account created successfully!");
-            System.out.print("This account has been created: " + USERS.get(USERS.size() - 1).toString());   
+        if (checkFunction(email, username,password) == true){
+            User newUser = null;
+            if (entry.equalsIgnoreCase("ADM")) {
+                newUser = new Admin(email, username, password, USERS.size() + 1);
+                USERS.add(newUser);
+                System.out.println("Admin account created successfully!");
+                System.out.print("This account has been created: " + USERS.get(USERS.size() - 1).toString());   
+                
+            } else if (entry.equalsIgnoreCase("LIS")) {
+                newUser = new Listener(email, username, password, USERS.size() + 1, new ArrayList<Playlist>());
+                USERS.add(newUser);
+                System.out.println("Listener account created successfully!");
+                System.out.print("This account has been created: " + USERS.get(USERS.size() - 1).toString());
+            } else if (entry.equalsIgnoreCase("ART")) {
+                newUser = new Artist(email, username, password, USERS.size() + 1);
+                USERS.add(newUser);
+                System.out.println("Artist account created successfully!");
+                System.out.print("This account has been created: " + USERS.get(USERS.size() - 1).toString());
             
-        } else if (entry.equalsIgnoreCase("LIS")) {
-            newUser = new Listener(email, username, password, USERS.size() + 1, new ArrayList<Playlist>());
-            USERS.add(newUser);
-            System.out.println("Listener account created successfully!");
-            System.out.print("This account has been created: " + USERS.get(USERS.size() - 1).toString());
-        } else if (entry.equalsIgnoreCase("ART")) {
-            newUser = new Artist(email, username, password, USERS.size() + 1);
-            USERS.add(newUser);
-            System.out.println("Artist account created successfully!");
-            System.out.print("This account has been created: " + USERS.get(USERS.size() - 1).toString());
-        
-        } else {
-            System.out.println("Invalid entry, please try again. ");
+            } else {
+                System.out.println("Invalid entry, please try again. ");
+            }
         }
     }
     
