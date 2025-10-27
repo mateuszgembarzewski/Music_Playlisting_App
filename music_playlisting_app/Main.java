@@ -47,8 +47,6 @@ public class Main {
         Admin admin = new Admin("admin@gmail.com", "admin", "adminpass", 3);
         USERS.add(admin);
         
-        
-        
         // Users with no data
         Listener noNameListener = new Listener("noname1@gmail.com", "noname", "password", 1, new ArrayList<>());
         USERS.add(noNameListener);
@@ -444,7 +442,8 @@ public class Main {
                     } else {
                         listUsers();
                     }
-                    return 1; 
+                    instance = 1;
+                    break; 
                 
                 case "2":
                     if (USERS.size() <= 0) {
@@ -461,7 +460,8 @@ public class Main {
                     } else {
                         System.out.println("Invalid index.");
                     }
-                    return 2;
+                    instance = 2;
+                    break;
                     
                 case "3":
                     // Entered value for "artistName" will correlate to the account the song is tied to-- so if you add a song by "artist" and
@@ -481,7 +481,8 @@ public class Main {
                     } else {
                         System.out.println("Song already exists in catalog.");
                     }
-                    return 3;
+                    instance = 3;
+                    break;
                     
                 case "4":
                     if (CATALOG.getGlobalCatalog().size() <= 0) {
@@ -508,7 +509,8 @@ public class Main {
                     } else {
                         System.out.println("Invalid index.");
                     }
-                    return 4;
+                    instance = 4;
+                    break;
                     
                 case "5": 
                     System.out.println("What kind of user would you like to create? \n Enter 'ADM' for Admin, 'LIS' for Listener, or 'ART' for Artist: ");
@@ -583,7 +585,8 @@ public class Main {
                     } else {
                         System.out.println("Invalid entry, please try again. ");
                     }
-                    return 5;
+                    instance = 5;
+                    break;
                     
                 case "6": 
                     listUsers();
@@ -594,21 +597,22 @@ public class Main {
                         System.out.println("Invalid entry, value out of arraylist bounds."); 
                         break;
                     } else {
-                    USERS.remove(value);
+                        USERS.remove(value);
                     }
-                    return 6; 
+                    instance = 6;
+                    break; 
                     
                 case "0":
                     System.out.println("Logging out...");
                     running = false;
+                    instance = 7;
                     break;
 
                 default:
                     System.out.println("Unknown option.");
             }
         }
-        
-        return -2;
+        return instance; 
     }
 
     /**
