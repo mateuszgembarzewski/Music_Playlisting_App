@@ -1,5 +1,4 @@
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 /**
  * Class representing an Admin type of User.  Extends User class.

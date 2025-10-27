@@ -553,25 +553,7 @@ public class Main {
                         }
                     }
                     
-                    if (entry.equalsIgnoreCase("ADM")) {
-                        User newUser = new Admin(email, username, password, USERS.size() + 1);
-                        USERS.add(newUser);
-                        System.out.println("Admin account created successfully!");
-                        System.out.print("This account has been created: " + USERS.get(USERS.size() - 1).toString());   
-                    } else if (entry.equalsIgnoreCase("LIS")) {
-                        User newUser = new Listener(email, username, password, USERS.size() + 1, new ArrayList<Playlist>());
-                        USERS.add(newUser);
-                        System.out.println("Listener account created successfully!");
-                        System.out.print("This account has been created: " + USERS.get(USERS.size() - 1).toString());
-                    } else if (entry.equalsIgnoreCase("ART")) {
-                        User newUser = new Artist(email, username, password, USERS.size() + 1);
-                        USERS.add(newUser);
-                        System.out.println("Artist account created successfully!");
-                        System.out.print("This account has been created: " + USERS.get(USERS.size() - 1).toString());
-                    
-                    } else {
-                        System.out.println("Invalid entry, please try again. ");
-                    }
+                    adminCreatesAccount(email, username, password, entry);
                     break;
                     
                 case "6": 
@@ -673,6 +655,30 @@ public class Main {
         return newUser;
     }
     
+    public static void adminCreatesAccount(String email, String username, String password, String entry){
+        User newUser = null;
+        if (entry.equalsIgnoreCase("ADM")) {
+            newUser = new Admin(email, username, password, USERS.size() + 1);
+            USERS.add(newUser);
+            System.out.println("Admin account created successfully!");
+            System.out.print("This account has been created: " + USERS.get(USERS.size() - 1).toString());   
+            
+        } else if (entry.equalsIgnoreCase("LIS")) {
+            newUser = new Listener(email, username, password, USERS.size() + 1, new ArrayList<Playlist>());
+            USERS.add(newUser);
+            System.out.println("Listener account created successfully!");
+            System.out.print("This account has been created: " + USERS.get(USERS.size() - 1).toString());
+        } else if (entry.equalsIgnoreCase("ART")) {
+            newUser = new Artist(email, username, password, USERS.size() + 1);
+            USERS.add(newUser);
+            System.out.println("Artist account created successfully!");
+            System.out.print("This account has been created: " + USERS.get(USERS.size() - 1).toString());
+        
+        } else {
+            System.out.println("Invalid entry, please try again. ");
+        }
+    }
+    
     /**
      * Prints the contents of the USERS ArrayList to the user.
      * Called from Admin user Choice #1
@@ -684,6 +690,10 @@ public class Main {
         for (int i = 0; i < USERS.size(); i++) {
             System.out.println("[" + i + "] - " + USERS.get(i).toString());
         }
+    }
+    
+    public static int sizeUsers(){
+        return USERS.size();
     }
     
     /**

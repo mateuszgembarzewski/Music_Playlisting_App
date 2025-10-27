@@ -2,6 +2,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import java.util.*;
+import static org.junit.Assert.*;
 
 // This package allows me to test the private methods in the main class. 
 // I could also just change the methods I wish to test to public.
@@ -86,8 +88,15 @@ public class TestUATJUnit3
     }
     
     @Test
-    public void testAdminSys_adminUI_switchChoice1() {
+    public void testAdminAccountCreation() {
+        Main mainClassInstance = new Main();
+        ArrayList<User> USERS = mainClassInstance.USERS;
+        int before = USERS.size();
         
+        mainClassInstance.adminCreatesAccount("test@test.com","Test123","Test1","lis");
+        
+        int after = USERS.size();
+        assertEquals("New User Account has been created", before, after - 1);
     }
     
     

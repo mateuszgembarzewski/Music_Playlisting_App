@@ -17,7 +17,7 @@ public class LoginService {
     }
     
     public static boolean isValidPassword(String password) {
-        String passwordRegex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,20}$";
+        String passwordRegex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&+=])(?=\\S+$).{8,20}$";
         Pattern pattern = Pattern.compile(passwordRegex);
         return password !=null && pattern.matcher(password).matches();
     }
