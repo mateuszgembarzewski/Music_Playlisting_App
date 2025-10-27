@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.Random;
 
 /**
  * The entry point for the Music Playlisting Application
@@ -133,7 +134,7 @@ public class Main {
         } else if (user instanceof Artist) {
             artistUI((Artist) user);
         } else if (user instanceof Admin) {
-            adminUI((Admin) user);
+            adminUI((Admin) user, 0, false);
         }
     }
 
@@ -377,6 +378,12 @@ public class Main {
         }
     }
 
+    public int adminUI_publicWrapper(Admin admin, int switchChoice, boolean isTesting) {
+            Artist tempArtist = new Artist("tempArtist@gmail.com", "artist", "artistpass", 200);
+            int result = adminUI(admin, switchChoice, isTesting); // Calling the private method
+            
+            return result; // This class is unfinished - ignore for now. 
+        }
     
     
     /**
@@ -407,8 +414,11 @@ public class Main {
      * 
      * Testing this now. 
      * 
+     * Oct 27th 2025
+     * Temporarily making this class public instead of private
+     * 
      */
-    private static void adminUI(Admin admin) {
+    private static int adminUI(Admin admin, int switchChoice, boolean isTesting) {
         int instance = 0; 
         Scanner scanner = new Scanner(System.in);
         boolean running = true;
@@ -421,12 +431,23 @@ public class Main {
                 "\n5 = Add new user" + 
                 "\n6 = Delete a user" + 
                 "\n0 = Logout"
+                
             );
             
-            instance = 1; 
+            instance = -1;
+            
+            String choice = null;
+            
+            
             
             System.out.print("Choice: ");
-            String choice = scanner.nextLine().trim();
+            
+            if ( isTesting == false ) {
+                choice = scanner.nextLine().trim();
+            } else { 
+                choice = String.valueOf(switchChoice);
+            }
+            
             switch (choice) {
                 case "1":
                     if (USERS.size() <= 0) {
@@ -434,7 +455,8 @@ public class Main {
                     } else {
                         listUsers();
                     }
-                    break; 
+                    instance = 1; 
+                    return instance; 
                 
                 case "2":
                     if (USERS.size() <= 0) {
@@ -442,8 +464,18 @@ public class Main {
                     } else {
                         listUsers();
                     }
-                    System.out.print("Enter a user index: ");
-                    int userIndex = Integer.parseInt(scanner.nextLine());
+                    
+                    int userIndex; 
+                    
+                    if (isTesting == false) {
+                        System.out.print("Enter a user index: ");
+                        userIndex = Integer.parseInt(scanner.nextLine());
+                    } else {
+                        // In the future, find a new way select a value for userIndex 
+                        userIndex = 3;
+                    }
+                    
+                    
                     // Validate user input
                     if (userIndex < USERS.size() && userIndex >= 0) {
                         queryUser(USERS.get(userIndex), scanner); 
@@ -451,7 +483,8 @@ public class Main {
                     } else {
                         System.out.println("Invalid index.");
                     }
-                    break;
+                    instance = 2; 
+                    return instance; 
                     
                 case "3":
                     // Entered value for "artistName" will correlate to the account the song is tied to-- so if you add a song by "artist" and
@@ -471,7 +504,8 @@ public class Main {
                     } else {
                         System.out.println("Song already exists in catalog.");
                     }
-                    break;
+                    instance = 3; 
+                    return instance; 
                     
                 case "4":
                     if (CATALOG.getGlobalCatalog().size() <= 0) {
@@ -498,7 +532,8 @@ public class Main {
                     } else {
                         System.out.println("Invalid index.");
                     }
-                    break;
+                    instance = 4; 
+                    return instance; 
                     
                 case "5": 
                     System.out.println("What kind of user would you like to create? \n Enter 'ADM' for Admin, 'LIS' for Listener, or 'ART' for Artist: ");
@@ -573,7 +608,8 @@ public class Main {
                     } else {
                         System.out.println("Invalid entry, please try again. ");
                     }
-                    break;
+                    instance = 5; 
+                    return instance; 
                     
                 case "6": 
                     listUsers();
@@ -586,17 +622,20 @@ public class Main {
                     } else {
                     USERS.remove(value);
                     }
-                    break; 
+                    instance = 6; 
+                    return instance; 
                     
                 case "0":
                     System.out.println("Logging out...");
                     running = false;
-                    break;
+                    instance = 7;
+                    return instance;
 
                 default:
                     System.out.println("Unknown option.");
             }
         }
+        return instance;
     }
 
     /**
