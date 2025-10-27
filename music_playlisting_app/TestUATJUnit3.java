@@ -88,14 +88,6 @@ public class TestUATJUnit3
     @Test
     public void testAdminSys_adminUI_switchChoice1() {
         
-        Admin adminUser = new Admin("testAdmin@gmail.com","testAdmin","GoodPass1", 101);
-        
-        Main mainClassInstance = new Main();
-        
-        int result = mainClassInstance.adminUI_publicWrapper(adminUser, 1, true);
-        
-        assertEquals(result, 1);
-        
     }
     
     

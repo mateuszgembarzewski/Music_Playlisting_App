@@ -131,7 +131,7 @@ public class Main {
         } else if (user instanceof Artist) {
             artistUI((Artist) user);
         } else if (user instanceof Admin) {
-            adminUI((Admin) user, -1, false);
+            adminUI((Admin) user);
         }
     }
 
@@ -375,10 +375,10 @@ public class Main {
         }
     }
 
-    public static int adminUI_publicWrapper(Admin admin, int switchChoice, boolean isTesting) {
-        int result = adminUI(admin, switchChoice, isTesting);
-        return result; 
-    }
+    /*public static int adminUI_publicWrapper(Admin admin, int switchChoice, boolean isTesting) {
+     *  int result = adminUI(admin, switchChoice, isTesting);
+     *  return result; 
+    }*/
     
     /**
      * Interactivity loop for Admin-type Users.
@@ -409,8 +409,7 @@ public class Main {
      * Testing this now. 
      * 
      */
-    private static int adminUI(Admin admin, int switchChoice, boolean isTesting) {
-        int instance = -1; 
+    private static void adminUI(Admin admin) {
         Scanner scanner = new Scanner(System.in);
         boolean running = true;
         while (running) {
@@ -424,16 +423,8 @@ public class Main {
                 "\n0 = Logout"
             );
             
-            String choice = null;
-            instance = 0; 
-            
-            System.out.print("Choice: ");
-            
-            if (isTesting == true) {
-                choice = Integer.toString(switchChoice) ;
-            } else {
-                choice = scanner.nextLine().trim();
-            }
+            System.out.print("Choice: ");                      
+            String choice = scanner.nextLine().trim();
             
             switch (choice) {
                 case "1":
@@ -442,7 +433,6 @@ public class Main {
                     } else {
                         listUsers();
                     }
-                    instance = 1;
                     break; 
                 
                 case "2":
@@ -460,7 +450,6 @@ public class Main {
                     } else {
                         System.out.println("Invalid index.");
                     }
-                    instance = 2;
                     break;
                     
                 case "3":
@@ -481,7 +470,6 @@ public class Main {
                     } else {
                         System.out.println("Song already exists in catalog.");
                     }
-                    instance = 3;
                     break;
                     
                 case "4":
@@ -509,7 +497,6 @@ public class Main {
                     } else {
                         System.out.println("Invalid index.");
                     }
-                    instance = 4;
                     break;
                     
                 case "5": 
@@ -585,7 +572,6 @@ public class Main {
                     } else {
                         System.out.println("Invalid entry, please try again. ");
                     }
-                    instance = 5;
                     break;
                     
                 case "6": 
@@ -599,20 +585,17 @@ public class Main {
                     } else {
                         USERS.remove(value);
                     }
-                    instance = 6;
                     break; 
                     
                 case "0":
                     System.out.println("Logging out...");
                     running = false;
-                    instance = 7;
                     break;
 
                 default:
                     System.out.println("Unknown option.");
             }
         }
-        return instance; 
     }
 
     /**
