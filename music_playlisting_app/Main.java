@@ -60,7 +60,14 @@ public class Main {
         Song song4 = new Song("One More Time", "artist", 320);
         Song song5 = new Song("Club classics", "artist", 153);
         Song song6 = new Song("Hard Times", "artist", 182);
-        
+        Song song7 = new Song("Time of The Season - The Zombies", "artist", 299);
+        Song song8 = new Song("Star Dust - Tsunami J. & Matt Bartkus", "artist", 295);
+        Song song9 = new Song("Sirius - The Alan Parsons Project", "artist", 290);
+        Song song10 = new Song("Weatherman - Hank Williams, Jr.", "artist", 339);
+        Song song11 = new Song("Riders on the Storm - The Doors", "artist", 715);
+        Song song12 = new Song("Breathe - Pink Floyd", "artist", 402);
+
+
         // Populate the catalog
         defaultArtist.addSongToCatalog(CATALOG, song1);
         defaultArtist.addSongToCatalog(CATALOG, song2);
@@ -68,7 +75,12 @@ public class Main {
         defaultArtist.addSongToCatalog(CATALOG, song4);
         defaultArtist.addSongToCatalog(CATALOG, song5);
         defaultArtist.addSongToCatalog(CATALOG, song6);
-
+        defaultArtist.addSongToCatalog(CATALOG, song7);
+        defaultArtist.addSongToCatalog(CATALOG, song8);
+        defaultArtist.addSongToCatalog(CATALOG, song9);
+        defaultArtist.addSongToCatalog(CATALOG, song10);
+        defaultArtist.addSongToCatalog(CATALOG, song11); 
+        
         System.out.println("Welcome to the HMM Music Playlisting Application!"); // welcome message
 
         boolean running = true; // While true, user is within the execution of our app
