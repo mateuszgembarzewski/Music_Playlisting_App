@@ -1,5 +1,4 @@
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * The entry point for the Music Playlisting Application
@@ -533,11 +532,9 @@ public class Main {
                     break;
                     
                 case "6": 
-                    
                     listUsers();
                     System.out.print("Enter a user index: ");
                     int value = Integer.parseInt(scanner.nextLine());
-                    System.out.println("The arraylist USERS.size() is : " + USERS.size());
                     adminDeleteAccount(value); 
                     break;
                     
@@ -646,7 +643,6 @@ public class Main {
     }
     
     public static void adminDeleteAccount(int value) {
-        
         if( value >= USERS.size() || value < 0 ) {
             System.out.println("Invalid entry, value out of arraylist bounds.");
         } else {

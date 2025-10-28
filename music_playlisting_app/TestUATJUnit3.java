@@ -104,12 +104,14 @@ public class TestUATJUnit3
     public void testAdminAccountDeletion() {
         Main mainClassInstance = new Main();
         ArrayList<User> USERS = mainClassInstance.USERS;
+        mainClassInstance.adminCreatesAccount("test@test.com","Test123","Test1234@6","lis");
         int before = USERS.size();
-        
-        mainClassInstance.adminDeleteAccount(3);
+        System.out.print(before);
+        mainClassInstance.adminDeleteAccount(0);
         
         int after = mainClassInstance.USERS.size();
-        assertEquals("New User Account has been deleted", before - 1, after);
+        System.out.print(after);
+        assertEquals("User Account has been deleted", before, after + 1);
     }
     
 }
