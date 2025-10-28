@@ -472,23 +472,7 @@ public class Main {
                     }
                     System.out.print("Enter a song index: ");
                     int removeSongIndex = Integer.parseInt(scanner.nextLine());
-                    // Validate user input
-                    if (removeSongIndex < CATALOG.getGlobalCatalog().size() && removeSongIndex >= 0) {
-                        Song removeSong = CATALOG.getSongAtIndex(removeSongIndex);
-                        boolean removeCatalogSuccess = CATALOG.removeSongFromCatalog(removeSong);
-                        boolean removePlaylistSuccess = removeSongFromPlaylists(removeSong);
-                        // If song was successfully removed, print information about it
-                        if (removeCatalogSuccess) {
-                            System.out.println("Removed: " + removeSong.toString());
-                        } else {
-                            System.out.println("Song does not exist on the catalog.");
-                        }
-                        if (!removePlaylistSuccess) {
-                            System.out.println("Song did not exist in any playlists.");
-                        } 
-                    } else {
-                        System.out.println("Invalid index.");
-                    }
+                    adminDeleteSong(removeSongIndex);
                     break;
                     
                 case "5": 
@@ -552,6 +536,26 @@ public class Main {
             System.out.println("No song name or duration enetered.");
         } else {
             System.out.println("Song already exists in catalog.");
+        }
+    }
+    
+    public static void adminDeleteSong(int removeSongIndex) {
+        // Validate user input
+        if (removeSongIndex < CATALOG.getGlobalCatalog().size() && removeSongIndex >= 0) {
+            Song removeSong = CATALOG.getSongAtIndex(removeSongIndex);
+            boolean removeCatalogSuccess = CATALOG.removeSongFromCatalog(removeSong);
+            boolean removePlaylistSuccess = removeSongFromPlaylists(removeSong);
+            // If song was successfully removed, print information about it
+            if (removeCatalogSuccess) {
+                System.out.println("Removed: " + removeSong.toString());
+            } else {
+                System.out.println("Song does not exist on the catalog.");
+            }
+            if (!removePlaylistSuccess) {
+                System.out.println("Song did not exist in any playlists.");
+            } 
+        } else {
+            System.out.println("Invalid index.");
         }
     }
     

@@ -124,4 +124,18 @@ public class TestUATJUnit3
         int after = CATALOG.getGlobalCatalog().size();
         assertEquals("New Song has been created", before + 1, after);
     }
+    
+    @Test
+    public void testAdminSongDeletion() {
+        Main mainClassInstance = new Main();
+        SearchService CATALOG = mainClassInstance.CATALOG;
+        Song s = new Song("disocsong", "iamadiscodancer", 60);
+        mainClassInstance.adminAddSong(s);
+        int before  = CATALOG.getGlobalCatalog().size();
+        
+        mainClassInstance.adminDeleteSong(0);
+        
+        int after = CATALOG.getGlobalCatalog().size();
+        assertEquals("Song has been deleted", before, after + 1);
+    }
 }
