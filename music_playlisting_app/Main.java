@@ -700,10 +700,6 @@ public class Main {
         }
     }
     
-    public static int sizeUsers(){
-        return USERS.size();
-    }
-    
     /**
      * Determines the type of user and runs the corresponding adminQuery() function, 
      * which prints account details in a format specific to the Admin user role
