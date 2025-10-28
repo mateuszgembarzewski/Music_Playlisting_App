@@ -106,12 +106,22 @@ public class TestUATJUnit3
         ArrayList<User> USERS = mainClassInstance.USERS;
         mainClassInstance.adminCreatesAccount("test@test.com","Test123","Test1234@6","lis");
         int before = USERS.size();
-        System.out.print(before);
         mainClassInstance.adminDeleteAccount(0);
         
         int after = mainClassInstance.USERS.size();
-        System.out.print(after);
         assertEquals("User Account has been deleted", before, after + 1);
     }
     
+    @Test
+    public void testAdminSongCreation() {
+        Main mainClassInstance = new Main();
+        SearchService CATALOG = mainClassInstance.CATALOG;
+        int before  = CATALOG.getGlobalCatalog().size();
+        
+        Song s = new Song("disocsong", "iamadiscodancer", 60);
+        mainClassInstance.adminAddSong(s);
+        
+        int after = CATALOG.getGlobalCatalog().size();
+        assertEquals("New Song has been created", before + 1, after);
+    }
 }

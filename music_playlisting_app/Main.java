@@ -19,7 +19,7 @@ public class Main {
     public static final ArrayList<User> USERS = new ArrayList<>();
 
     // Manages the global song catalog.
-    private static SearchService CATALOG = new SearchService();
+    public static SearchService CATALOG = new SearchService();
 
     // Necessary for authenticating credentials.
     private static LoginService loginService = new LoginService();
@@ -461,14 +461,7 @@ public class Main {
                     System.out.print("Enter duration in seconds to add to catalog: ");
                     int time = Integer.parseInt(scanner.nextLine());
                     Song s = new Song(title, artistName, time);
-                    boolean addSuccess = CATALOG.addSongToCatalog(s);
-                    // Print off information based on outcome.
-                    // SearchService.addSongToCatalog() returns false if 
-                    if (addSuccess) {
-                        System.out.println("Added: " + s.toString());
-                    } else {
-                        System.out.println("Song already exists in catalog.");
-                    }
+                    adminAddSong(s);
                     break;
                     
                 case "4":
@@ -549,6 +542,19 @@ public class Main {
         }
     }
 
+    public static void adminAddSong(Song s) {
+        boolean addSuccess = CATALOG.addSongToCatalog(s);
+        // Print off information based on outcome.
+        // SearchService.addSongToCatalog() returns false if 
+        if (addSuccess && s != null) {
+            System.out.println("Added: " + s.toString());
+        } else if (s == null) {
+            System.out.println("No song name or duration enetered.");
+        } else {
+            System.out.println("Song already exists in catalog.");
+        }
+    }
+    
     /**
      * Called from the initial loop's Create Account option.
      *
