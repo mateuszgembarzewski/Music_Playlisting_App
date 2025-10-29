@@ -408,4 +408,87 @@ public class TestUATJUnitFinal {
 
         assertEquals(before - 1, after, "Song should be deleted from catalog");
     }
+    
+    /**
+     * Test Case 26:Verfies that if an admin can list all the users
+     */
+    @Test
+    public void testAdminListUserPass() {
+        boolean check = false;
+        Main mainClassInstance = new Main();
+        ArrayList<User> USERS = mainClassInstance.USERS;
+        mainClassInstance.adminCreatesAccount("test@test.com", "Test123", "Test1234@6", "lis");
+        
+        mainClassInstance.listUsers();
+        if(USERS.size() > 0) check = true;
+
+        assertTrue(check, "Users has been listed");
+    }     
+    
+    /**
+     * Test Case 27: Verfies that if the password is correct
+     */
+    @Test
+    public void testCheckPasswordPass() {
+        boolean check = false;
+        Main mainClassInstance = new Main();
+        check = mainClassInstance.checkFunction("email@email.com","Testemail","Testemail@123");
+        assertTrue(check, "Password is correct");
+    }
+    
+    /**
+     * Test Case 28: Verfies that if the username is correct
+     */
+    @Test
+    public void testCheckUsernamePass() {
+        boolean check = false;
+        Main mainClassInstance = new Main();
+        check = mainClassInstance.checkFunction("email@email.com","Testemail","Testemail@123");
+        assertTrue(check, "Username is correct");
+    }
+    
+    /**
+     * Test Case 29: Verfies that if the email is correct
+     */
+    @Test
+    public void testCheckEmailPass() {
+        boolean check = false;
+        Main mainClassInstance = new Main();
+        check = mainClassInstance.checkFunction("email@email.com","Testemail","Testemail@123");
+        assertTrue(check, "Email is correct");
+    }
+    
+    /**
+     * Test Case 30: Verfies that if the password is not correct
+     */
+    @Test
+    public void testCheckPasswordFail() {
+        boolean check = true;
+        Main mainClassInstance = new Main();
+        check = mainClassInstance.checkFunction("email@email.com","Testemail","");
+        assertFalse(check, "Password is not correct");
+    }
+    
+    /**
+     * Test Case 31: Verfies that if the username is not correct
+     */
+    @Test
+    public void testCheckUsernameFail() {
+        boolean check = true;
+        Main mainClassInstance = new Main();
+        check = mainClassInstance.checkFunction("email@email.com","","Testemail@123");
+        assertFalse(check, "Username is not correct");
+    }
+    
+    /**
+     * Test Case 32: Verfies that if the email is not correct
+     */
+    @Test
+    public void testCheckEmailFail() {
+        boolean check = true;
+        Main mainClassInstance = new Main();
+        check = mainClassInstance.checkFunction("","Testemail","Testemail@123");
+        assertFalse(check, "Email is not correct");
+    }
 }
+

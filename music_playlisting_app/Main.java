@@ -687,7 +687,7 @@ public class Main {
         return newUser;
     }
     
-    private static boolean checkFunction(String email, String username, String password){
+    public static boolean checkFunction(String email, String username, String password){
         if (LoginService.isValidEmail(email) != true){
             System.out.print("Invalid Email Id.\n");
             return false;
@@ -746,7 +746,7 @@ public class Main {
      * 
      * @return void
      */
-    private static void listUsers() {
+    public static void listUsers() {
         System.out.println("=== ALL USERS ===");
         for (int i = 0; i < USERS.size(); i++) {
             System.out.println("[" + i + "] - " + USERS.get(i).toString());
