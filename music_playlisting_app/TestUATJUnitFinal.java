@@ -9,6 +9,7 @@ public class TestUATJUnitFinal {
     private Listener listener;
     private SearchService catalog;
     private Artist artist;
+    private Main Main;
     /**
      * Initializes dependencies before each test.
      * Ensures isolation and a clean environment.
@@ -21,6 +22,8 @@ public class TestUATJUnitFinal {
         listener = new Listener("listener1@example.com", "listener1", "password", 1, new ArrayList<>());
         catalog = new SearchService();
         artist = new Artist("artist@example.com", "Halsey", "password", 1);
+        Main mainClassInstance = new Main();
+        SearchService catalog = mainClassInstance.CATALOG;
     }
     
     /** 
@@ -147,14 +150,13 @@ public class TestUATJUnitFinal {
      */
     @Test
     public void testArtistAddSongSuccess() {
-        Main mainClassInstance = new Main();
-        SearchService CATALOG = mainClassInstance.CATALOG;
         Artist artist = new Artist("artist@gmail.com", "Artie", "secret", 1);
+        int before = artist.getCatalog(catalog).size();
         Song song = new Song("New Song", "Artie", 180);
-
-        boolean result = artist.addSongToCatalog(CATALOG, song);
+        boolean result = artist.addSongToCatalog(catalog, song);
+        int after = artist.getCatalog(catalog).size();
         assertTrue(result, "Song should be added to catalog");
-        assertEquals(4, artist.getCatalog(CATALOG).size(), "Catalog should contain 2 songs");
+        assertEquals(before, after - 1, "Catalog should contain 2 songs");
     }
 
     /** 
@@ -163,14 +165,12 @@ public class TestUATJUnitFinal {
      */
     @Test
     public void testArtistAddSongFailTitle() {
-        Main mainClassInstance = new Main();
-        SearchService CATALOG = mainClassInstance.CATALOG;
         Artist artist = new Artist("artist@gmail.com", "Artie", "secret", 1);
         Song song = new Song("", "Artie", 180);
 
-        boolean result = artist.addSongToCatalog(CATALOG, song);
+        boolean result = artist.addSongToCatalog(catalog, song);
         assertFalse(result, "Song with invalid title should not be added");
-        assertEquals(2, artist.getCatalog(CATALOG).size(), "Catalog should contain 0 songs");
+        assertEquals(0, artist.getCatalog(catalog).size(), "Catalog should contain 0 songs");
     }
 
     /** 
@@ -183,10 +183,11 @@ public class TestUATJUnitFinal {
         SearchService CATALOG = mainClassInstance.CATALOG;
         Artist artist = new Artist("artist@gmail.com", "Artie", "secret", 1);
         Song song = new Song("New Song", "Artie", -1);
-
+        int before = artist.getCatalog(CATALOG).size();
         boolean result = artist.addSongToCatalog(CATALOG, song);
+        int after = artist.getCatalog(CATALOG).size();
         assertFalse(result, "Song with invalid duration should not be added");
-        assertEquals(0, artist.getCatalog(CATALOG).size(), "Catalog should contain 0 songs");
+        assertEquals(before, after, "Catalog should contain same number of songs as before");
     }
     
     /** 
@@ -199,11 +200,12 @@ public class TestUATJUnitFinal {
         SearchService CATALOG = mainClassInstance.CATALOG;
         Artist artist = new Artist("artist@gmail.com", "Artie", "secret", 1);
         Song song = new Song("New Song", "Artie", 2);
-
         artist.addSongToCatalog(CATALOG, song);
+        int before = artist.getCatalog(CATALOG).size();
         boolean result = artist.addSongToCatalog(CATALOG, song);
+        int after = artist.getCatalog(CATALOG).size();
         assertFalse(result, "Duplicated song not be added");
-        assertEquals(1, artist.getCatalog(CATALOG).size(), "Catalog should contain 1 song");
+        assertEquals(before, after, "Catalog should contain same number of songs");
     }
     
     /**
