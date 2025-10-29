@@ -195,16 +195,24 @@ public class Main {
                 case "3":
                     listener.listLibrary();
                     System.out.print("Enter a playlist index: ");
-                    int viewPlaylistIndex = Integer.parseInt(scanner.nextLine());
-                    Playlist viewPlaylist = listener.getPlaylistAtIndex(viewPlaylistIndex);
+                    int viewPlaylistIndex;
                     
-                    // Only try to print data to the user if that data exists.
-                    if (viewPlaylist.getTracklist().size() > 0) {
-                        viewPlaylist.listSongs(); // Prints tracklist to user
-                    } else {
-                        System.out.println(viewPlaylist.getName() + " is empty.");
+                    try {
+                        viewPlaylistIndex = Integer.parseInt(scanner.nextLine());
+                        
+                        Playlist viewPlaylist = listener.getPlaylistAtIndex(viewPlaylistIndex);
+                    
+                        // Only try to print data to the user if that data exists.
+                        if (viewPlaylist.getTracklist().size() > 0) {
+                            viewPlaylist.listSongs(); // Prints tracklist to user
+                        } else {
+                            System.out.println(viewPlaylist.getName() + " is empty.");
+                        }
+                        break;
+                        } catch (NumberFormatException e) {
+                        System.out.println("Invalid input, please enter a valid integer as input.");
+                        break; 
                     }
-                    break;
                     
                 case "4":
                     ArrayList<Song> allArtistResults = CATALOG.getGlobalCatalog();
