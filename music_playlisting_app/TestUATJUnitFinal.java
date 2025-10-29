@@ -22,11 +22,7 @@ public class TestUATJUnitFinal {
         catalog = new SearchService();
         artist = new Artist("artist@example.com", "Halsey", "password", 1);
     }
-
-    // ───────────────────────────────
-    // Authentication Tests
-    // ───────────────────────────────
-
+    
     /** 
      * Test Case 1: Verifies that a user can successfully log in with correct credentials.
      */

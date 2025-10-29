@@ -467,10 +467,11 @@ public class Main {
         while (running) {
             System.out.println(
                 "\n1 = List all users" +
-                "\n2 = Upload to global catalog" + 
-                "\n3 = Remove from global catalog" + 
-                "\n4 = Add new user" + 
-                "\n5 = Delete a user" + 
+                "\n2 = Query a user" + 
+                "\n3 = Upload to global catalog" + 
+                "\n4 = Remove from global catalog" + 
+                "\n5 = Add new user" + 
+                "\n6 = Delete a user" + 
                 "\n0 = Logout"
             );
             
@@ -485,8 +486,25 @@ public class Main {
                         listUsers();
                     }
                     break; 
-                                                 
-                case "2":
+                
+                 case "2":
+                    if (USERS.size() <= 0) {
+                        System.out.println("No users."); // This should never be triggered.
+                    } else {
+                        listUsers();
+                    }
+                    System.out.print("Enter a user index: ");
+                    int userIndex = Integer.parseInt(scanner.nextLine());
+                    // Validate user input
+                    if (userIndex < USERS.size() && userIndex >= 0) {
+                        queryUser(USERS.get(userIndex), scanner); 
+                        // Passes User object and Scanner forward since we may need to ask the user to select a playlist as well.
+                    } else {
+                        System.out.println("Invalid index.");
+                    }
+                    break;    
+                
+                case "3":
                     // Entered value for "artistName" will correlate to the account the song is tied to-- so if you add a song by "artist" and
                     // log in with the 'artist' and 'artistpass' credentials and check the local artist catalog, you will see the song.
                     System.out.print("Enter a song title: ");
@@ -499,7 +517,7 @@ public class Main {
                     adminAddSong(s);
                     break;
                     
-                case "3":
+                case "4":
                     if (CATALOG.getGlobalCatalog().size() <= 0) {
                         System.out.println("No songs exist on the catalog.");
                     } else {
@@ -510,7 +528,7 @@ public class Main {
                     adminDeleteSong(removeSongIndex);
                     break;
                     
-                case "4": 
+                case "5": 
                     System.out.println("What kind of user would you like to create? \n Enter 'ADM' for Admin, 'LIS' for Listener, or 'ART' for Artist: ");
                     String entry = scanner.nextLine().trim();
                     
@@ -543,7 +561,7 @@ public class Main {
                     adminCreatesAccount(email, username, password, entry);
                     break;
                     
-                case "5": 
+                case "6": 
                     listUsers();
                     System.out.print("Enter a user index: ");
                     int value = Integer.parseInt(scanner.nextLine());
@@ -792,10 +810,8 @@ public class Main {
                 ArrayList<Playlist> library = l.getLibrary();
                 for (Playlist p : library) {
                     ArrayList<Song> tracklist = p.getTracklist();
-                    for (Song s : tracklist) {
-                        if (tracklist.contains(removeSong)) {
-                            success = true;
-                        }
+                    if (tracklist.contains(removeSong)) {
+                        success = true;
                     }
                     // Only try to remove the song if a match was found
                     // This avoids a ConcurrentModificationException that

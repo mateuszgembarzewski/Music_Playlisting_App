@@ -2,98 +2,78 @@ import java.util.*;
 import java.util.regex.*;
 
 public class LoginService {
-    
-    public static boolean isValidUsername(String username) {
-        String usernameRegex = "^[A-Za-z][A-Za-z0-9_]{5,30}$";
-        Pattern pattern = Pattern.compile(usernameRegex);
-        return username !=null && pattern.matcher(username).matches();
-    }
-    
-    public static boolean isValidEmail(String email) {
-        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@" +
-                            "(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
-        Pattern pattern = Pattern.compile(emailRegex);
-        return email !=null && pattern.matcher(email).matches();
-    }
-    
-    public static boolean isValidPassword(String password) {
-        String passwordRegex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&+=])(?=\\S+$).{8,20}$";
-        Pattern pattern = Pattern.compile(passwordRegex);
-        return password !=null && pattern.matcher(password).matches();
-    }
-    
     /**
-     * Map tracking the number of failed login attempts by username.
-     * <p>The key is the username, and the value is the number of failed attempts.</p>
+     * Provides a service and object serving to validate user login credentials and provide
+     * authentication functions.
      */
+    // Represents failed login attempts, hashing keeps records of each failed attempt distinct.
     private final Map<String, Integer> failedAttempts = new HashMap<>();
 
-    /**
-     * Map tracking locked users and the timestamp of when they were locked.
-     * <p>The key is the username, and the value is the time (in milliseconds)
-     * when the account was locked.</p>
-     */
+    // Represents currently locked out users, hashing keeps sessions of lockout unique and distinctly stored.
     private final Map<String, Long> lockedUsers = new HashMap<>();
 
     /**
-     * Attempts to authenticate a user by validating username and password.
+     * Authenticates a user provided they've entered a valid username and password.
+     * Otherwise returns null and the login fails.
+     * 
+     * This is the function that allows a User access to the application.
      *
-     * <p>If the account is locked due to too many failed attempts,
-     * authentication will fail immediately. On successful authentication,
-     * failed attempts are reset.</p>
-     *
-     * @param username the username provided by the user
-     * @param password the password provided by the user
-     * @param allUsers the list of all registered users
-     * @return the authenticated {@link User} if credentials are valid;
-     *         {@code null} otherwise
+     * @param username  username for the user
+     * @param password  password for the user
+     * @param allUsers  The arrayList of all currently registrered users.
+     *         
+     * @return User an authenticated user (can only occur if the user's real credentials were entered
      */
     public User authenticate(String username, String password, List<User> allUsers) {
         if (isLocked(username)) {
-            System.out.println("Account is locked due to too many failed login attempts.");
-            return null;
+            System.out.println("This account is locked out.  Try again later.");
+            return null; // Do not attempt authentication at all.
         }
 
+        // If user does not exist, we do not proceed and return null
+        // If the user does exist and their valid password was entered, we authenticate the user.
         User user = findUser(username, allUsers);
         if (user != null && user.getPassword().equals(password)) {
-            resetFailedAttempts(username); // Successful login
+            resetFailedAttempts(username); // On success, remove any failed attempts
             System.out.println("Login successful! Welcome " + username);
             return user;
         } else {
-            handleFailedAttempt(username);
+            handleFailedAttempt(username); // On failure, add a failed attempt
             return null;
         }
     }
 
     /**
-     * Finds a user by username from the provided list.
-     *
-     * @param username the username to search for
-     * @param allUsers the list of all registered users
-     * @return the matching {@link User}, or {@code null} if not found
+     *  Getter for a specific registred User based on their username
+     *  
+     *  @param username  username for the user
+     *  @param allUsers  The arrayList of all currently registered users.
+     *  
+     *  @return User object of the desired User
      */
     private User findUser(String username, List<User> allUsers) {
         for (User user : allUsers) {
             if (user.getUsername().equals(username)) {
-                return user;
+                return user; // This user's username matches the username we are searching for
             }
         }
-        return null;
+        return null; // No user was found to have this username, null is returned.
     }
 
     /**
-     * Handles a failed login attempt for the specified username.
-     *
-     * <p>Increments the failed attempt count and locks the account
-     * if the maximum number of attempts is reached.</p>
-     *
-     * @param username the username that failed to authenticate
+     * Called when the user enters an incorrect password.
+     * Appends a new failed login attempt to the list, or increments an existing one.
+     * 
+     * @param username  username for the user
+     * @return void
      */
     private void handleFailedAttempt(String username) {
         failedAttempts.put(username, failedAttempts.getOrDefault(username, 0) + 1);
         int attempts = failedAttempts.get(username);
 
-        if (attempts >= 3) {
+        // As soon as the attempts reach or exceed 3, lock the user.
+        // Even if the attempts are greater than 3, the user should still be locked.
+        if (attempts >= 3) { 
             lockUser(username);
             System.out.println("Too many failed attempts. Your account has been locked.");
         } else {
@@ -102,27 +82,27 @@ public class LoginService {
     }
 
     /**
-     * Locks a user account by recording the current system time.
-     *
-     * @param username the username to lock
+     * Called when the user's failed login attempts reach 3
+     * 
+     * @param username  username for the user
+     * @return void 
      */
     private void lockUser(String username) {
-        lockedUsers.put(username, System.currentTimeMillis());
+        lockedUsers.put(username, System.currentTimeMillis());  // Adds a distinct entry to the lockedUsers list
     }
 
     /**
-     * Checks whether a user account is currently locked.
-     *
-     * <p>Accounts remain locked for 10 minutes after the lock time.
-     * If the lockout period has expired, the user is automatically unlocked.</p>
-     *
-     * @param username the username to check
-     * @return {@code true} if the user is locked; {@code false} otherwise
+     * Checks if a username currently exists on the list of locked users, and also if they should be unlocked.
+     * 
+     * @param username  username for the user
+     * @return boolean true if the user exists on the list of locked users; false otherwise
      */
     private boolean isLocked(String username) {
         if (lockedUsers.containsKey(username)) {
             long lockTime = lockedUsers.get(username);
-            if (System.currentTimeMillis() - lockTime < 600_000) { // 10 minutes lockout
+            // Checks if the lockout is still in place
+            // If it is, return true.  Otherwise end the lockout.
+            if (System.currentTimeMillis() - lockTime < 600_000) { 
                 return true;
             } else {
                 lockedUsers.remove(username); // Unlock after lockout period
@@ -132,11 +112,67 @@ public class LoginService {
     }
 
     /**
-     * Resets the failed login attempts for a user.
+     * Sets the count of failed login attempts for a specific username back to 0
      *
-     * @param username the username whose attempts should be reset
+     * @param username  username for the user
+     * @return void
      */
     private void resetFailedAttempts(String username) {
         failedAttempts.put(username, 0);
     }
+    
+    /**
+     * Validates the username against a regular expression
+     * Requires a username to begin with a letter, and then allow digits and underscores.
+     * Username must be a minimum length of 6 characters, and maximum of 31.
+     * 
+     * @param username  username to be validated
+     * @return boolean true if the username is validated by the RegEx, false otherwise;
+     */
+    public static boolean isValidUsername(String username) {
+        String usernameRegex = "^[A-Za-z][A-Za-z0-9_]{5,30}$";
+        Pattern pattern = Pattern.compile(usernameRegex);
+        
+        if (username == null) {
+            return false;
+        }
+        return pattern.matcher(username).matches();
+    }
+    
+    /**
+     * Validates the email against a regular expression
+     * Requires an email to contain a valid name, an @, domain name, and top level domain.
+     * 
+     * @param email  email to be validated
+     * @return boolean true if the email is validated by the RegEx, false otherwise;
+     */
+    public static boolean isValidEmail(String email) {
+        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@" +
+                            "(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+        Pattern pattern = Pattern.compile(emailRegex);
+        
+        if (email == null) {
+            return false;
+        }
+        return pattern.matcher(email).matches();
+    }
+    
+    /**
+     * Validates the password against a regular expression
+     * Requires a password to use mixed-case characters, digits, and atleast one of a set of special characters.
+     * Password must be a minimum length of 8 and a maximum length of 20.  
+     * 
+     * @param password  password to be validated
+     * @return boolean true if the password is validated by the RegEx, false otherwise;
+     */
+    public static boolean isValidPassword(String password) {
+        String passwordRegex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&+=])(?=\\S+$).{8,20}$";
+        Pattern pattern = Pattern.compile(passwordRegex);
+        
+        if (password == null) {
+            return false;
+        } 
+        return pattern.matcher(password).matches();
+    }
+        
 }
