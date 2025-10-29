@@ -196,12 +196,11 @@ public class Main {
                     listener.listLibrary();
                     System.out.print("Enter a playlist index: ");
                     int viewPlaylistIndex;
+    
                     
                     try {
                         viewPlaylistIndex = Integer.parseInt(scanner.nextLine());
-                        
                         Playlist viewPlaylist = listener.getPlaylistAtIndex(viewPlaylistIndex);
-                    
                         // Only try to print data to the user if that data exists.
                         if (viewPlaylist.getTracklist().size() > 0) {
                             viewPlaylist.listSongs(); // Prints tracklist to user
@@ -210,8 +209,11 @@ public class Main {
                         }
                         break;
                         } catch (NumberFormatException e) {
-                        System.out.println("Invalid input, please enter a valid integer as input.");
-                        break; 
+                            System.out.println("Invalid input, please enter a valid integer as input.");
+                            break; 
+                        } catch (IndexOutOfBoundsException e) { 
+                            System.out.println("The provided playlist index is out of bounds, try again.");
+                            break; 
                     }
                     
                 case "4":
