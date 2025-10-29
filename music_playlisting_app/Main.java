@@ -169,11 +169,12 @@ public class Main {
                 "\n1 = Create a playlist " + 
                 "\n2 = View all playlists " + 
                 "\n3 = View a specific playlist " +
-                "\n4 = Search the catalog " + 
-                "\n5 = Add a song to a playlist " + 
-                "\n6 = Remove a song from a playlist " +
-                "\n7 = Delete a specific playlist " + 
-                "\n8 = Delete all playlists " + 
+                "\n4 = View the entire global catalog " +
+                "\n5 = Search the catalog " + 
+                "\n6 = Add a song to a playlist " + 
+                "\n7 = Remove a song from a playlist " +
+                "\n8 = Delete a specific playlist " + 
+                "\n9 = Delete all playlists " + 
                 "\n0 = Log out"
             );
             System.out.print("Choice: ");
@@ -204,8 +205,15 @@ public class Main {
                         System.out.println(viewPlaylist.getName() + " is empty.");
                     }
                     break;
-
+                    
                 case "4":
+                    ArrayList<Song> allArtistResults = CATALOG.getGlobalCatalog();
+                    for (int i = 0; i < allArtistResults.size(); i++) {
+                        System.out.println("[" + i + "] " + allArtistResults.get(i));
+                    }
+                    break;
+
+                case "5":
                     System.out.print("Enter a search term: ");
                     String term = scanner.nextLine();
                     ArrayList<Song> results = CATALOG.searchByPartialTitle(term);
@@ -214,7 +222,7 @@ public class Main {
                     }
                     break;
 
-                case "5":
+                case "6":
                     listener.listLibrary();
                     // Don't allow the user to enter a value if they have no playlists.   
                     if (listener.getLibrary().size() > 0) {
@@ -240,7 +248,7 @@ public class Main {
                     }
                     break;
 
-                case "6":
+                case "7":
                     sizePlaylist = listener.getLibrary().size();
                     // Only allow user to select a playlist when at least one exists.
                     if (sizePlaylist > 0) {
@@ -263,7 +271,7 @@ public class Main {
                     }
                     break;
 
-                case "7":
+                case "8":
                     sizePlaylist = listener.getLibrary().size();
                     if (sizePlaylist > 0) {
                         listener.listLibrary();
@@ -275,7 +283,7 @@ public class Main {
                     }
                     break;
 
-                case "8":
+                case "9":
                     sizePlaylist = listener.getLibrary().size();
                     if (sizePlaylist > 0) {
                         listener.clearLibrary();
