@@ -167,10 +167,11 @@ public class TestUATJUnitFinal {
     public void testArtistAddSongFailTitle() {
         Artist artist = new Artist("artist@gmail.com", "Artie", "secret", 1);
         Song song = new Song("", "Artie", 180);
-
+        int before = artist.getCatalog(catalog).size();
         boolean result = artist.addSongToCatalog(catalog, song);
+        int after = artist.getCatalog(catalog).size();
         assertFalse(result, "Song with invalid title should not be added");
-        assertEquals(0, artist.getCatalog(catalog).size(), "Catalog should contain 0 songs");
+        assertEquals(before, after, "Catalog should contain same number of songs as before");
     }
 
     /** 
@@ -179,13 +180,11 @@ public class TestUATJUnitFinal {
      */
     @Test
     public void testArtistAddSongFailDuration() {
-        Main mainClassInstance = new Main();
-        SearchService CATALOG = mainClassInstance.CATALOG;
         Artist artist = new Artist("artist@gmail.com", "Artie", "secret", 1);
         Song song = new Song("New Song", "Artie", -1);
-        int before = artist.getCatalog(CATALOG).size();
-        boolean result = artist.addSongToCatalog(CATALOG, song);
-        int after = artist.getCatalog(CATALOG).size();
+        int before = artist.getCatalog(catalog).size();
+        boolean result = artist.addSongToCatalog(catalog, song);
+        int after = artist.getCatalog(catalog).size();
         assertFalse(result, "Song with invalid duration should not be added");
         assertEquals(before, after, "Catalog should contain same number of songs as before");
     }
