@@ -510,7 +510,8 @@ public class TestUATJUnitFinal {
         Main mainClassInstance = new Main();
         check = mainClassInstance.checkFunction("","Testemail","Testemail@123");
         assertFalse(check, "Email is not correct");
-
+    }
+    
     /** Test 36: Verifies that an artist can delete a song from the catalog if it's present
      * ARTIST_REMOVE_SONG_FROM_CATALOG_SUCCEED
      */
