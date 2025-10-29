@@ -60,12 +60,12 @@ public class Main {
         Song song4 = new Song("One More Time", "artist", 320);
         Song song5 = new Song("Club classics", "artist", 153);
         Song song6 = new Song("Hard Times", "artist", 182);
-        Song song7 = new Song("Time of The Season - The Zombies", "artist", 299);
-        Song song8 = new Song("Star Dust - Tsunami J. & Matt Bartkus", "artist", 295);
-        Song song9 = new Song("Sirius - The Alan Parsons Project", "artist", 290);
-        Song song10 = new Song("Weatherman - Hank Williams, Jr.", "artist", 339);
-        Song song11 = new Song("Riders on the Storm - The Doors", "artist", 715);
-        Song song12 = new Song("Breathe - Pink Floyd", "artist", 402);
+        Song song7 = new Song("Time of The Season", "The Zombies", 299);
+        Song song8 = new Song("Star Dust", "Tsunami J. & Matt Bartkus", 295);
+        Song song9 = new Song("Sirius", "The Alan Parsons Project", 290);
+        Song song10 = new Song("Weatherman", "Hank Williams, Jr.", 339);
+        Song song11 = new Song("Riders on the Storm", "The Doors", 715);
+        Song song12 = new Song("Breathe", "Pink Floyd", 402);
 
 
         // Populate the catalog
@@ -79,7 +79,8 @@ public class Main {
         defaultArtist.addSongToCatalog(CATALOG, song8);
         defaultArtist.addSongToCatalog(CATALOG, song9);
         defaultArtist.addSongToCatalog(CATALOG, song10);
-        defaultArtist.addSongToCatalog(CATALOG, song11); 
+        defaultArtist.addSongToCatalog(CATALOG, song11);
+        defaultArtist.addSongToCatalog(CATALOG, song12); 
         
         System.out.println("Welcome to the HMM Music Playlisting Application!"); // welcome message
 
@@ -329,9 +330,10 @@ public class Main {
         
         while (running) {
             System.out.println(
-                "\n1 = Upload to global catalog" + 
-                "\n2 = Get global catalog " + 
-                "\n3 = Remove from global catalog " + 
+                "\n1 = Upload a song to the global catalog" + 
+                "\n2 = View your songs in the global catalog " + 
+                "\n3 = Remove one of your songs from the global catalog " + 
+                "\n4 = View all songs in the global catalog " + 
                 "\n0 = Log out"
             );
             System.out.print("Choice: ");
@@ -373,6 +375,15 @@ public class Main {
                     if (!removePlaylistSuccess){
                         System.out.println("Song did not exist in any playlists.");
                     } // If the song did not exist anywhere, nothing is printed to the user.
+                    status = "case 3"; 
+                    break;
+                    
+                case "4":
+                    ArrayList<Song> allArtistResults = CATALOG.getGlobalCatalog();
+                    for (int i = 0; i < allArtistResults.size(); i++) {
+                        System.out.println("[" + i + "] " + allArtistResults.get(i));
+                    }
+                    status = "case 4";
                     break;
 
                 case "0":
