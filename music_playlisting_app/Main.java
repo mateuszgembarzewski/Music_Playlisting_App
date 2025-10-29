@@ -181,10 +181,22 @@ public class Main {
             String choice = scanner.nextLine().trim();
             switch (choice) {
                 case "1":
+                    String title = null;
                     System.out.print("Enter a playlist title: ");
-                    String title = scanner.nextLine();
-                    Playlist playlist = listener.createNewPlaylist(title);
+                    title = scanner.nextLine();
                     
+                    // There is no Javaexception to catch an empty string, so I am making this if statement instead to catch invalid input - Mateusz
+                    if (title == "") {
+                        System.out.println("Error: Cannot accept an empty string as a playlist title. Please try again.");
+                        break;
+                    } else if (title.isBlank() == true) {
+                        System.out.println("Error: Cannot accept whitespace as a playlist title. Please try again.");
+                        break;
+                    } else {
+                        System.out.println("Creating a playlist with the title: " + title);
+                    }
+                
+                    Playlist playlist = listener.createNewPlaylist(title);
                     System.out.println("Playlist '" + title + "' created."); // Convey action to user
                     break;
 
@@ -196,12 +208,11 @@ public class Main {
                     listener.listLibrary();
                     System.out.print("Enter a playlist index: ");
                     int viewPlaylistIndex;
+    
                     
                     try {
                         viewPlaylistIndex = Integer.parseInt(scanner.nextLine());
-                        
                         Playlist viewPlaylist = listener.getPlaylistAtIndex(viewPlaylistIndex);
-                    
                         // Only try to print data to the user if that data exists.
                         if (viewPlaylist.getTracklist().size() > 0) {
                             viewPlaylist.listSongs(); // Prints tracklist to user
@@ -209,9 +220,12 @@ public class Main {
                             System.out.println(viewPlaylist.getName() + " is empty.");
                         }
                         break;
-                        } catch (NumberFormatException e) {
-                        System.out.println("Invalid input, please enter a valid integer as input.");
-                        break; 
+                    } catch (NumberFormatException e) {
+                            System.out.println("Invalid input, please enter a valid integer as input.");
+                            break; 
+                    } catch (IndexOutOfBoundsException e) { 
+                            System.out.println("The provided playlist index is out of bounds, try again.");
+                            break; 
                     }
                     
                 case "4":
