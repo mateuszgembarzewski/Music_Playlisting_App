@@ -2,7 +2,7 @@ import org.junit.jupiter.api.*;
 import static org.junit.jupiter.api.Assertions.*;
 import java.util.*;
 
-public class TestUATJUnitFinal {
+public class UnitTests {
 
     private LoginService loginService;
     private List<User> users;
@@ -37,7 +37,7 @@ public class TestUATJUnitFinal {
     }
 
     /** 
-     * Test 2: Verifies that login fails both the username and password being incorrect.
+     * Test 2: Verifies that a uuser cannot log in when both their username and password are incorrect.
      * FUNC_USER_LOGIN_FAIL_01
      */
     @Test
@@ -47,7 +47,7 @@ public class TestUATJUnitFinal {
     }
     
     /** 
-     * Test 3: Verifies that login fails with incorrect username.
+     * Test 3: Verifies that a user cannot log in when their username is correct but their password is not
      * FUNC_USER_LOGIN_FAIL_BADPASS_02
      */
     @Test
@@ -57,7 +57,7 @@ public class TestUATJUnitFinal {
     }
     
     /** 
-     * Test 4: Verifies that login fails with incorrect password. 
+     * Test 4: Verifies that a user cannot log in when their username is incorrect but their password is not.  
      * FUNC_USER_LOGIN_BADUSER_03
      */
     @Test
@@ -67,7 +67,7 @@ public class TestUATJUnitFinal {
     }
 
     /** 
-     * Test 5: Ensures that an account is locked after three consecutive failed logins.
+     * Test 5: Verifies that an account is locked after three consecutive failed logins.
      * FUNC_USER_LOGIN_LOCKOUT_04
      */
     @Test
@@ -111,7 +111,7 @@ public class TestUATJUnitFinal {
     }
 
     /** 
-     * Test 8: Verifies that a listener can successfully add a new song to a playlist.
+     * Test 8: Verifies that a listener can add a new song to a playlist, and that playlist is updated after that.
      * LISTENER_ADD_SONG_SUCCESS
      */
     @Test
@@ -127,7 +127,7 @@ public class TestUATJUnitFinal {
     }
 
     /** 
-     * Test 9: Ensures that duplicate songs cannot be added to a listener’s playlist.
+     * Test 9: Verifies that a listener cannot add a song to a playlist if it is already there, and that the playlist hasn't been updated after an attempt.
      * LISTENER_ADD_SONG_FAIL
      */
     @Test
@@ -145,7 +145,7 @@ public class TestUATJUnitFinal {
 
 
     /** 
-     * Test 10: Verifies that an artist can successfully add a valid song to their catalog. 
+     * Test 10: Verifies that an artist can add a song to the global catalog, and that it exists after that action occurs.
      * ARTIST_ADD_SONG_SUCCESS
      */
     @Test
@@ -160,7 +160,7 @@ public class TestUATJUnitFinal {
     }
 
     /** 
-     * Test 11: Ensures that an artist cannot add a song with an invalid (empty) title. 
+     * Test 11: Verifies that if no title is provided, an artist cannot add the song to the catalog.
      * ARTIST_ADD_SONG_FAIL_TITLE
      */
     @Test
@@ -175,7 +175,7 @@ public class TestUATJUnitFinal {
     }
 
     /** 
-     * Test 12: Ensures that an artist cannot add a song with an invalid (negative) duration. 
+     * Test 12: Verifies that if a negative duration is provided, an artist cannot add the song to the catalog.
      * ARTIST_ADD_SONG_FAIL_DURATION
      */
     @Test
@@ -190,7 +190,7 @@ public class TestUATJUnitFinal {
     }
     
     /** 
-     * Test 13: Ensures that an artist cannot add a song with an invalid (negative) duration. 
+     * Test 13: If a song has already been added to the catalog, an artist cannot add it again.
      * ARTIST_ADD_SONG_FAIL_DUPLICATE
      */
     @Test
@@ -208,7 +208,7 @@ public class TestUATJUnitFinal {
     }
     
     /**
-     * Test 14: Verifies that a listener can create multiple playlists successfully.
+     * Test 14: Verifies that a listener can create multiple playlists.
      * LISTENER_CREATE_MULTIPLE_PLAYLISTS
      */
     @Test
@@ -219,7 +219,7 @@ public class TestUATJUnitFinal {
     }
 
     /**
-     * Test 15: Verifies successful removal of a playlist by a listener.
+     * Test 15: Verifies that a playlist can be removed, and that the library updates properly.
      * LISTENER_REMOVE_PLAYLIST_SUCCESS
      */
     @Test
@@ -234,7 +234,7 @@ public class TestUATJUnitFinal {
     }
 
     /**
-     * Test 16: Ensures that attempting to remove a playlist when none exist fails gracefully.
+     * Test 16: Verifies that when a playlist does not exist, it cannot be removed from a library.  The library should be unchanged.
      * LISTENER_REMOVE_PLAYLIST_FAIL
      */
     @Test
@@ -246,7 +246,7 @@ public class TestUATJUnitFinal {
     }
 
     /**
-     * Test 17: Validates successful song removal from an existing playlist.
+     * Test 17: Verifies that a song added to a playlist can be removed later, and that the playlist object has updated.
      * LISTENER_REMOVE_SONG_FROM_PLAYLIST_SUCCEED
      */
     @Test
@@ -264,7 +264,7 @@ public class TestUATJUnitFinal {
     }
 
     /**
-     * Test 18: Ensures that attempting to remove a song from an empty playlist fails gracefully.
+     * Test 18: Verifies that a song cannot be removed from a playlist that has no songs.
      * LISTENER_REMOVE_SONG_FROM_PLAYLIST_FAIL
      */
     @Test
@@ -280,7 +280,7 @@ public class TestUATJUnitFinal {
     }
 
     /**
-     * Test 19: Verifies that a listener can interact with the system by creating a playlist.
+     * Test 19: Verifies that a listener's account remains authenticated and in existance after an action has been performed.
      * LISTENER_SYSTEM_INTERACTIBLE_SUCCEED
      */
     @Test
@@ -302,7 +302,7 @@ public class TestUATJUnitFinal {
     }
 
     /**
-     * Test 21: Ensures successful artist song search by song title.
+     * Test 21: Verifies that the search service can filter the catalog by artist name.
      * ARTIST_SEARCH_SUCCEED
      */
     @Test
@@ -316,7 +316,7 @@ public class TestUATJUnitFinal {
     }
 
     /**
-     * Test 22: Ensures search fails when an artist has no matching songs.
+     * Test 22: Verifies that the search service does not return entries when there is no matching element.
      * ARTIST_SEARCH_FAIL
      */
     @Test
@@ -329,7 +329,7 @@ public class TestUATJUnitFinal {
     }
 
     /**
-     * Test 23: Validates that artists can add multiple songs and remain logged in after actions.
+     * Test 23: Verifies that an artist's account remains authenticated and in existance after an action has been performed.
      * ARTIST_RETURNS_TO_DASH
      */
     @Test
@@ -345,9 +345,8 @@ public class TestUATJUnitFinal {
     }
     
     /**
-     * Test 24: Verifies that an admin can successfully log in.
+     * Test 24: Verifies that a admin's account can be authenticated.
      * ADMIN_LOGIN_SUCCEED
-     * 
      */
     @Test
     public void testAdminLogin() {
@@ -362,9 +361,8 @@ public class TestUATJUnitFinal {
     }
 
     /**
-     * Test 25: Verifies that an admin can create an account.
+     * Test 25: Verifies that admins are capable of creating accounts
      * ADMIN_ADD_USER
-     * 
      */
     @Test
     public void testAdminAccountCreation() {
@@ -379,7 +377,7 @@ public class TestUATJUnitFinal {
     }
 
     /**
-     * Test 26: Verifies that an admin can delete an account.
+     * Test 26: Verifies that admins are capable of deleting accounts.
      * ADMIN_REMOVE_USER
      */
     @Test
@@ -396,7 +394,7 @@ public class TestUATJUnitFinal {
     }
 
     /**
-     * Test 27: Verifies that an admin can add a new song to the catalog.
+     * Test 27: Verifies that an admin can add a new song to the global catalog.
      * ADMIN_ADD_SONG_TO_CATALOG
      */
     @Test
@@ -413,7 +411,7 @@ public class TestUATJUnitFinal {
     }
 
     /**
-     * Test 28: Verifies that an admin can delete a song from the catalog.
+     * Test 28: Verifies that an admin can delete a song from the global catalog.
      * ADMIN_REMOVE_SONG_FROM_CATALOG
      */
     @Test
@@ -432,7 +430,8 @@ public class TestUATJUnitFinal {
     }
     
     /**
-     * Test Case 29 :Verfies that if an admin can list all the users
+     * Test Case 29 :Verfies that an admin is capable of listing all the users when the user exists.
+     * ADMIN_LIST_USER_SUCCEED
      */
     @Test
     public void testAdminListUserPass() {
@@ -448,7 +447,8 @@ public class TestUATJUnitFinal {
     }     
     
     /**
-     * Test Case 30 : Verfies that if the password is correct
+     * Test Case 30: Checks that a valid password succeeds in our RegEx
+     * SYSTEM_VERIFY_PASSWORD_SUCCEED
      */
     @Test
     public void testCheckPasswordPass() {
@@ -459,7 +459,8 @@ public class TestUATJUnitFinal {
     }
     
     /**
-     * Test Case 31: Verfies that if the username is correct
+     * Test Case 31: Checks that a valid userame succeeds in our RegEx
+     * SYSTEM_VERIFY_USERNAME_SUCCEED
      */
     @Test
     public void testCheckUsernamePass() {
@@ -470,7 +471,8 @@ public class TestUATJUnitFinal {
     }
     
     /**
-     * Test Case 32: Verfies that if the email is correct
+     * Test Case 32: Checks that a valid email address succeeds in our RegEx
+     * SYSTEM_VERIFY_EMAIL_SUCCEED
      */
     @Test
     public void testCheckEmailPass() {
@@ -481,7 +483,8 @@ public class TestUATJUnitFinal {
     }
     
     /**
-     * Test Case 33: Verfies that if the password is not correct
+     * Test Case 33: Checks that an invalid password fails our RegEx.
+     * SYSTEM_VERIFY_PASSWORD_FAIL
      */
     @Test
     public void testCheckPasswordFail() {
@@ -492,7 +495,8 @@ public class TestUATJUnitFinal {
     }
     
     /**
-     * Test Case 34: Verfies that if the username is not correct
+     * Test Case 34: Checks that an invalid username fails our RegEx
+     * SYSTEM_VERIFY_USERNAME_FAIL
      */
     @Test
     public void testCheckUsernameFail() {
@@ -503,7 +507,8 @@ public class TestUATJUnitFinal {
     }
     
     /**
-     * Test Case 35: Verfies that if the email is not correct
+     * Test Case 35: Checks that an invalid email address fails our RegEx
+     * SYSTEM_VERFIFY_EMAIL_FAIL
      */
     @Test
     public void testCheckEmailFail() {

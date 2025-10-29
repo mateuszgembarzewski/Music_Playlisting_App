@@ -579,6 +579,13 @@ public class Main {
         }
     }
 
+    /**
+     * Adds a song to the catalog from the Admin UI
+     * Allows for the admin to add a song for any artist.
+     * 
+     * @param song the Song to be added to the catalog
+     * @return void
+     */
     public static void adminAddSong(Song s) {
         boolean addSuccess = CATALOG.addSongToCatalog(s);
         // Print off information based on outcome.
@@ -592,6 +599,13 @@ public class Main {
         }
     }
     
+    /**
+     * Removes a song from the catalog from the Admin UI
+     * Allows for the admin to remove any song from the global catalog.
+     * 
+     * @param removeSongIndex the index we are targetting to remove a song at
+     * @return void
+     */
     public static void adminDeleteSong(int removeSongIndex) {
         // Validate user input
         if (removeSongIndex < CATALOG.getGlobalCatalog().size() && removeSongIndex >= 0) {
@@ -687,6 +701,15 @@ public class Main {
         return newUser;
     }
     
+    /**
+     * Function called by our test cases to fascilitate testing our account validation and regular expressions
+     * 
+     * @param email the email address to validate
+     * @param username the username to validate
+     * @param password the password to validate
+     * 
+     * @return boolean true when the email, username, and password are successfully validated; false when any one fails.
+     */
     public static boolean checkFunction(String email, String username, String password){
         if (LoginService.isValidEmail(email) != true){
             System.out.print("Invalid Email Id.\n");
@@ -705,6 +728,12 @@ public class Main {
         else return true;
     }
     
+    /**
+     * Allows an admin to remove an account from the ArrayList of all users.
+     * 
+     * @param value the index of the USERS ArrayList that we are targetting
+     * @return void
+     */
     public static void adminDeleteAccount(int value) {
         if( value >= USERS.size() || value < 0 ) {
             System.out.println("Invalid entry, value out of arraylist bounds.");
@@ -714,6 +743,18 @@ public class Main {
         
     }
     
+    
+    /**
+     * Allows an admin to create a new account of any user type, including Admins
+     * Admins are not create-able from the regular createAccount function available at login
+     * 
+     * @param email the email address for the account we are adding
+     * @param username the username for the account we are adding
+     * @param password the password for the account we are adding
+     * @param entry the account type selection for the account we are adding
+     * 
+     * @return void
+     */
     public static void adminCreatesAccount(String email, String username, String password, String entry){
         if (checkFunction(email, username,password) == true){
             User newUser = null;
