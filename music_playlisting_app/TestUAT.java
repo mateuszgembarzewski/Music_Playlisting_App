@@ -31,8 +31,6 @@ public class TestUAT {
      */
     public static void main(String[] args) {
         TestUAT tester = new TestUAT();
-
-        // Run all active test cases
         tester.testUserLoginSuccess();
         tester.testUserLoginFail();
         tester.testUserLoginLockout();
@@ -40,11 +38,9 @@ public class TestUAT {
         tester.testListenerSearchPartial();
         tester.testListenerAddSongSuccess();
         tester.testListenerAddSongFail();
-
-        // Tests disabled pending Sprint 2 updates
-        // tester.testArtistAddSongSuccess();
-        // tester.testArtistAddSongFailTitle();
-        // tester.testArtistAddSongFailDuration();
+        tester.testArtistAddSongSuccess();
+        tester.testArtistAddSongFailTitle();
+        tester.testArtistAddSongFailDuration();
     }
 
     /**
@@ -184,49 +180,52 @@ public class TestUAT {
      * Validates that an artist can successfully add a valid song to their catalog.
      *
      * <p><b>Expected Result:</b> The song is added, and catalog count increases.</p>
-     
+     */
     public void testArtistAddSongSuccess() {
+        SearchService catalog = new SearchService();
         Artist artist = new Artist("artist@gmail.com", "Artie", "secret", 1);
         Song song = new Song("New Song", "Artie", 180);
     
-        boolean result = artist.addSongToCatalog(song);
+        boolean result = artist.addSongToCatalog(catalog, song);
     
         assert result == true : "Test Failed: Song should be added to the artist's catalog";
-        assert artist.getCatalog().size() == 1 : "Test Failed: Artist catalog should contain 1 song";
+        assert artist.getCatalog(catalog).size() == 1 : "Test Failed: Artist catalog should contain 1 song";
         System.out.println("ARTIST_ADD_SONG_SUCCESS: Passed");
-    }*/
+    }
 
     /**
      * Test Case 9:
      * Ensures that an artist cannot add a song with an invalid (empty) title.
      *
      * <p><b>Expected Result:</b> The song is rejected and not added to the catalog.</p>
-     
+     */
     public void testArtistAddSongFailTitle() {
+        SearchService catalog = new SearchService();
         Artist artist = new Artist("artist@gmail.com", "Artie", "secret", 1);
         Song song = new Song("", "Artie", 180); // Invalid title
     
-        boolean result = artist.addSongToCatalog(song);
+        boolean result = artist.addSongToCatalog(catalog, song);
     
         assert result == false : "Test Failed: Song with invalid title should not be added";
-        assert artist.getCatalog().size() == 0 : "Test Failed: Artist catalog should still contain 0 songs";
+        assert artist.getCatalog(catalog).size() == 0 : "Test Failed: Artist catalog should still contain 0 songs";
         System.out.println("ARTIST_ADD_SONG_FAIL_TITLE: Passed");
-    }*/
+    }
 
     /**
      * Test Case 10:
      * Ensures that an artist cannot add a song with an invalid (negative) duration.
      *
      * <p><b>Expected Result:</b> The song is rejected and not added to the catalog.</p>
-     
+     */
     public void testArtistAddSongFailDuration() {
+        SearchService catalog = new SearchService();
         Artist artist = new Artist("artist@gmail.com", "Artie", "secret", 1);
         Song song = new Song("New Song", "Artie", -1); // Invalid duration
     
-        boolean result = artist.addSongToCatalog(song);
+        boolean result = artist.addSongToCatalog(catalog, song);
     
         assert result == false : "Test Failed: Song with invalid duration should not be added";
-        assert artist.getCatalog().size() == 0 : "Test Failed: Artist catalog should still contain 0 songs";
+        assert artist.getCatalog(catalog).size() == 0 : "Test Failed: Artist catalog should still contain 0 songs";
         System.out.println("ARTIST_ADD_SONG_FAIL_DURATION: Passed");
-    }*/
+    }
 }
