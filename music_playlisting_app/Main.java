@@ -802,7 +802,7 @@ public class Main {
      * @param removeSong the song we are searching for and removing
      * @return boolean true if removeSong actually existed on any playlists; false otherwise
      */
-    private static boolean removeSongFromPlaylists(Song removeSong) {
+    public static boolean removeSongFromPlaylists(Song removeSong) {
         boolean success = false;
         for (User u : USERS) {
             if (u instanceof Listener) {
