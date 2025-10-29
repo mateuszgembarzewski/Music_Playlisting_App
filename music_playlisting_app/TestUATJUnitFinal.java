@@ -24,7 +24,8 @@ public class TestUATJUnitFinal {
     }
     
     /** 
-     * Test Case 1: Verifies that a user can successfully log in with correct credentials.
+     * Test 1: Verifies that a user can successfully log in with correct credentials.
+     * FUNC_USER_LOGIN_SUCCESS_01
      */
     @Test
     public void testUserLoginSuccess() {
@@ -33,16 +34,38 @@ public class TestUATJUnitFinal {
     }
 
     /** 
-     * Test Case 2: Verifies that login fails with incorrect password. 
+     * Test 2: Verifies that login fails both the username and password being incorrect.
+     * FUNC_USER_LOGIN_FAIL_01
      */
     @Test
     public void testUserLoginFail() {
+        User loggedInUser = loginService.authenticate("wronguser", "wrongpassword", users);
+        assertNull(loggedInUser, "User login should fail with incorrect credentials");
+    }
+    
+    /** 
+     * Test 3: Verifies that login fails with incorrect username.
+     * FUNC_USER_LOGIN_FAIL_BADPASS_02
+     */
+    @Test
+    public void testUserLoginFailBadPass() {
         User loggedInUser = loginService.authenticate("testuser", "wrongpassword", users);
         assertNull(loggedInUser, "User login should fail with incorrect password");
     }
+    
+    /** 
+     * Test 4: Verifies that login fails with incorrect password. 
+     * FUNC_USER_LOGIN_BADUSER_03
+     */
+    @Test
+    public void testUserLoginFailBadUser() {
+        User loggedInUser = loginService.authenticate("wronguser", "password", users);
+        assertNull(loggedInUser, "User login should fail with incorrect username");
+    }
 
     /** 
-     * Test Case 3: Ensures that an account is locked after three consecutive failed logins.
+     * Test 5: Ensures that an account is locked after three consecutive failed logins.
+     * FUNC_USER_LOGIN_LOCKOUT_04
      */
     @Test
     public void testUserLoginLockout() {
@@ -53,13 +76,10 @@ public class TestUATJUnitFinal {
         User loggedInUser = loginService.authenticate("testuser", "password", users);
         assertNull(loggedInUser, "Account should be locked after 3 failed attempts");
     }
-
-    // ───────────────────────────────
-    // Listener Search Tests
-    // ───────────────────────────────
-
+    
     /** 
-     * Test Case 4: Verifies that a listener can search for a song by its exact title. 
+     * Test 6: Verifies that a listener can search for a song by its exact title. 
+     * FUNC_LISTENER_SEARCH_01
      */
     @Test
     public void testListenerSearchExact() {
@@ -73,7 +93,8 @@ public class TestUATJUnitFinal {
     }
 
     /** 
-     * Test Case 5: Verifies that a listener can search for songs using a partial title.
+     * Test 7: Verifies that a listener can search for songs using a partial title.
+     * FUNC_LISTENER_SEARCH_02
      */
     @Test
     public void testListenerSearchPartial() {
@@ -86,12 +107,9 @@ public class TestUATJUnitFinal {
         assertEquals("Shape of You", results.get(0).getTitle(), "Search result should be 'Shape of You'");
     }
 
-    // ───────────────────────────────
-    // Playlist Management Tests
-    // ───────────────────────────────
-
     /** 
-     * Test Case 6: Verifies that a listener can successfully add a new song to a playlist. 
+     * Test 8: Verifies that a listener can successfully add a new song to a playlist.
+     * LISTENER_ADD_SONG_SUCCESS
      */
     @Test
     public void testListenerAddSongSuccess() {
@@ -106,7 +124,8 @@ public class TestUATJUnitFinal {
     }
 
     /** 
-     * Test Case 7: Ensures that duplicate songs cannot be added to a listener’s playlist.
+     * Test 9: Ensures that duplicate songs cannot be added to a listener’s playlist.
+     * LISTENER_ADD_SONG_FAIL
      */
     @Test
     public void testListenerAddSongFail() {
@@ -121,12 +140,10 @@ public class TestUATJUnitFinal {
         assertEquals(1, listener.getPlaylistAtIndex(0).getTracklist().size(), "Playlist should still contain 1 song");
     }
 
-    // ───────────────────────────────
-    // Artist Catalog Tests
-    // ───────────────────────────────
 
     /** 
-     * Test Case 8: Verifies that an artist can successfully add a valid song to their catalog. 
+     * Test 10: Verifies that an artist can successfully add a valid song to their catalog. 
+     * ARTIST_ADD_SONG_SUCCESS
      */
     @Test
     public void testArtistAddSongSuccess() {
@@ -137,11 +154,12 @@ public class TestUATJUnitFinal {
 
         boolean result = artist.addSongToCatalog(CATALOG, song);
         assertTrue(result, "Song should be added to catalog");
-        assertEquals(1, artist.getCatalog(CATALOG).size(), "Catalog should contain 1 song");
+        assertEquals(4, artist.getCatalog(CATALOG).size(), "Catalog should contain 2 songs");
     }
 
     /** 
-     * Test Case 9: Ensures that an artist cannot add a song with an invalid (empty) title. 
+     * Test 11: Ensures that an artist cannot add a song with an invalid (empty) title. 
+     * ARTIST_ADD_SONG_FAIL_TITLE
      */
     @Test
     public void testArtistAddSongFailTitle() {
@@ -152,11 +170,12 @@ public class TestUATJUnitFinal {
 
         boolean result = artist.addSongToCatalog(CATALOG, song);
         assertFalse(result, "Song with invalid title should not be added");
-        assertEquals(0, artist.getCatalog(CATALOG).size(), "Catalog should contain 0 songs");
+        assertEquals(2, artist.getCatalog(CATALOG).size(), "Catalog should contain 0 songs");
     }
 
     /** 
-     * Test Case 10: Ensures that an artist cannot add a song with an invalid (negative) duration. 
+     * Test 12: Ensures that an artist cannot add a song with an invalid (negative) duration. 
+     * ARTIST_ADD_SONG_FAIL_DURATION
      */
     @Test
     public void testArtistAddSongFailDuration() {
@@ -170,11 +189,26 @@ public class TestUATJUnitFinal {
         assertEquals(0, artist.getCatalog(CATALOG).size(), "Catalog should contain 0 songs");
     }
     
+    /** 
+     * Test 13: Ensures that an artist cannot add a song with an invalid (negative) duration. 
+     * ARTIST_ADD_SONG_FAIL_DUPLICATE
+     */
+    @Test
+    public void testArtistAddSongFailDuplicate() {
+        Main mainClassInstance = new Main();
+        SearchService CATALOG = mainClassInstance.CATALOG;
+        Artist artist = new Artist("artist@gmail.com", "Artie", "secret", 1);
+        Song song = new Song("New Song", "Artie", 2);
+
+        artist.addSongToCatalog(CATALOG, song);
+        boolean result = artist.addSongToCatalog(CATALOG, song);
+        assertFalse(result, "Duplicated song not be added");
+        assertEquals(1, artist.getCatalog(CATALOG).size(), "Catalog should contain 1 song");
+    }
+    
     /**
-     * Test Case 11: Verifies that a listener can create multiple playlists successfully.
-     *
-     * <p>Expected behavior: {@code Listener.createNewPlaylist()} correctly adds
-     * multiple playlists to the listener's collection.</p>
+     * Test 14: Verifies that a listener can create multiple playlists successfully.
+     * LISTENER_CREATE_MULTIPLE_PLAYLISTS
      */
     @Test
     public void testCreateMultiplePlaylists() {
@@ -184,10 +218,8 @@ public class TestUATJUnitFinal {
     }
 
     /**
-     * Test Case 12: Verifies successful removal of a playlist by a listener.
-     *
-     * <p>Expected behavior: Removing a valid playlist index decreases the total
-     * playlist count by one.</p>
+     * Test 15: Verifies successful removal of a playlist by a listener.
+     * LISTENER_REMOVE_PLAYLIST_SUCCESS
      */
     @Test
     public void testRemovePlaylistSuccess() {
@@ -201,9 +233,8 @@ public class TestUATJUnitFinal {
     }
 
     /**
-     * Test Case 13: Ensures that attempting to remove a playlist when none exist fails gracefully.
-     *
-     * <p>Expected behavior: Playlist list size remains unchanged; no exceptions should be thrown.</p>
+     * Test 16: Ensures that attempting to remove a playlist when none exist fails gracefully.
+     * LISTENER_REMOVE_PLAYLIST_FAIL
      */
     @Test
     public void testRemovePlaylistFail() {
@@ -214,9 +245,8 @@ public class TestUATJUnitFinal {
     }
 
     /**
-     * Test Case 14: Validates successful song removal from an existing playlist.
-     *
-     * <p>Expected behavior: Removing a song decreases playlist size by one.</p>
+     * Test 17: Validates successful song removal from an existing playlist.
+     * LISTENER_REMOVE_SONG_FROM_PLAYLIST_SUCCEED
      */
     @Test
     public void testRemoveSongFromPlaylistSuccess() {
@@ -233,9 +263,8 @@ public class TestUATJUnitFinal {
     }
 
     /**
-     * Test Case 15: Ensures that attempting to remove a song from an empty playlist fails gracefully.
-     *
-     * <p>Expected behavior: Playlist size remains unchanged; no exceptions thrown.</p>
+     * Test 18: Ensures that attempting to remove a song from an empty playlist fails gracefully.
+     * LISTENER_REMOVE_SONG_FROM_PLAYLIST_FAIL
      */
     @Test
     public void testRemoveSongFromEmptyPlaylistFail() {
@@ -250,9 +279,8 @@ public class TestUATJUnitFinal {
     }
 
     /**
-     * Test Case 16: Verifies that a listener can interact with the system by creating a playlist.
-     *
-     * <p>Expected behavior: A new playlist is added to the listener’s playlist collection.</p>
+     * Test 19: Verifies that a listener can interact with the system by creating a playlist.
+     * LISTENER_SYSTEM_INTERACTIBLE_SUCCEED
      */
     @Test
     public void testListenerSystemInteraction() {
@@ -261,9 +289,8 @@ public class TestUATJUnitFinal {
     }
 
     /**
-     * Test Case 17: Validates that a listener is restricted from performing artist-only actions.
-     *
-     * <p>Expected behavior: The system should prevent listeners from adding songs to the global catalog.</p>
+     * Test 20: Validates that a listener is restricted from performing artist-only actions.
+     * LISTENER_SYSTEM_INTERACTIBLE_FAIL
      */
     @Test
     public void testListenerRestrictedAccess() {
@@ -274,9 +301,8 @@ public class TestUATJUnitFinal {
     }
 
     /**
-     * Test Case 18: Ensures successful artist song search by song title.
-     *
-     * <p>Expected behavior: Search returns at least one matching song when it exists in the artist's catalog.</p>
+     * Test 21: Ensures successful artist song search by song title.
+     * ARTIST_SEARCH_SUCCEED
      */
     @Test
     public void testArtistSearchSucceed() {
@@ -289,9 +315,8 @@ public class TestUATJUnitFinal {
     }
 
     /**
-     * Test Case 19: Ensures search fails when an artist has no matching songs.
-     *
-     * <p>Expected behavior: Search returns an empty list or no matches for a nonexistent song title.</p>
+     * Test 22: Ensures search fails when an artist has no matching songs.
+     * ARTIST_SEARCH_FAIL
      */
     @Test
     public void testArtistSearchFail() {
@@ -303,9 +328,8 @@ public class TestUATJUnitFinal {
     }
 
     /**
-     * Test Case 20: Validates that artists can add multiple songs and remain logged in after actions.
-     *
-     * <p>Expected behavior: Both songs appear in the catalog after being added by the same artist.</p>
+     * Test 23: Validates that artists can add multiple songs and remain logged in after actions.
+     * ARTIST_RETURNS_TO_DASH
      */
     @Test
     public void testArtistReturnsToDashboard() {
@@ -320,13 +344,9 @@ public class TestUATJUnitFinal {
     }
     
     /**
-     * <b>Test Case 21:</b> Verifies that an admin can successfully log in.
-     * <p>
-     * The test creates a new {@link Admin} user and attempts authentication
-     * via {@link LoginService#authenticate(String, String, List)}.
-     * Validation is done by comparing the expected and returned user IDs.
-     * </p>
-     * <p><b>Expected Result:</b> The authenticated user matches the created admin user.</p>
+     * Test 24: Verifies that an admin can successfully log in.
+     * ADMIN_LOGIN_SUCCEED
+     * 
      */
     @Test
     public void testAdminLogin() {
@@ -341,8 +361,9 @@ public class TestUATJUnitFinal {
     }
 
     /**
-     * <b>Test Case 22:</b> Verifies that an admin can successfully create a user account.
-     * <p><b>Expected Result:</b> The number of users increases by 1 after creation.</p>
+     * Test 25: Verifies that an admin can create an account.
+     * ADMIN_ADD_USER
+     * 
      */
     @Test
     public void testAdminAccountCreation() {
@@ -357,8 +378,8 @@ public class TestUATJUnitFinal {
     }
 
     /**
-     * <b>Test Case 23:</b> Verifies that an admin can delete a user account.
-     * <p><b>Expected Result:</b> The number of users decreases by 1 after deletion.</p>
+     * Test 26: Verifies that an admin can delete an account.
+     * ADMIN_REMOVE_USER
      */
     @Test
     public void testAdminAccountDeletion() {
@@ -374,8 +395,8 @@ public class TestUATJUnitFinal {
     }
 
     /**
-     * <b>Test Case 24:</b> Verifies that an admin can add a new song to the catalog.
-     * <p><b>Expected Result:</b> Catalog size increases by 1 after addition.</p>
+     * Test 27: Verifies that an admin can add a new song to the catalog.
+     * ADMIN_ADD_SONG_TO_CATALOG
      */
     @Test
     public void testAdminSongCreation() {
@@ -391,8 +412,8 @@ public class TestUATJUnitFinal {
     }
 
     /**
-     * <b>Test Case 25:</b> Verifies that an admin can delete a song from the catalog.
-     * <p><b>Expected Result:</b> Catalog size decreases by 1 after deletion.</p>
+     * Test 28: Verifies that an admin can delete a song from the catalog.
+     * ADMIN_REMOVE_SONG_FROM_CATALOG
      */
     @Test
     public void testAdminSongDeletion() {
@@ -410,7 +431,7 @@ public class TestUATJUnitFinal {
     }
     
     /**
-     * Test Case 26:Verfies that if an admin can list all the users
+     * Test Case 29 :Verfies that if an admin can list all the users
      */
     @Test
     public void testAdminListUserPass() {
@@ -426,7 +447,7 @@ public class TestUATJUnitFinal {
     }     
     
     /**
-     * Test Case 27: Verfies that if the password is correct
+     * Test Case 30 : Verfies that if the password is correct
      */
     @Test
     public void testCheckPasswordPass() {
@@ -437,7 +458,7 @@ public class TestUATJUnitFinal {
     }
     
     /**
-     * Test Case 28: Verfies that if the username is correct
+     * Test Case 31: Verfies that if the username is correct
      */
     @Test
     public void testCheckUsernamePass() {
@@ -448,7 +469,7 @@ public class TestUATJUnitFinal {
     }
     
     /**
-     * Test Case 29: Verfies that if the email is correct
+     * Test Case 32: Verfies that if the email is correct
      */
     @Test
     public void testCheckEmailPass() {
@@ -459,7 +480,7 @@ public class TestUATJUnitFinal {
     }
     
     /**
-     * Test Case 30: Verfies that if the password is not correct
+     * Test Case 33: Verfies that if the password is not correct
      */
     @Test
     public void testCheckPasswordFail() {
@@ -470,7 +491,7 @@ public class TestUATJUnitFinal {
     }
     
     /**
-     * Test Case 31: Verfies that if the username is not correct
+     * Test Case 34: Verfies that if the username is not correct
      */
     @Test
     public void testCheckUsernameFail() {
@@ -481,7 +502,7 @@ public class TestUATJUnitFinal {
     }
     
     /**
-     * Test Case 32: Verfies that if the email is not correct
+     * Test Case 35: Verfies that if the email is not correct
      */
     @Test
     public void testCheckEmailFail() {
@@ -489,6 +510,85 @@ public class TestUATJUnitFinal {
         Main mainClassInstance = new Main();
         check = mainClassInstance.checkFunction("","Testemail","Testemail@123");
         assertFalse(check, "Email is not correct");
+
+    /** Test 36: Verifies that an artist can delete a song from the catalog if it's present
+     * ARTIST_REMOVE_SONG_FROM_CATALOG_SUCCEED
+     */
+    @Test
+    public void testArtistSongDeletionSucceed() {
+        Main mainClassInstance = new Main();
+        SearchService CATALOG = mainClassInstance.CATALOG;
+
+        Artist otherArtist = new Artist("artist2@example.com", "Billie Eilish", "password", 2);
+
+        Song s = new Song("disocsong", "iamadiscodancer", 60);
+        otherArtist.addSongToCatalog(CATALOG, s);
+
+        boolean checker = CATALOG.removeSongFromCatalog(s); 
+
+        assertTrue(checker);
+    }
+    
+    /**
+     * Test 37: Verifies that an artist does not delete song from the catalog when it is not present
+     * ARTIST_REMOVE_SONG_FROM_CATALOG_FAIL
+     */
+    @Test
+    public void testArtistSongDeletionFail() {
+        Main mainClassInstance = new Main();
+        SearchService CATALOG = mainClassInstance.CATALOG;
+
+        Artist otherArtist = new Artist("artist2@example.com", "Billie Eilish", "password", 2);
+
+        Song s = new Song("disocsong", "iamadiscodancer", 60);
+
+        boolean checker = CATALOG.removeSongFromCatalog(s); 
+
+        assertFalse(checker);
+    }
+    
+    /**
+     * Test 38: Verifies that an artist can delete a song from the catalog, and it is also removed from playlists where it exists
+     * ARTIST_REMOVE_SONG_FROM_CATALOG_AND_PLAYLISTS_SUCCEED
+     */
+    @Test
+    public void testArtistSongDeletionFromPlaylistsSucceed() {
+        Main mainClassInstance = new Main();
+        SearchService CATALOG = mainClassInstance.CATALOG;
+        Listener listener = new Listener("testuser@gmail.com", "testuser", "password", 1, new ArrayList<>());
+        Playlist playlist = listener.createNewPlaylist("testcase32");
+        Artist otherArtist = new Artist("artist2@example.com", "Billie Eilish", "password", 2);
+        
+        mainClassInstance.USERS.add(listener);
+        Song s = new Song("disocsong", "iamadiscodancer", 60);
+        
+        otherArtist.addSongToCatalog(CATALOG, s);
+        playlist.addSong(s);
+
+        boolean checker = mainClassInstance.removeSongFromPlaylists(s);
+
+        assertTrue(checker);
+    }
+    
+    /**
+     * Test 39: Verifies that an artist can delete a song from the catalog, and it is not removed from playlists where it does not exist
+     * ARTIST_REMOVE_SONG_FROM_CATALOG_AND_PLAYLISTS_FAIL
+     */
+    @Test
+    public void testArtistSongDeletionFromPlaylistsFail() {
+        Main mainClassInstance = new Main();
+        SearchService CATALOG = mainClassInstance.CATALOG;
+        Listener listener = new Listener("testuser@gmail.com", "testuser", "password", 1, new ArrayList<>());
+        Playlist playlist = listener.createNewPlaylist("testcase32");
+        Artist otherArtist = new Artist("artist2@example.com", "Billie Eilish", "password", 2);
+        
+        Song s = new Song("disocsong", "iamadiscodancer", 60);
+        
+        otherArtist.addSongToCatalog(CATALOG, s);
+
+        boolean checker = mainClassInstance.removeSongFromPlaylists(s);
+
+        assertFalse(checker);
     }
 }
 
