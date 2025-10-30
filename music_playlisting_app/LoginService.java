@@ -1,11 +1,11 @@
 import java.util.*;
 import java.util.regex.*;
-
+/**
+ * Provides a service and object serving to validate user login credentials and provide
+ * authentication functions.
+*/
 public class LoginService {
-    /**
-     * Provides a service and object serving to validate user login credentials and provide
-     * authentication functions.
-     */
+    
     // Represents failed login attempts, hashing keeps records of each failed attempt distinct.
     private final Map<String, Integer> failedAttempts = new HashMap<>();
 

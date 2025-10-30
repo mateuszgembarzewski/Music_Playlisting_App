@@ -1,7 +1,9 @@
 import org.junit.jupiter.api.*;
 import static org.junit.jupiter.api.Assertions.*;
 import java.util.*;
-
+/**
+ * Full test suite for the entire Music Playlisting App.  Holds 39 tests.
+ */
 public class UnitTests {
 
     private LoginService loginService;
