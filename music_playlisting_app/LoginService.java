@@ -130,7 +130,7 @@ public class LoginService {
      * @return boolean true if the username is validated by the RegEx, false otherwise;
      */
     public static boolean isValidUsername(String username) {
-        String usernameRegex = "^[A-Za-z][A-Za-z0-9_]{5,30}$";
+        String usernameRegex = "^[A-Za-z][A-Za-z0-9_]{4,30}$";
         Pattern pattern = Pattern.compile(usernameRegex);
         
         if (username == null) {
@@ -166,7 +166,7 @@ public class LoginService {
      * @return boolean true if the password is validated by the RegEx, false otherwise;
      */
     public static boolean isValidPassword(String password) {
-        String passwordRegex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&+=])(?=\\S+$).{8,20}$";
+        String passwordRegex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&+=])(?=\\S+$).{7,20}$";
         Pattern pattern = Pattern.compile(passwordRegex);
         
         if (password == null) {
