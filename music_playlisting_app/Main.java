@@ -852,13 +852,8 @@ public class Main {
                 for (Playlist p : library) {
                     ArrayList<Song> tracklist = p.getTracklist();
                     if (tracklist.contains(removeSong)) {
-                        success = true;
-                    }
-                    // Only try to remove the song if a match was found
-                    // This avoids a ConcurrentModificationException that
-                    // you reach when trying to modify the playlist during iteration
-                    if (success) {
                         p.removeSong(removeSong);
+                        success = true;
                     }
                 }
             }
